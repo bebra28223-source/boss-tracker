@@ -5,179 +5,611 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Boss Tracker</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Unbounded:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-        body { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; min-height: 100vh; padding: 16px; }
-        .header { text-align: center; padding: 20px 0; }
-        .logo { font-size: 32px; font-weight: 800; background: linear-gradient(45deg, #ff8a00, #da1b60); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
-        .subtitle { color: #aaa; font-size: 14px; }
-        .boss-list { display: grid; gap: 12px; margin: 20px 0; }
-        .boss-card { background: rgba(30, 30, 50, 0.7); border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 16px; transition: all 0.2s; border: 2px solid transparent; }
-        .boss-card:hover { transform: translateY(-2px); border-color: rgba(255, 138, 0, 0.3); }
-        .boss-ready { border-color: #00ff9d !important; background: rgba(0, 30, 20, 0.8) !important; }
-        .boss-unknown { border-color: #aaa !important; }
-        .boss-icon { font-size: 32px; width: 40px; text-align: center; }
-        .boss-info { flex: 1; }
-        .boss-name { font-weight: 600; font-size: 16px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
-        .boss-time { color: #00ff9d; font-weight: 500; font-size: 18px; }
-        .boss-time-ready { color: #00ff9d; }
-        .boss-time-unknown { color: #aaa; }
-        .toggle { width: 40px; height: 24px; background: #444; border-radius: 12px; position: relative; cursor: pointer; transition: 0.3s; }
-        .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: #666; border-radius: 50%; transition: 0.3s; }
-        .toggle.active { background: #00ff9d; }
-        .toggle.active::after { transform: translateX(16px); background: #00cc7a; }
-        .footer { text-align: center; padding: 20px; color: #777; font-size: 12px; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); }
-        .status-bar { display: flex; justify-content: space-between; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; margin-bottom: 20px; }
-        .status-item { text-align: center; }
-        .status-value { font-size: 24px; font-weight: 700; color: #00ff9d; margin-bottom: 4px; }
-        .status-label { font-size: 12px; color: #aaa; }
-        .refresh-btn { background: linear-gradient(45deg, #ff8a00, #da1b60); border: none; color: white; width: 100%; padding: 16px; border-radius: 16px; font-size: 18px; font-weight: 600; margin: 20px 0; cursor: pointer; transition: 0.3s; }
-        .refresh-btn:active { transform: scale(0.98); }
-        .loading { text-align: center; padding: 40px; color: #777; }
-        .pulse { display: inline-block; width: 12px; height: 12px; background: #00ff9d; border-radius: 50%; margin: 0 5px; animation: pulse 1.5s infinite; }
- @keyframes pulse { 0% { opacity: 1; transform: scale(1 } 50% { opacity: 0.5; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
-        .empty-state { text-align: center; padding: 40px 20px; color: #777; }
-        .empty-state p { margin-top: 10px; font-size: 14px; }
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gray-900: #0a0a0a;
+            --gray-800: #141414;
+            --gray-700: #1e1e1e;
+            --gray-600: #2a2a2a;
+            --gray-500: #3d3d3d;
+            --gray-400: #666666;
+            --gray-300: #999999;
+            --gray-200: #cccccc;
+            --gray-100: #eeeeee;
+            --accent: #ffffff;
+            --ready: #ffffff;
+            --danger: #ff4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Grain texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.4;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 16px 32px;
+        }
+
+        /* HEADER */
+        .header {
+            padding: 28px 0 24px;
+            border-bottom: 1px solid var(--gray-700);
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 26px;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+            color: var(--white);
+        }
+
+        .logo-sub {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: var(--gray-400);
+            margin-top: 5px;
+        }
+
+        .header-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+            padding-top: 4px;
+        }
+
+        .version-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            color: var(--gray-500);
+            letter-spacing: 1px;
+            border: 1px solid var(--gray-700);
+            padding: 3px 7px;
+            border-radius: 3px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        /* STATS BAR */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: var(--gray-800);
+            padding: 14px 10px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-item:first-child {
+            border-radius: 8px 0 0 8px;
+        }
+
+        .stat-item:last-child {
+            border-radius: 0 8px 8px 0;
+        }
+
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--gray-600);
+        }
+
+        .stat-value {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 24px;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 8px;
+            letter-spacing: 2px;
+            color: var(--gray-400);
+            text-transform: uppercase;
+        }
+
+        /* REFRESH BUTTON */
+        .refresh-btn {
+            width: 100%;
+            background: var(--white);
+            color: var(--black);
+            border: none;
+            padding: 14px 24px;
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.15s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .refresh-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0);
+            transition: background 0.15s;
+        }
+
+        .refresh-btn:active {
+            transform: scale(0.99);
+            background: var(--gray-200);
+        }
+
+        .refresh-btn:disabled {
+            background: var(--gray-600);
+            color: var(--gray-400);
+            cursor: not-allowed;
+        }
+
+        /* BOSS LIST */
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 4px;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            padding-left: 2px;
+        }
+
+        .boss-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .boss-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-700);
+            border-radius: 6px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            animation: slideIn 0.3s ease backwards;
+        }
+
+        .boss-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gray-600);
+            transition: background 0.2s;
+        }
+
+        .boss-card.boss-ready {
+            border-color: var(--gray-500);
+            background: var(--gray-800);
+        }
+
+        .boss-card.boss-ready::before {
+            background: var(--white);
+        }
+
+        .boss-card.boss-unknown::before {
+            background: var(--gray-700);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .boss-num {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 14px;
+            color: var(--gray-600);
+            width: 28px;
+            text-align: center;
+            flex-shrink: 0;
+            transition: color 0.2s;
+        }
+
+        .boss-card.boss-ready .boss-num {
+            color: var(--gray-400);
+        }
+
+        .boss-icon {
+            font-size: 22px;
+            width: 28px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .boss-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .boss-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gray-200);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 3px;
+            line-height: 1.2;
+        }
+
+        .boss-card.boss-ready .boss-name {
+            color: var(--white);
+        }
+
+        .boss-time {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: var(--gray-400);
+            letter-spacing: 1px;
+        }
+
+        .boss-time.time-ready {
+            color: var(--white);
+            font-weight: 700;
+            letter-spacing: 3px;
+            font-size: 10px;
+        }
+
+        .boss-time.time-unknown {
+            color: var(--gray-600);
+        }
+
+        .boss-time.time-active {
+            color: var(--gray-300);
+        }
+
+        /* TOGGLE */
+        .toggle-wrap {
+            flex-shrink: 0;
+        }
+
+        .toggle {
+            width: 36px;
+            height: 20px;
+            background: var(--gray-700);
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: 1px solid var(--gray-600);
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 14px;
+            height: 14px;
+            background: var(--gray-400);
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .toggle.active {
+            background: var(--white);
+            border-color: var(--white);
+        }
+
+        .toggle.active::after {
+            transform: translateX(16px);
+            background: var(--black);
+        }
+
+        /* LOADING STATE */
+        .loading-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading-icon {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 72px;
+            color: var(--gray-700);
+            margin-bottom: 16px;
+            letter-spacing: 4px;
+        }
+
+        .loading-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: var(--gray-500);
+            letter-spacing: 3px;
+        }
+
+        /* DIVIDER */
+        .divider {
+            height: 1px;
+            background: var(--gray-800);
+            margin: 20px 0;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-800);
+        }
+
+        .footer-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            color: var(--gray-600);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .footer-text span {
+            color: var(--gray-400);
+        }
+
+        /* Countdown pulse for ready bosses */
+        .ready-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .ready-badge::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            background: var(--white);
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+            display: inline-block;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 2px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--black);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-600);
+            border-radius: 2px;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">⚔️ BOSS TRACKER</div>
-        <div class="subtitle">PrisonEvo • Реальное время</div>
-    </div>
-    
-    <div class="status-bar">
-        <div class="status-item">
-            <div class="status-value" id="ready-count">0</div>
-            <div class="status-label">ГОТОВ</div>
+    <div class="container">
+        <div class="header">
+            <div class="header-top">
+                <div class="logo">
+                    Boss Tracker
+                    <span class="logo-sub">Prison Evo · Real-time</span>
+                </div>
+                <div class="header-badge">
+                    <div class="version-tag">VER 1.0</div>
+                </div>
+            </div>
         </div>
-        <div class="status-item">
-            <div class="status-value" id="active-count">0</div>
-            <div class="status-label">АКТИВНЫХ</div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value" id="ready-count">—</div>
+                <div class="stat-label">Готово</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="active-count">—</div>
+                <div class="stat-label">Активно</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="notifs-count">—</div>
+                <div class="stat-label">Уведомл.</div>
+            </div>
         </div>
-        <div class="status-item">
-            <div class="status-value" id="notifs-count">0/12</div>
-            <div class="status-label">УВЕДОМЛЕНИЙ</div>
+
+        <button class="refresh-btn" id="refresh">↻ &nbsp;ОБНОВИТЬ</button>
+
+        <div class="section-label">— Список боссов</div>
+
+        <div class="boss-list" id="boss-list">
+            <div class="loading-state">
+                <div class="loading-icon">. . .</div>
+                <div class="loading-text">загрузка данных</div>
+            </div>
         </div>
-    </div>
-    
-    <button class="refresh-btn" id="refresh">🔄 Обновить данные</button>
-    
-    <div class="boss-list" id="boss-list">
-        <div class="empty-state">
-            <div style="font-size: 48px; margin-bottom: 10px;">⏳</div>
-            <p>Данные загружаются...</p>
-            <p style="font-size: 12px; margin-top: 5px;">Откройте бота для получения данных</p>
+
+        <div class="divider"></div>
+
+        <div class="footer">
+            <div class="footer-text">by <span>whyousolonely</span> &nbsp;·&nbsp; PrisonEvo</div>
         </div>
-    </div>
-    
-    <div class="footer">
-        <div>by whyousolonely ❤️</div>
-        <div>v1.0 • PrisonEvo</div>
     </div>
 
     <script>
         const bosses = [
-            { id: 1, name: "Цып. Агрессивный пернатый", time: 20, icon: "🐔" },
-            { id: 2, name: "Аль-Каум. Владыка песков", time: 20, icon: "🏜️" },
-            { id: 3, name: "Азерус. Магматический лорд", time: 50, icon: "🌋" },
-            { id: 4, name: "Слаймяш. Мутированный слизень", time: 30, icon: "💚" },
-            { id: 5, name: "Диаваль. Последний гладиатор", time: 35, icon: "⚔️" },
-            { id: 6, name: "Эгалмот. Хаос Гесиода", time: 70, icon: "🌀" },
-            { id: 7, name: "Шайн. Подводный владыка", time: 40, icon: "🌊" },
-            { id: 8, name: "Алевия. Верховная чародейка", time: 60, icon: "🔮" },
-            { id: 9, name: "Флоракс. Повелитель леса", time: 65, icon: "🌳" },
+            { id: 1,  name: "Цып. Агрессивный пернатый",      time: 20,  icon: "🐔" },
+            { id: 2,  name: "Аль-Каум. Владыка песков",        time: 20,  icon: "🏜️" },
+            { id: 3,  name: "Азерус. Магматический лорд",      time: 50,  icon: "🌋" },
+            { id: 4,  name: "Слаймяш. Мутированный слизень",   time: 30,  icon: "💚" },
+            { id: 5,  name: "Диаваль. Последний гладиатор",    time: 35,  icon: "⚔️" },
+            { id: 6,  name: "Эгалмот. Хаос Гесиода",           time: 70,  icon: "🌀" },
+            { id: 7,  name: "Шайн. Подводный владыка",         time: 40,  icon: "🌊" },
+            { id: 8,  name: "Алевия. Верховная чародейка",     time: 60,  icon: "🔮" },
+            { id: 9,  name: "Флоракс. Повелитель леса",        time: 65,  icon: "🌳" },
             { id: 10, name: "Хладорожденный Лич. Король мёртвых", time: 120, icon: "❄️" },
-            { id: 11, name: "Талениэль. Эльфийка-охотница", time: 70, icon: "🏹" },
-            { id: 12, name: "Мориэль. Падший ангел", time: 80, icon: "👼" }
+            { id: 11, name: "Талениэль. Эльфийка-охотница",   time: 70,  icon: "🏹" },
+            { id: 12, name: "Мориэль. Падший ангел",           time: 80,  icon: "👼" }
         ];
 
         const bossList = document.getElementById('boss-list');
         const refreshBtn = document.getElementById('refresh');
-        const WebApp = window.Telegram.WebApp;
-        
+        const WebApp = window.Telegram?.WebApp;
+
         if (WebApp) {
             WebApp.expand();
-            WebApp.setHeaderColor('#16213e');
-            WebApp.setBackgroundColor('#1a1a2e');
+            WebApp.setHeaderColor('#000000');
+            WebApp.setBackgroundColor('#000000');
         }
 
         let notifications = {};
-        bosses.forEach(boss => notifications[boss.id] = true);
+        bosses.forEach(b => notifications[b.id] = true);
 
         function formatTime(seconds) {
-            if (seconds <= 0) return 'ГОТОВ';
-            if (seconds < 60) return `${Math.floor(seconds)} сек`;
+            if (seconds <= 0) return null;
+            if (seconds < 60) return `${Math.floor(seconds)}с`;
             const mins = Math.floor(seconds / 60);
             const hours = Math.floor(mins / 60);
             if (hours > 0) return `${hours}ч ${mins % 60}м`;
-            return `${mins}м`;
+            return `${mins} мин`;
         }
 
         function renderBosses(data) {
             bossList.innerHTML = '';
-            
+
             let readyCount = 0;
             let activeCount = 0;
             let notifsCount = 0;
-            
-            bosses.forEach(boss => {
-                const bossData = data.find(b => b.id === boss.id) || { id: boss.id, time_left: -1, status: 'unknown' };
+
+            bosses.forEach((boss, index) => {
+                const bossData = data.find(b => b.id === boss.id) || { id: boss.id, time_left: -1 };
                 const isReady = bossData.time_left <= 0 && bossData.time_left !== -1;
                 const isUnknown = bossData.time_left === -1;
-                const timeStr = isUnknown ? 'НЕИЗВЕСТНО' : (isReady ? 'ГОТОВ' : formatTime(bossData.time_left));
-                
+                const timeFormatted = isUnknown ? null : (isReady ? null : formatTime(bossData.time_left));
+
                 if (isReady) readyCount++;
                 if (!isUnknown && !isReady) activeCount++;
                 if (notifications[boss.id]) notifsCount++;
-                
+
                 const card = document.createElement('div');
                 card.className = `boss-card ${isReady ? 'boss-ready' : ''} ${isUnknown ? 'boss-unknown' : ''}`;
+                card.style.animationDelay = `${index * 0.04}s`;
+
+                let timeHTML;
+                if (isUnknown) {
+                    timeHTML = `<span class="boss-time time-unknown">неизвестно</span>`;
+                } else if (isReady) {
+                    timeHTML = `<span class="boss-time time-ready"><span class="ready-badge">ГОТОВ</span></span>`;
+                } else {
+                    timeHTML = `<span class="boss-time time-active">${timeFormatted}</span>`;
+                }
+
                 card.innerHTML = `
+                    <div class="boss-num">${boss.id}</div>
                     <div class="boss-icon">${boss.icon}</div>
                     <div class="boss-info">
-                        <div class="boss-name">
-                            <span>${boss.id}. ${boss.name}</span>
-                            <span class="boss-time ${isReady ? 'boss-time-ready' : ''} ${isUnknown ? 'boss-time-unknown' : ''}">${timeStr}</span>
-                        </div>
+                        <div class="boss-name">${boss.name}</div>
+                        <div>${timeHTML}</div>
                     </div>
-                    <div class="toggle ${notifications[boss.id] ? 'active' : ''}" data-id="${boss.id}"></div>
+                    <div class="toggle-wrap">
+                        <div class="toggle ${notifications[boss.id] ? 'active' : ''}" data-id="${boss.id}"></div>
+                    </div>
                 `;
                 bossList.appendChild(card);
             });
-            
+
             document.getElementById('ready-count').textContent = readyCount;
             document.getElementById('active-count').textContent = activeCount;
             document.getElementById('notifs-count').textContent = `${notifsCount}/12`;
-            
+
             document.querySelectorAll('.toggle').forEach(toggle => {
                 toggle.addEventListener('click', () => {
                     const id = parseInt(toggle.getAttribute('data-id'));
                     notifications[id] = !notifications[id];
                     toggle.classList.toggle('active', notifications[id]);
-                    
-                    const notifsCount = Object.values(notifications).filter(v => v).length;
-                    document.getElementById('notifs-count').textContent = `${notifsCount}/12`;
-                    
+
+                    const cnt = Object.values(notifications).filter(v => v).length;
+                    document.getElementById('notifs-count').textContent = `${cnt}/12`;
+
                     if (WebApp) {
-                        WebApp.sendData(JSON.stringify({ 
-                            action: 'toggle_notification', 
-                            boss_id: id, 
-                            enabled: notifications[id] 
+                        WebApp.sendData(JSON.stringify({
+                            action: 'toggle_notification',
+                            boss_id: id,
+                            enabled: notifications[id]
                         }));
                     }
                 });
             });
         }
 
-        function loadData() {
+        function setLoading() {
             bossList.innerHTML = `
-                <div class="empty-state">
-                    <div style="font-size: 48px; margin-bottom: 10px;">⏳</div>
-                    <p>Обновление данных...</p>
+                <div class="loading-state">
+                    <div class="loading-icon">. . .</div>
+                    <div class="loading-text">обновление</div>
                 </div>
             `;
-            
+        }
+
+        function loadData() {
+            setLoading();
             if (WebApp) {
                 WebApp.sendData(JSON.stringify({ action: 'get_data' }));
             }
@@ -186,7 +618,7 @@
         if (WebApp) {
             refreshBtn.addEventListener('click', loadData);
             loadData();
-            
+
             WebApp.onEvent('web_app_data', (data) => {
                 try {
                     const payload = JSON.parse(data);
@@ -194,15 +626,14 @@
                         renderBosses(payload.bosses);
                     }
                 } catch (e) {
-                    console.error('Error parsing web_app_data:', e);
-                    console.log('Raw data:', data);
+                    console.error('Parse error:', e);
                 }
             });
         } else {
             bossList.innerHTML = `
-                <div class="empty-state">
-                    <div style="font-size: 48px; margin-bottom: 10px;">⚠️</div>
-                    <p>Откройте приложение через Telegram бота</p>
+                <div class="loading-state">
+                    <div class="loading-icon">⚠</div>
+                    <div class="loading-text">только через telegram</div>
                 </div>
             `;
             refreshBtn.disabled = true;
