@@ -484,7 +484,7 @@ function updateCounts() {
     document.getElementById('cnt-notif').textContent = `${cnt}/12`;
 }
 
-function renderBosses(data) {
+function renderBosses(data, notifsData) {
     const list = document.getElementById('boss-list');
     list.innerHTML = '';
 
@@ -512,6 +512,10 @@ function renderBosses(data) {
             timerHTML = `<div class="boss-timer t-active" data-timeleft="${d.time_left}">${fmtTime(d.time_left)}</div>`;
         } else {
             timerHTML = `<div class="boss-timer t-unknown">— неизвестно</div>`;
+        }
+
+        if (notifsData && notifsData[boss.id] !== undefined) {
+            notifications[boss.id] = notifsData[boss.id];
         }
 
         const card = document.createElement('div');
@@ -590,10 +594,19 @@ document.getElementById('refresh-btn').addEventListener('click', loadData);
 
 if (WebApp) {
     WebApp.onEvent('main_button_pressed', loadData);
-    renderBosses(null);
+    WebApp.onEvent('web_app_data_sent', (data) => {
+        try {
+            const payload = JSON.parse(data);
+            if (payload.action === 'boss_data') {
+                renderBosses(payload.bosses, payload.notifications);
+            }
+        } catch(e) {
+            console.error('Ошибка парсинга данных:', e);
+        }
+    });
     loadData();
 } else {
-    renderBosses(null);
+    renderBosses([], {});
     document.getElementById('refresh-btn').disabled = true;
 }
 </script>
