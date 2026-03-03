@@ -177,7 +177,7 @@
 
     <div class="footer">
         <div class="footer-text">by whyousolonely</div>
-        <div class="footer-text">prison evo © 2025</div>
+        <div class="footer-text" id="reset-url" style="cursor:pointer;color:#2e3545" onclick="localStorage.removeItem('bt_api_v1');API_BASE='';showSetupScreen();">сменить url</div>
     </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -205,15 +205,39 @@ const API_KEY     = "bt_api_v1";
 const tg = window.Telegram?.WebApp;
 if (tg) { tg.expand(); tg.setHeaderColor('#0c0d10'); tg.setBackgroundColor('#0c0d10'); }
 
-let API_BASE = localStorage.getItem() || "";
+let API_BASE = localStorage.getItem(API_KEY) || "";
 
-if (!API_BASE) {
-    const url = prompt("Вставь ngrok URL (например: https://abc123.ngrok-free.app)");
-    if (url) {
-        API_BASE = url.replace(/\/$/, "");
+function showSetupScreen() {
+    document.getElementById('boss-list').innerHTML = `
+        <div class="placeholder">
+            <div class="ph-icon">[ SETUP ]</div>
+            <div class="ph-text" style="margin-bottom:14px">Вставь ngrok URL и нажми сохранить</div>
+            <input id="ngrok-input" type="url" placeholder="https://xxx.ngrok-free.app"
+                style="width:100%;background:#181b23;border:1px solid #2e3545;color:#eef2f8;
+                font-family:'Share Tech Mono',monospace;font-size:12px;padding:10px 12px;
+                border-radius:6px;outline:none;margin-bottom:10px;box-sizing:border-box">
+            <button id="ngrok-save"
+                style="width:100%;background:transparent;border:1px solid #4a9eff;color:#4a9eff;
+                font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;letter-spacing:2px;
+                text-transform:uppercase;padding:10px;border-radius:6px;cursor:pointer">
+                Сохранить и подключить
+            </button>
+        </div>`;
+    document.getElementById('next-boss').style.display = 'none';
+    setSyncState('error', 'Не настроено');
+    const input = document.getElementById('ngrok-input');
+    const saved = localStorage.getItem(API_KEY) || '';
+    if (saved) input.value = saved;
+    document.getElementById('ngrok-save').addEventListener('click', () => {
+        const val = input.value.trim().replace(/\/$/, '');
+        if (!val.startsWith('http')) { showToast('Неверный URL'); return; }
+        API_BASE = val;
         localStorage.setItem(API_KEY, API_BASE);
-    }
+        loadData(false);
+    });
 }
+
+if (!API_BASE) showSetupScreen();
 
 let audioCtx = null;
 function getAudioCtx() {
