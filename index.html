@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Boss Tracker</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        body { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; min-height: 100vh; padding: 16px; }
+        .header { text-align: center; padding: 20px 0; }
+        .logo { font-size: 32px; font-weight: 800; background: linear-gradient(45deg, #ff8a00, #da1b60); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+        .subtitle { color: #aaa; font-size: 14px; }
+        .boss-list { display: grid; gap: 12px; margin: 20px 0; }
+        .boss-card { background: rgba(30, 30, 50, 0.7); border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 16px; transition: all 0.2s; border: 2px solid transparent; }
+        .boss-card:hover { transform: translateY(-2px); border-color: rgba(255, 138, 0, 0.3); }
+        .boss-ready { border-color: #00ff9d !important; background: rgba(0, 30, 20, 0.8) !important; }
+        .boss-unknown { border-color: #aaa !important; }
+        .boss-icon { font-size: 32px; width: 40px; text-align: center; }
+        .boss-info { flex: 1; }
+        .boss-name { font-weight: 600; font-size: 16px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+        .boss-time { color: #00ff9d; font-weight: 500; font-size: 18px; }
+        .boss-time-ready { color: #00ff9d; }
+        .boss-time-unknown { color: #aaa; }
+        .toggle { width: 40px; height: 24px; background: #444; border-radius: 12px; position: relative; cursor: pointer; transition: 0.3s; }
+        .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: #666; border-radius: 50%; transition: 0.3s; }
+        .toggle.active { background: #00ff9d; }
+        .toggle.active::after { transform: translateX(16px); background: #00cc7a; }
+        .footer { text-align: center; padding: 20px; color: #777; font-size: 12px; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .status-bar { display: flex; justify-content: space-between; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; margin-bottom: 20px; }
+        .status-item { text-align: center; }
+        .status-value { font-size: 24px; font-weight: 700; color: #00ff9d; margin-bottom: 4px; }
+        .status-label { font-size: 12px; color: #aaa; }
+        .refresh-btn { background: linear-gradient(45deg, #ff8a00, #da1b60); border: none; color: white; width: 100%; padding: 16px; border-radius: 16px; font-size: 18px; font-weight: 600; margin: 20px 0; cursor: pointer; transition: 0.3s; }
+        .refresh-btn:active { transform: scale(0.98); }
+        .loading { text-align: center; padding: 40px; color: #777; }
+        .pulse { display: inline-block; width: 12px; height: 12px; background: #00ff9d; border-radius: 50%; margin: 0 5px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
+        .empty-state { text-align: center; padding: 40px 20px; color: #777; }
+        .empty-state p { margin-top: 10px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">⚔️ BOSS TRACKER</div>
+        <div class="subtitle">PrisonEvo • Реальное время</div>
+    </div>
+    
+    <div class="status-bar">
+        <div class="status-item">
+            <div class="status-value" id="ready-count">0</div>
+            <div class="status-label">ГОТОВ</div>
+        </div>
+        <div class="status-item">
+            <div class="status-value" id="active-count">0</div>
+            <div class="status-label">АКТИВНЫХ</div>
+        </div>
+        <div class="status-item">
+            <div class="status-value" id="notifs-count">0/12</div>
+            <div class="status-label">УВЕДОМЛЕНИЙ</div>
+        </div>
+    </div>
+    
+    <button class="refresh-btn" id="refresh">🔄 Обновить данные</button>
+    
+    <div class="boss-list" id="boss-list">
+        <div class="empty-state">
+            <div style="font-size: 48px; margin-bottom: 10px;">⏳</div>
+            <p>Данные загружаются...</p>
+            <p style="font-size: 12px; margin-top: 5px;">Откройте бота для получения данных</p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div>by whyousolonely ❤️</div>
+        <div>v1.0 • PrisonEvo</div>
+    </div>
+
+    <script>
+        const bosses = [
+            { id: 1, name: "Цып. Агрессивный пернатый", time: 20, icon: "🐔" },
+            { id: 2, name: "Аль-Каум. Владыка песков", time: 20, icon: "🏜️" },
+            { id: 3, name: "Азерус. Магматический лорд", time: 50, icon: "🌋" },
+            { id: 4, name: "Слаймяш. Мутированный слизень", time: 30, icon: "💚" },
+            { id: 5, name: "Диаваль. Последний гладиатор", time: 35, icon: "⚔️" },
+            { id: 6, name: "Эгалмот. Хаос Гесиода", time: 70, icon: "🌀" },
+            { id: 7, name: "Шайн. Подводный владыка", time: 40, icon: "🌊" },
+            { id: 8, name: "Алевия. Верховная чародейка", time: 60, icon: "🔮" },
+            { id: 9, name: "Флоракс. Повелитель леса", time: 65, icon: "🌳" },
+            { id: 10, name: "Хладорожденный Лич. Король мёртвых", time: 120, icon: "❄️" },
+            { id: 11, name: "Талениэль. Эльфийка-охотница", time: 70, icon: "🏹" },
+            { id: 12, name: "Мориэль. Падший ангел", time: 80, icon: "👼" }
+        ];
+
+        const bossList = document.getElementById('boss-list');
+        const refreshBtn = document.getElementById('refresh');
+        const WebApp = window.Telegram?.WebApp || null;
+        
+        if (WebApp) {
+            WebApp.expand();
+            WebApp.setHeaderColor('#16213e');
+            WebApp.setBackgroundColor('#1a1a2e');
+        }
+
+        let notifications = {};
+        bosses.forEach(boss => notifications[boss.id] = true);
+
+        function formatTime(seconds) {
+            if (seconds <= 0) return 'ГОТОВ';
+            if (seconds < 60) return `${Math.floor(seconds)} сек`;
+            const mins = Math.floor(seconds / 60);
+            const hours = Math.floor(mins / 60);
+            if (hours > 0) return `${hours}ч ${mins % 60}м`;
+            return `${mins}м`;
+        }
+
+        function renderBosses(data) {
+            bossList.innerHTML = '';
+            
+            let readyCount = 0;
+            let activeCount = 0;
+            let notifsCount = 0;
+            
+            bosses.forEach(boss => {
+                const bossData = data.find(b => b.id === boss.id) || { id: boss.id, time_left: -1, status: 'unknown' };
+                const isReady = bossData.time_left <= 0 && bossData.time_left !== -1;
+                const isUnknown = bossData.time_left === -1;
+                const timeStr = isUnknown ? 'НЕИЗВЕСТНО' : (isReady ? 'ГОТОВ' : formatTime(bossData.time_left));
+                
+                if (isReady) readyCount++;
+                if (!isUnknown && !isReady) activeCount++;
+                if (notifications[boss.id]) notifsCount++;
+                
+                const card = document.createElement('div');
+                card.className = `boss-card ${isReady ? 'boss-ready' : ''} ${isUnknown ? 'boss-unknown' : ''}`;
+                card.innerHTML = `
+                    <div class="boss-icon">${boss.icon}</div>
+                    <div class="boss-info">
+                        <div class="boss-name">
+                            <span>${boss.id}. ${boss.name}</span>
+                            <span class="boss-time ${isReady ? 'boss-time-ready' : ''} ${isUnknown ? 'boss-time-unknown' : ''}">${timeStr}</span>
+                        </div>
+                    </div>
+                    <div class="toggle ${notifications[boss.id] ? 'active' : ''}" data-id="${boss.id}"></div>
+                `;
+                bossList.appendChild(card);
+            });
+            
+            document.getElementById('ready-count').textContent = readyCount;
+            document.getElementById('active-count').textContent = activeCount;
+            document.getElementById('notifs-count').textContent = `${notifsCount}/12`;
+            
+            document.querySelectorAll('.toggle').forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const id = parseInt(toggle.getAttribute('data-id'));
+                    notifications[id] = !notifications[id];
+                    toggle.classList.toggle('active', notifications[id]);
+                    
+                    const notifsCount = Object.values(notifications).filter(v => v).length;
+                    document.getElementById('notifs-count').textContent = `${notifsCount}/12`;
+                    
+                    if (WebApp) {
+                        WebApp.sendData(JSON.stringify({ 
+                            action: 'toggle_notification', 
+                            boss_id: id, 
+                            enabled: notifications[id] 
+                        }));
+                    }
+                });
+            });
+        }
+
+        function loadData() {
+            bossList.innerHTML = `
+                <div class="empty-state">
+                    <div style="font-size: 48px; margin-bottom: 10px;">⏳</div>
+                    <p>Обновление данных...</p>
+                </div>
+            `;
+            
+            if (WebApp) {
+                WebApp.sendData(JSON.stringify({ action: 'get_data' }));
+            }
+        }
+
+        if (WebApp) {
+            refreshBtn.addEventListener('click', loadData);
+            loadData();
+        } else {
+            bossList.innerHTML = `
+                <div class="empty-state">
+                    <div style="font-size: 48px; margin-bottom: 10px;">⚠️</div>
+                    <p>Откройте приложение через Telegram бота</p>
+                </div>
+            `;
+            refreshBtn.disabled = true;
+        }
+    </script>
+</body>
+</html>
