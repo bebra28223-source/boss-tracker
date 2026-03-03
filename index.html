@@ -429,7 +429,7 @@ async function loadData(silent) {
     }
     setSyncState('loading', 'Загрузка...');
     try {
-        const res = await fetch(API_BASE + '/bosses', { cache: 'no-store' });
+        const res = await fetch(API_BASE + '/bosses', { cache: 'no-store', headers: { 'ngrok-skip-browser-warning': '1' } });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (!data.bosses) throw new Error('Нет данных');
