@@ -36,8 +36,7 @@
                 linear-gradient(rgba(74,158,255,0.018) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(74,158,255,0.018) 1px, transparent 1px);
             background-size: 40px 40px;
-            pointer-events: none;
-            z-index: 0;
+            pointer-events: none; z-index: 0;
         }
         .app {
             position: relative; z-index: 1;
@@ -68,6 +67,56 @@
             padding: 3px 8px; border-radius: 2px;
             background: var(--surface); letter-spacing: 1px;
         }
+
+        .next-boss {
+            background: var(--surface);
+            border: 1px solid var(--border2);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+        .next-boss::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+        .next-boss.nb-ready::before {
+            background: linear-gradient(90deg, var(--ready), transparent);
+        }
+        .next-boss-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; color: var(--muted);
+            letter-spacing: 3px; text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .next-boss-icon { font-size: 28px; flex-shrink: 0; }
+        .next-boss-info { flex: 1; min-width: 0; }
+        .next-boss-name {
+            font-size: 14px; font-weight: 600;
+            color: var(--white);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            margin-bottom: 3px;
+        }
+        .next-boss-time {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 13px; color: var(--accent);
+        }
+        .next-boss.nb-ready .next-boss-time { color: var(--ready); }
+        .next-boss-countdown {
+            font-family: 'Orbitron', monospace;
+            font-size: 18px; font-weight: 700;
+            color: var(--accent);
+            flex-shrink: 0; text-align: right;
+            min-width: 70px;
+        }
+        .next-boss.nb-ready .next-boss-countdown { color: var(--ready); }
+
         .stats {
             display: grid; grid-template-columns: 1fr 1fr 1fr;
             gap: 8px; margin-bottom: 16px;
@@ -96,6 +145,7 @@
             font-size: 10px; font-weight: 600;
             color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase;
         }
+
         .refresh-btn {
             width: 100%; background: transparent;
             border: 1px solid var(--border2); color: var(--text);
@@ -107,15 +157,13 @@
             transition: all 0.15s;
             display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .refresh-btn:hover {
-            border-color: var(--accent); color: var(--accent);
-            background: rgba(74,158,255,0.04);
-        }
-        .refresh-btn:active  { transform: scale(0.99); }
+        .refresh-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(74,158,255,0.04); }
+        .refresh-btn:active { transform: scale(0.99); }
         .refresh-btn:disabled { opacity: 0.3; cursor: not-allowed; }
         .ri { display: inline-block; }
         .refresh-btn.spinning .ri { animation: spin 0.6s linear; }
         @keyframes spin { to { transform: rotate(360deg); } }
+
         .sync-bar {
             display: flex; align-items: center; gap: 6px;
             margin-bottom: 16px;
@@ -126,11 +174,12 @@
             width: 6px; height: 6px; border-radius: 50%;
             background: var(--dim); flex-shrink: 0; transition: background 0.3s;
         }
-        .sync-dot.synced  { background: var(--ready); box-shadow: 0 0 4px var(--ready); }
+        .sync-dot.synced { background: var(--ready); box-shadow: 0 0 4px var(--ready); }
         .sync-dot.loading { background: var(--accent); animation: blink 1s infinite; }
         .sync-dot.error   { background: var(--warn); }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
         .sync-time { margin-left: auto; }
+
         .section-head {
             display: flex; align-items: center;
             gap: 10px; margin-bottom: 10px;
@@ -141,6 +190,7 @@
             font-size: 9px; color: var(--dim);
             letter-spacing: 3px; text-transform: uppercase;
         }
+
         .boss-list { display: flex; flex-direction: column; gap: 4px; }
         .boss-card {
             background: var(--surface);
@@ -159,74 +209,39 @@
             border-radius: 8px 0 0 8px;
             transition: all 0.2s;
         }
-        .boss-card.state-ready {
-            background: rgba(46,204,113,0.04);
-            border-color: rgba(46,204,113,0.3);
-        }
-        .boss-card.state-ready::before {
-            background: var(--ready);
-            box-shadow: 0 0 10px rgba(46,204,113,0.5);
-        }
+        .boss-card.state-ready { background: rgba(46,204,113,0.04); border-color: rgba(46,204,113,0.3); }
+        .boss-card.state-ready::before { background: var(--ready); box-shadow: 0 0 10px rgba(46,204,113,0.5); }
         .boss-card.state-active::before { background: var(--accent); }
         .boss-card.state-unknown::before { background: var(--dim); }
-        @keyframes cardIn {
-            from { opacity: 0; transform: translateX(-8px); }
-            to   { opacity: 1; transform: translateX(0); }
-        }
-        .boss-left {
-            display: flex; flex-direction: column;
-            align-items: center; gap: 2px;
-        }
+        @keyframes cardIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:translateX(0)} }
+
+        .boss-left { display: flex; flex-direction: column; align-items: center; gap: 2px; }
         .boss-icon { font-size: 20px; line-height: 1; }
-        .boss-id {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 9px; color: var(--dim);
-        }
-        .boss-name {
-            font-size: 15px; font-weight: 600;
-            color: var(--white); line-height: 1.2; margin-bottom: 4px;
-        }
+        .boss-id { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--dim); }
+        .boss-name { font-size: 15px; font-weight: 600; color: var(--white); line-height: 1.2; margin-bottom: 4px; }
         .boss-card.state-unknown .boss-name { color: var(--text); }
         .boss-timer-wrap { display: flex; align-items: center; gap: 6px; }
-        .boss-timer {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 12px; color: var(--muted);
-        }
+        .boss-timer { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--muted); }
         .boss-timer.t-ready  { color: var(--ready); font-weight: 700; letter-spacing: 1px; }
         .boss-timer.t-active { color: var(--accent); }
         .boss-timer.t-unknown { color: var(--dim); }
-        .timer-dot {
-            width: 5px; height: 5px; border-radius: 50%;
-            background: var(--ready);
-            animation: pdot 1.8s ease-in-out infinite;
-        }
-        @keyframes pdot {
-            0%,100%{ opacity:1; transform:scale(1); }
-            50%    { opacity:0.2; transform:scale(0.6); }
-        }
+        .timer-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--ready); animation: pdot 1.8s ease-in-out infinite; }
+        @keyframes pdot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.2;transform:scale(0.6)} }
+
         .notif-toggle {
             width: 40px; height: 22px;
-            background: var(--panel);
-            border: 1px solid var(--border2);
+            background: var(--panel); border: 1px solid var(--border2);
             border-radius: 11px; position: relative;
             cursor: pointer; transition: all 0.2s; flex-shrink: 0;
         }
         .notif-toggle::after {
             content: ''; position: absolute;
-            top: 3px; left: 3px;
-            width: 14px; height: 14px;
-            background: var(--muted); border-radius: 50%;
-            transition: all 0.2s;
+            top: 3px; left: 3px; width: 14px; height: 14px;
+            background: var(--muted); border-radius: 50%; transition: all 0.2s;
         }
-        .notif-toggle.on {
-            background: rgba(243,156,18,0.12);
-            border-color: var(--warn);
-        }
-        .notif-toggle.on::after {
-            transform: translateX(18px);
-            background: var(--warn);
-            box-shadow: 0 0 6px rgba(243,156,18,0.7);
-        }
+        .notif-toggle.on { background: rgba(243,156,18,0.12); border-color: var(--warn); }
+        .notif-toggle.on::after { transform: translateX(18px); background: var(--warn); box-shadow: 0 0 6px rgba(243,156,18,0.7); }
+
         .toast {
             position: fixed; bottom: 24px; left: 50%;
             transform: translateX(-50%) translateY(80px);
@@ -238,38 +253,16 @@
             white-space: nowrap; pointer-events: none;
         }
         .toast.show { transform: translateX(-50%) translateY(0); }
+
         .placeholder { text-align: center; padding: 50px 20px; }
-        .ph-icon {
-            font-family: 'Orbitron', monospace; font-size: 13px;
-            color: var(--dim); letter-spacing: 4px; margin-bottom: 12px;
-        }
-        .ph-text {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 11px; color: var(--muted); letter-spacing: 2px;
-        }
-        .loading-bar {
-            width: 120px; height: 2px;
-            background: var(--border);
-            margin: 14px auto 0; border-radius: 1px; overflow: hidden;
-        }
-        .loading-bar::after {
-            content: ''; display: block; height: 100%; width: 40%;
-            background: var(--accent);
-            animation: ls 1.2s ease-in-out infinite;
-        }
-        @keyframes ls {
-            0%  { transform: translateX(-150%); }
-            100%{ transform: translateX(400%); }
-        }
-        .footer {
-            margin-top: 28px; padding-top: 16px;
-            border-top: 1px solid var(--border);
-            display: flex; justify-content: space-between;
-        }
-        .footer-text {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 9px; color: var(--dim); letter-spacing: 1px;
-        }
+        .ph-icon { font-family: 'Orbitron', monospace; font-size: 13px; color: var(--dim); letter-spacing: 4px; margin-bottom: 12px; }
+        .ph-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+        .loading-bar { width: 120px; height: 2px; background: var(--border); margin: 14px auto 0; border-radius: 1px; overflow: hidden; }
+        .loading-bar::after { content: ''; display: block; height: 100%; width: 40%; background: var(--accent); animation: ls 1.2s ease-in-out infinite; }
+        @keyframes ls { 0%{transform:translateX(-150%)} 100%{transform:translateX(400%)} }
+
+        .footer { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
+        .footer-text { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--dim); letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -280,6 +273,16 @@
             <div class="logo-sub">// PRISON EVO · REAL-TIME MONITOR</div>
         </div>
         <div class="version-pill">VER 1.0</div>
+    </div>
+
+    <div class="next-boss" id="next-boss" style="display:none">
+        <div class="next-boss-icon" id="nb-icon">❓</div>
+        <div class="next-boss-info">
+            <div class="next-boss-label">следующий босс</div>
+            <div class="next-boss-name" id="nb-name">—</div>
+            <div class="next-boss-time" id="nb-status">—</div>
+        </div>
+        <div class="next-boss-countdown" id="nb-countdown"></div>
     </div>
 
     <div class="stats">
@@ -345,22 +348,11 @@ const BOSSES = [
     { id:12, full:"Мориэль. Падший ангел",              icon:"🖤" },
 ];
 
-const API_BASE = "http://192.168.1.100:8765";
+const DATA_URL = "https://raw.githubusercontent.com/bebra28223-source/boss-tracker/main/data.json";
 const STORAGE_KEY = "bt_notif_v1";
-const USER_KEY    = "bt_user_v1";
 
 const tg = window.Telegram?.WebApp;
-if (tg) {
-    tg.expand();
-    tg.setHeaderColor('#0c0d10');
-    tg.setBackgroundColor('#0c0d10');
-}
-
-function getTgUserId() {
-    try {
-        return tg?.initDataUnsafe?.user?.id || null;
-    } catch(e) { return null; }
-}
+if (tg) { tg.expand(); tg.setHeaderColor('#0c0d10'); tg.setBackgroundColor('#0c0d10'); }
 
 function loadNotifications() {
     const def = {};
@@ -371,14 +363,14 @@ function loadNotifications() {
     } catch(e) {}
     return def;
 }
-
 function saveNotifications() {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(notifications)); } catch(e) {}
 }
 
 let notifications = loadNotifications();
-let tickInterval  = null;
-let toastTimer    = null;
+let tickInterval = null;
+let toastTimer = null;
+let nextBossId = null;
 
 function fmtTime(sec) {
     if (sec <= 0) return null;
@@ -394,20 +386,51 @@ function setSyncState(state, label) {
     document.getElementById('sync-dot').className = 'sync-dot ' + state;
     document.getElementById('sync-label').textContent = label;
 }
-
 function setSyncTime() {
     const d = new Date();
-    const t = [d.getHours(), d.getMinutes(), d.getSeconds()]
-        .map(n => String(n).padStart(2,'0')).join(':');
+    const t = [d.getHours(), d.getMinutes(), d.getSeconds()].map(n => String(n).padStart(2,'0')).join(':');
     document.getElementById('sync-time').textContent = t;
 }
-
 function showToast(msg) {
     const el = document.getElementById('toast');
     el.textContent = msg;
     el.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+function updateNextBossWidget(data) {
+    let best = null;
+    let bestTime = Infinity;
+
+    data.forEach(d => {
+        if (d.time_left === 0) {
+            if (bestTime > 0) { best = d; bestTime = 0; }
+        } else if (d.time_left > 0 && d.time_left < bestTime) {
+            best = d;
+            bestTime = d.time_left;
+        }
+    });
+
+    const nb = document.getElementById('next-boss');
+    if (!best) { nb.style.display = 'none'; nextBossId = null; return; }
+
+    nb.style.display = 'flex';
+    nextBossId = best.id;
+
+    const boss = BOSSES.find(b => b.id === best.id);
+    document.getElementById('nb-icon').textContent = boss ? boss.icon : '❓';
+    document.getElementById('nb-name').textContent = boss ? boss.full : '—';
+
+    if (best.time_left === 0) {
+        nb.classList.add('nb-ready');
+        document.getElementById('nb-status').textContent = 'Готов к бою';
+        document.getElementById('nb-countdown').textContent = '✓';
+    } else {
+        nb.classList.remove('nb-ready');
+        document.getElementById('nb-status').textContent = 'Заспавнится через';
+        document.getElementById('nb-countdown').textContent = fmtTime(best.time_left) || '';
+    }
 }
 
 function renderBosses(data) {
@@ -429,10 +452,7 @@ function renderBosses(data) {
 
         let timerHTML;
         if (isReady) {
-            timerHTML = `<div class="boss-timer-wrap">
-                <div class="timer-dot"></div>
-                <span class="boss-timer t-ready">ГОТОВ К БОЮ</span>
-            </div>`;
+            timerHTML = `<div class="boss-timer-wrap"><div class="timer-dot"></div><span class="boss-timer t-ready">ГОТОВ К БОЮ</span></div>`;
         } else if (isActive) {
             timerHTML = `<div class="boss-timer t-active" data-tl="${d.time_left}">${fmtTime(d.time_left)}</div>`;
         } else {
@@ -441,6 +461,7 @@ function renderBosses(data) {
 
         const card = document.createElement('div');
         card.className = `boss-card ${state}`;
+        card.dataset.bossId = boss.id;
         card.style.animationDelay = `${i * 0.04}s`;
         card.innerHTML = `
             <div class="boss-left">
@@ -460,34 +481,18 @@ function renderBosses(data) {
     document.getElementById('cnt-active').textContent = cntActive;
     document.getElementById('cnt-notif').textContent  = cntNotif;
 
+    updateNextBossWidget(data);
+
     document.querySelectorAll('.notif-toggle').forEach(el => {
-        el.addEventListener('click', async () => {
+        el.addEventListener('click', () => {
             const id = parseInt(el.dataset.id);
             notifications[id] = !notifications[id];
             el.classList.toggle('on', notifications[id]);
             saveNotifications();
-
             const cnt = Object.values(notifications).filter(Boolean).length;
             document.getElementById('cnt-notif').textContent = cnt;
-
-            const status = notifications[id] ? '🔔 включены' : '🔕 выключены';
-            showToast(`Босс #${id}: уведомления ${status}`);
-
+            showToast(`Босс #${id}: уведомления ${notifications[id] ? '🔔 включены' : '🔕 выключены'}`);
             tg?.HapticFeedback?.impactOccurred('light');
-
-            try {
-                await fetch(`${API_BASE}/toggle`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        boss_id: id,
-                        enabled: notifications[id],
-                        user_id: getTgUserId() || 7388946695
-                    })
-                });
-            } catch(e) {
-                console.warn('Toggle sync failed (offline?):', e);
-            }
         });
     });
 
@@ -499,6 +504,8 @@ function renderBosses(data) {
 
 function tick() {
     let rdy = 0, act = 0;
+    let bestId = null, bestTime = Infinity;
+
     document.querySelectorAll('.boss-card').forEach(card => {
         const el = card.querySelector('.boss-timer.t-active[data-tl]');
         if (el) {
@@ -506,20 +513,43 @@ function tick() {
             if (t <= 0) {
                 card.classList.remove('state-active');
                 card.classList.add('state-ready');
-                el.outerHTML = `<div class="boss-timer-wrap">
-                    <div class="timer-dot"></div>
-                    <span class="boss-timer t-ready">ГОТОВ К БОЮ</span>
-                </div>`;
+                el.outerHTML = `<div class="boss-timer-wrap"><div class="timer-dot"></div><span class="boss-timer t-ready">ГОТОВ К БОЮ</span></div>`;
             } else {
                 el.setAttribute('data-tl', t);
                 el.textContent = fmtTime(t);
+                const id = parseInt(card.dataset.bossId);
+                if (t < bestTime) { bestTime = t; bestId = id; }
             }
         }
-        if (card.classList.contains('state-ready'))  rdy++;
+        if (card.classList.contains('state-ready'))  { rdy++; }
         if (card.classList.contains('state-active')) act++;
     });
+
     document.getElementById('cnt-ready').textContent  = rdy;
     document.getElementById('cnt-active').textContent = act;
+
+    const nb = document.getElementById('next-boss');
+    if (rdy > 0) {
+        const readyCard = document.querySelector('.boss-card.state-ready');
+        if (readyCard) {
+            const id = parseInt(readyCard.dataset.bossId);
+            const boss = BOSSES.find(b => b.id === id);
+            nb.style.display = 'flex';
+            nb.classList.add('nb-ready');
+            document.getElementById('nb-icon').textContent = boss ? boss.icon : '❓';
+            document.getElementById('nb-name').textContent = boss ? boss.full : '—';
+            document.getElementById('nb-status').textContent = 'Готов к бою';
+            document.getElementById('nb-countdown').textContent = '✓';
+        }
+    } else if (bestId !== null) {
+        const boss = BOSSES.find(b => b.id === bestId);
+        nb.style.display = 'flex';
+        nb.classList.remove('nb-ready');
+        document.getElementById('nb-icon').textContent = boss ? boss.icon : '❓';
+        document.getElementById('nb-name').textContent = boss ? boss.full : '—';
+        document.getElementById('nb-status').textContent = 'Заспавнится через';
+        document.getElementById('nb-countdown').textContent = fmtTime(bestTime) || '';
+    }
 }
 
 function setLoading() {
@@ -539,18 +569,18 @@ async function loadData() {
     setTimeout(() => btn.classList.remove('spinning'), 600);
     setLoading();
     try {
-        const res = await fetch(`${API_BASE}/bosses`);
+        const res = await fetch(DATA_URL + '?t=' + Date.now());
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const payload = await res.json();
-        if (payload.action === 'boss_data') {
+        if (payload.bosses) {
             renderBosses(payload.bosses);
         }
     } catch(e) {
-        setSyncState('error', 'Нет связи с ботом');
+        setSyncState('error', 'Нет данных');
         document.getElementById('boss-list').innerHTML = `
             <div class="placeholder">
                 <div class="ph-icon">[ ✕ ]</div>
-                <div class="ph-text">Бот не запущен</div>
+                <div class="ph-text">Бот не запущен или data.json не создан</div>
             </div>`;
         console.error('loadData error:', e);
     }
@@ -558,7 +588,6 @@ async function loadData() {
 
 document.getElementById('refresh-btn').addEventListener('click', loadData);
 loadData();
-
 setInterval(loadData, 30000);
 </script>
 </body>
