@@ -21,7 +21,7 @@
             --ready:   #2ecc71;
             --warn:    #f39c12;
         }
-        * { margin:0; padding:0; box-sizing:border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: var(--bg);
             color: var(--text);
@@ -44,7 +44,6 @@
             max-width: 480px; margin: 0 auto;
             padding: 0 14px 40px;
         }
-
         .header {
             padding: 22px 0 18px;
             display: flex; align-items: flex-end; justify-content: space-between;
@@ -69,7 +68,6 @@
             padding: 3px 8px; border-radius: 2px;
             background: var(--surface); letter-spacing: 1px;
         }
-
         .stats {
             display: grid; grid-template-columns: 1fr 1fr 1fr;
             gap: 8px; margin-bottom: 16px;
@@ -98,7 +96,6 @@
             font-size: 10px; font-weight: 600;
             color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase;
         }
-
         .refresh-btn {
             width: 100%; background: transparent;
             border: 1px solid var(--border2); color: var(--text);
@@ -106,7 +103,7 @@
             font-size: 14px; font-weight: 600;
             letter-spacing: 2px; text-transform: uppercase;
             padding: 11px 20px; border-radius: 6px;
-            cursor: pointer; margin-bottom: 20px;
+            cursor: pointer; margin-bottom: 14px;
             transition: all 0.15s;
             display: flex; align-items: center; justify-content: center; gap: 8px;
         }
@@ -116,10 +113,24 @@
         }
         .refresh-btn:active  { transform: scale(0.99); }
         .refresh-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-        .refresh-icon { display: inline-block; }
-        .refresh-btn.spinning .refresh-icon { animation: spin 0.6s linear; }
+        .ri { display: inline-block; }
+        .refresh-btn.spinning .ri { animation: spin 0.6s linear; }
         @keyframes spin { to { transform: rotate(360deg); } }
-
+        .sync-bar {
+            display: flex; align-items: center; gap: 6px;
+            margin-bottom: 16px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; color: var(--dim); letter-spacing: 1px;
+        }
+        .sync-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--dim); flex-shrink: 0; transition: background 0.3s;
+        }
+        .sync-dot.synced  { background: var(--ready); box-shadow: 0 0 4px var(--ready); }
+        .sync-dot.loading { background: var(--accent); animation: blink 1s infinite; }
+        .sync-dot.error   { background: var(--warn); }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+        .sync-time { margin-left: auto; }
         .section-head {
             display: flex; align-items: center;
             gap: 10px; margin-bottom: 10px;
@@ -130,7 +141,6 @@
             font-size: 9px; color: var(--dim);
             letter-spacing: 3px; text-transform: uppercase;
         }
-
         .boss-list { display: flex; flex-direction: column; gap: 4px; }
         .boss-card {
             background: var(--surface);
@@ -139,7 +149,7 @@
             display: grid; grid-template-columns: 38px 1fr auto;
             align-items: center; gap: 12px;
             transition: border-color 0.2s, background 0.2s;
-            animation: cardIn 0.35s ease backwards;
+            animation: cardIn 0.3s ease backwards;
             position: relative; overflow: hidden;
         }
         .boss-card::before {
@@ -177,9 +187,7 @@
             color: var(--white); line-height: 1.2; margin-bottom: 4px;
         }
         .boss-card.state-unknown .boss-name { color: var(--text); }
-        .boss-timer-wrap {
-            display: flex; align-items: center; gap: 6px;
-        }
+        .boss-timer-wrap { display: flex; align-items: center; gap: 6px; }
         .boss-timer {
             font-family: 'Share Tech Mono', monospace;
             font-size: 12px; color: var(--muted);
@@ -193,10 +201,9 @@
             animation: pdot 1.8s ease-in-out infinite;
         }
         @keyframes pdot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50%      { opacity: 0.2; transform: scale(0.6); }
+            0%,100%{ opacity:1; transform:scale(1); }
+            50%    { opacity:0.2; transform:scale(0.6); }
         }
-
         .notif-toggle {
             width: 40px; height: 22px;
             background: var(--panel);
@@ -220,24 +227,23 @@
             background: var(--warn);
             box-shadow: 0 0 6px rgba(243,156,18,0.7);
         }
-
         .toast {
-            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+            position: fixed; bottom: 24px; left: 50%;
+            transform: translateX(-50%) translateY(80px);
             background: var(--panel); border: 1px solid var(--border2);
             border-radius: 8px; padding: 10px 18px;
             font-family: 'Share Tech Mono', monospace; font-size: 11px;
             color: var(--text); letter-spacing: 1px;
             transition: transform 0.3s ease; z-index: 999;
-            white-space: nowrap;
+            white-space: nowrap; pointer-events: none;
         }
         .toast.show { transform: translateX(-50%) translateY(0); }
-
         .placeholder { text-align: center; padding: 50px 20px; }
-        .placeholder-icon {
+        .ph-icon {
             font-family: 'Orbitron', monospace; font-size: 13px;
             color: var(--dim); letter-spacing: 4px; margin-bottom: 12px;
         }
-        .placeholder-text {
+        .ph-text {
             font-family: 'Share Tech Mono', monospace;
             font-size: 11px; color: var(--muted); letter-spacing: 2px;
         }
@@ -249,13 +255,12 @@
         .loading-bar::after {
             content: ''; display: block; height: 100%; width: 40%;
             background: var(--accent);
-            animation: loadslide 1.2s ease-in-out infinite;
+            animation: ls 1.2s ease-in-out infinite;
         }
-        @keyframes loadslide {
-            0%   { transform: translateX(-150%); }
-            100% { transform: translateX(400%); }
+        @keyframes ls {
+            0%  { transform: translateX(-150%); }
+            100%{ transform: translateX(400%); }
         }
-
         .footer {
             margin-top: 28px; padding-top: 16px;
             border-top: 1px solid var(--border);
@@ -265,26 +270,10 @@
             font-family: 'Share Tech Mono', monospace;
             font-size: 9px; color: var(--dim); letter-spacing: 1px;
         }
-
-        .sync-bar {
-            display: flex; align-items: center; gap: 6px;
-            margin-bottom: 14px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 9px; color: var(--dim); letter-spacing: 1px;
-        }
-        .sync-dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            background: var(--dim); transition: background 0.3s;
-        }
-        .sync-dot.synced  { background: var(--ready); box-shadow: 0 0 4px var(--ready); }
-        .sync-dot.loading { background: var(--accent); animation: pdot 1s infinite; }
-        .sync-dot.error   { background: var(--warn); }
-        .sync-time { margin-left: auto; }
     </style>
 </head>
 <body>
 <div class="app">
-
     <div class="header">
         <div>
             <div class="logo-title">BOSS<em>.</em>TRACKER</div>
@@ -309,13 +298,13 @@
     </div>
 
     <button class="refresh-btn" id="refresh-btn">
-        <span class="refresh-icon">↻</span>
+        <span class="ri">↻</span>
         <span>Обновить данные</span>
     </button>
 
     <div class="sync-bar">
         <div class="sync-dot" id="sync-dot"></div>
-        <span id="sync-label">Ожидание данных</span>
+        <span id="sync-label">Ожидание</span>
         <span class="sync-time" id="sync-time"></span>
     </div>
 
@@ -327,8 +316,8 @@
 
     <div class="boss-list" id="boss-list">
         <div class="placeholder">
-            <div class="placeholder-icon">[ · · · ]</div>
-            <div class="placeholder-text">Загрузка данных</div>
+            <div class="ph-icon">[ · · · ]</div>
+            <div class="ph-text">Загрузка данных</div>
             <div class="loading-bar"></div>
         </div>
     </div>
@@ -338,26 +327,27 @@
         <div class="footer-text">prison evo © 2025</div>
     </div>
 </div>
-
 <div class="toast" id="toast"></div>
 
 <script>
 const BOSSES = [
-    { id: 1,  full: "Цып. Агрессивный пернатый",         respawn: 20,  icon: "🐔" },
-    { id: 2,  full: "Аль-Каум. Владыка песков",           respawn: 20,  icon: "🏜️" },
-    { id: 3,  full: "Азерус. Магматический лорд",         respawn: 50,  icon: "🌋" },
-    { id: 4,  full: "Слаймяш. Мутированный слизень",      respawn: 30,  icon: "🫧" },
-    { id: 5,  full: "Диаваль. Последний гладиатор",       respawn: 35,  icon: "⚔️" },
-    { id: 6,  full: "Эгалмот. Хаос Гесиода",              respawn: 70,  icon: "🌀" },
-    { id: 7,  full: "Шайн. Подводный владыка",            respawn: 40,  icon: "🌊" },
-    { id: 8,  full: "Алевия. Верховная чародейка",        respawn: 60,  icon: "🔮" },
-    { id: 9,  full: "Флоракс. Повелитель леса",           respawn: 65,  icon: "🌳" },
-    { id: 10, full: "Хладорожденный Лич. Король мёртвых", respawn: 120, icon: "💀" },
-    { id: 11, full: "Талениэль. Эльфийка-охотница",       respawn: 70,  icon: "🏹" },
-    { id: 12, full: "Мориэль. Падший ангел",              respawn: 80,  icon: "🖤" },
+    { id:1,  full:"Цып. Агрессивный пернатый",         icon:"🐔" },
+    { id:2,  full:"Аль-Каум. Владыка песков",           icon:"🏜️" },
+    { id:3,  full:"Азерус. Магматический лорд",         icon:"🌋" },
+    { id:4,  full:"Слаймяш. Мутированный слизень",      icon:"🫧" },
+    { id:5,  full:"Диаваль. Последний гладиатор",       icon:"⚔️" },
+    { id:6,  full:"Эгалмот. Хаос Гесиода",              icon:"🌀" },
+    { id:7,  full:"Шайн. Подводный владыка",            icon:"🌊" },
+    { id:8,  full:"Алевия. Верховная чародейка",        icon:"🔮" },
+    { id:9,  full:"Флоракс. Повелитель леса",           icon:"🌳" },
+    { id:10, full:"Хладорожденный Лич. Король мёртвых", icon:"💀" },
+    { id:11, full:"Талениэль. Эльфийка-охотница",       icon:"🏹" },
+    { id:12, full:"Мориэль. Падший ангел",              icon:"🖤" },
 ];
 
-const STORAGE_KEY = 'bt_notifications_v1';
+const API_BASE = "http://192.168.1.100:8765";
+const STORAGE_KEY = "bt_notif_v1";
+const USER_KEY    = "bt_user_v1";
 
 const tg = window.Telegram?.WebApp;
 if (tg) {
@@ -366,54 +356,29 @@ if (tg) {
     tg.setBackgroundColor('#0c0d10');
 }
 
-let notifications = loadNotifications();
-let tickInterval = null;
-let lastSyncTime = null;
-let pendingToggle = null;
+function getTgUserId() {
+    try {
+        return tg?.initDataUnsafe?.user?.id || null;
+    } catch(e) { return null; }
+}
 
 function loadNotifications() {
-    const defaults = {};
-    BOSSES.forEach(b => defaults[b.id] = true);
+    const def = {};
+    BOSSES.forEach(b => def[b.id] = true);
     try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-            const parsed = JSON.parse(saved);
-            return { ...defaults, ...parsed };
-        }
+        const s = localStorage.getItem(STORAGE_KEY);
+        if (s) return { ...def, ...JSON.parse(s) };
     } catch(e) {}
-    return defaults;
+    return def;
 }
 
 function saveNotifications() {
-    try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(notifications));
-    } catch(e) {}
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(notifications)); } catch(e) {}
 }
 
-function setSyncState(state, label) {
-    const dot = document.getElementById('sync-dot');
-    const lbl = document.getElementById('sync-label');
-    dot.className = 'sync-dot ' + state;
-    lbl.textContent = label;
-}
-
-function setSyncTime() {
-    const now = new Date();
-    const h = String(now.getHours()).padStart(2,'0');
-    const m = String(now.getMinutes()).padStart(2,'0');
-    const s = String(now.getSeconds()).padStart(2,'0');
-    document.getElementById('sync-time').textContent = `${h}:${m}:${s}`;
-    lastSyncTime = now;
-}
-
-let toastTimer = null;
-function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
-}
+let notifications = loadNotifications();
+let tickInterval  = null;
+let toastTimer    = null;
 
 function fmtTime(sec) {
     if (sec <= 0) return null;
@@ -425,10 +390,29 @@ function fmtTime(sec) {
     return `${s}с`;
 }
 
+function setSyncState(state, label) {
+    document.getElementById('sync-dot').className = 'sync-dot ' + state;
+    document.getElementById('sync-label').textContent = label;
+}
+
+function setSyncTime() {
+    const d = new Date();
+    const t = [d.getHours(), d.getMinutes(), d.getSeconds()]
+        .map(n => String(n).padStart(2,'0')).join(':');
+    document.getElementById('sync-time').textContent = t;
+}
+
+function showToast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
 function renderBosses(data) {
     const list = document.getElementById('boss-list');
     list.innerHTML = '';
-
     let cntReady = 0, cntActive = 0, cntNotif = 0;
 
     BOSSES.forEach((boss, i) => {
@@ -450,7 +434,7 @@ function renderBosses(data) {
                 <span class="boss-timer t-ready">ГОТОВ К БОЮ</span>
             </div>`;
         } else if (isActive) {
-            timerHTML = `<div class="boss-timer t-active" data-timeleft="${d.time_left}">${fmtTime(d.time_left)}</div>`;
+            timerHTML = `<div class="boss-timer t-active" data-tl="${d.time_left}">${fmtTime(d.time_left)}</div>`;
         } else {
             timerHTML = `<div class="boss-timer t-unknown">— неизвестно</div>`;
         }
@@ -477,11 +461,10 @@ function renderBosses(data) {
     document.getElementById('cnt-notif').textContent  = cntNotif;
 
     document.querySelectorAll('.notif-toggle').forEach(el => {
-        el.addEventListener('click', () => {
+        el.addEventListener('click', async () => {
             const id = parseInt(el.dataset.id);
             notifications[id] = !notifications[id];
             el.classList.toggle('on', notifications[id]);
-
             saveNotifications();
 
             const cnt = Object.values(notifications).filter(Boolean).length;
@@ -490,42 +473,45 @@ function renderBosses(data) {
             const status = notifications[id] ? '🔔 включены' : '🔕 выключены';
             showToast(`Босс #${id}: уведомления ${status}`);
 
-            if (tg) {
-                tg.HapticFeedback?.impactOccurred('light');
+            tg?.HapticFeedback?.impactOccurred('light');
 
-                tg.sendData(JSON.stringify({
-                    action: 'toggle_notification',
-                    boss_id: id,
-                    enabled: notifications[id]
-                }));
+            try {
+                await fetch(`${API_BASE}/toggle`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        boss_id: id,
+                        enabled: notifications[id],
+                        user_id: getTgUserId() || 7388946695
+                    })
+                });
+            } catch(e) {
+                console.warn('Toggle sync failed (offline?):', e);
             }
         });
     });
 
     clearInterval(tickInterval);
-    tickInterval = setInterval(tickTimers, 1000);
-
+    tickInterval = setInterval(tick, 1000);
     setSyncState('synced', 'Синхронизировано');
     setSyncTime();
 }
 
-function tickTimers() {
+function tick() {
     let rdy = 0, act = 0;
     document.querySelectorAll('.boss-card').forEach(card => {
-        const el = card.querySelector('.boss-timer.t-active[data-timeleft]');
+        const el = card.querySelector('.boss-timer.t-active[data-tl]');
         if (el) {
-            let t = parseInt(el.dataset.timeleft) - 1;
+            let t = parseInt(el.getAttribute('data-tl')) - 1;
             if (t <= 0) {
                 card.classList.remove('state-active');
                 card.classList.add('state-ready');
-                const center = card.querySelector('.boss-center');
-                center.lastElementChild.outerHTML = `
-                    <div class="boss-timer-wrap">
-                        <div class="timer-dot"></div>
-                        <span class="boss-timer t-ready">ГОТОВ К БОЮ</span>
-                    </div>`;
+                el.outerHTML = `<div class="boss-timer-wrap">
+                    <div class="timer-dot"></div>
+                    <span class="boss-timer t-ready">ГОТОВ К БОЮ</span>
+                </div>`;
             } else {
-                el.dataset.timeleft = t;
+                el.setAttribute('data-tl', t);
                 el.textContent = fmtTime(t);
             }
         }
@@ -541,47 +527,39 @@ function setLoading() {
     setSyncState('loading', 'Загрузка...');
     document.getElementById('boss-list').innerHTML = `
         <div class="placeholder">
-            <div class="placeholder-icon">[ · · · ]</div>
-            <div class="placeholder-text">Обновление данных</div>
+            <div class="ph-icon">[ · · · ]</div>
+            <div class="ph-text">Обновление данных</div>
             <div class="loading-bar"></div>
         </div>`;
 }
 
-function loadData() {
+async function loadData() {
     const btn = document.getElementById('refresh-btn');
     btn.classList.add('spinning');
     setTimeout(() => btn.classList.remove('spinning'), 600);
     setLoading();
-
-    if (tg) {
-        tg.sendData(JSON.stringify({ action: 'get_data' }));
+    try {
+        const res = await fetch(`${API_BASE}/bosses`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const payload = await res.json();
+        if (payload.action === 'boss_data') {
+            renderBosses(payload.bosses);
+        }
+    } catch(e) {
+        setSyncState('error', 'Нет связи с ботом');
+        document.getElementById('boss-list').innerHTML = `
+            <div class="placeholder">
+                <div class="ph-icon">[ ✕ ]</div>
+                <div class="ph-text">Бот не запущен</div>
+            </div>`;
+        console.error('loadData error:', e);
     }
 }
 
-if (tg) {
-    tg.onEvent('web_app_data', (raw) => {
-        try {
-            const payload = JSON.parse(typeof raw === 'string' ? raw : raw.data || '{}');
-            if (payload.action === 'boss_data') {
-                renderBosses(payload.bosses);
-            }
-        } catch(e) {
-            setSyncState('error', 'Ошибка данных');
-            console.error('Parse error:', e);
-        }
-    });
+document.getElementById('refresh-btn').addEventListener('click', loadData);
+loadData();
 
-    document.getElementById('refresh-btn').addEventListener('click', loadData);
-    loadData();
-} else {
-    document.getElementById('boss-list').innerHTML = `
-        <div class="placeholder">
-            <div class="placeholder-icon">[ ⚠ ]</div>
-            <div class="placeholder-text">Только через Telegram</div>
-        </div>`;
-    document.getElementById('refresh-btn').disabled = true;
-    setSyncState('error', 'Нет подключения');
-}
+setInterval(loadData, 30000);
 </script>
 </body>
 </html>
