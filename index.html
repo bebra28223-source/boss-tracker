@@ -52,7 +52,6 @@
             padding: 0 14px 40px;
         }
 
-        /* HEADER */
         .header {
             padding: 22px 0 18px;
             display: flex;
@@ -95,7 +94,6 @@
             letter-spacing: 1px;
         }
 
-        /* STATS */
         .stats {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -144,7 +142,6 @@
             text-transform: uppercase;
         }
 
-        /* REFRESH */
         .refresh-btn {
             width: 100%;
             background: transparent;
@@ -183,7 +180,6 @@
 
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* SECTION */
         .section-head {
             display: flex;
             align-items: center;
@@ -205,7 +201,6 @@
             text-transform: uppercase;
         }
 
-        /* BOSS CARDS */
         .boss-list {
             display: flex;
             flex-direction: column;
@@ -309,7 +304,6 @@
             50%      { opacity: 0.2; transform: scale(0.6); }
         }
 
-        /* TOGGLE */
         .notif-toggle {
             width: 40px;
             height: 22px;
@@ -343,7 +337,6 @@
             box-shadow: 0 0 6px rgba(243,156,18,0.7);
         }
 
-        /* PLACEHOLDER */
         .placeholder {
             text-align: center;
             padding: 50px 20px;
@@ -387,7 +380,6 @@
             100% { transform: translateX(400%); }
         }
 
-        /* FOOTER */
         .footer {
             margin-top: 28px;
             padding-top: 16px;
@@ -417,15 +409,15 @@
 
     <div class="stats">
         <div class="stat s-ready">
-            <div class="stat-val" id="cnt-ready">—</div>
+            <div class="stat-val" id="cnt-ready">0</div>
             <div class="stat-label">Готово</div>
         </div>
         <div class="stat s-active">
-            <div class="stat-val" id="cnt-active">—</div>
+            <div class="stat-val" id="cnt-active">0</div>
             <div class="stat-label">В таймере</div>
         </div>
         <div class="stat s-notif">
-            <div class="stat-val" id="cnt-notif">—</div>
+            <div class="stat-val" id="cnt-notif">0/12</div>
             <div class="stat-label">Уведомл.</div>
         </div>
     </div>
@@ -441,13 +433,7 @@
         <div class="section-line"></div>
     </div>
 
-    <div class="boss-list" id="boss-list">
-        <div class="placeholder">
-            <div class="placeholder-icon">[ · · · ]</div>
-            <div class="placeholder-text">Загрузка данных</div>
-            <div class="loading-bar"></div>
-        </div>
-    </div>
+    <div class="boss-list" id="boss-list"></div>
 
     <div class="footer">
         <div class="footer-text">by whyousolonely</div>
@@ -480,7 +466,6 @@ if (WebApp) {
 
 let notifications = {};
 BOSSES.forEach(b => notifications[b.id] = true);
-
 let tickInterval = null;
 
 function fmtTime(sec) {
@@ -496,24 +481,23 @@ function fmtTime(sec) {
 function updateCounts() {
     const toggles = document.querySelectorAll('.notif-toggle');
     const cnt = [...toggles].filter(t => t.classList.contains('on')).length;
-    document.getElementById('cnt-notif').textContent = cnt;
+    document.getElementById('cnt-notif').textContent = `${cnt}/12`;
 }
 
 function renderBosses(data) {
     const list = document.getElementById('boss-list');
     list.innerHTML = '';
 
-    let cntReady = 0, cntActive = 0, cntNotif = 0;
+    let cntReady = 0, cntActive = 0;
 
     BOSSES.forEach((boss, i) => {
-        const d = data.find(b => b.id === boss.id) || { id: boss.id, time_left: -1 };
+        const d = data?.find(b => b.id === boss.id) || { id: boss.id, time_left: -1 };
         const isReady   = d.time_left === 0;
         const isUnknown = d.time_left === -1;
         const isActive  = d.time_left > 0;
 
         if (isReady)  cntReady++;
         if (isActive) cntActive++;
-        if (notifications[boss.id]) cntNotif++;
 
         const state = isReady ? 'state-ready' : isActive ? 'state-active' : 'state-unknown';
 
@@ -549,7 +533,7 @@ function renderBosses(data) {
 
     document.getElementById('cnt-ready').textContent  = cntReady;
     document.getElementById('cnt-active').textContent = cntActive;
-    document.getElementById('cnt-notif').textContent  = cntNotif;
+    updateCounts();
 
     document.querySelectorAll('.notif-toggle').forEach(el => {
         el.addEventListener('click', () => {
@@ -593,40 +577,23 @@ function renderBosses(data) {
     }, 1000);
 }
 
-function setLoading() {
-    clearInterval(tickInterval);
-    document.getElementById('boss-list').innerHTML = `
-        <div class="placeholder">
-            <div class="placeholder-icon">[ · · · ]</div>
-            <div class="placeholder-text">Обновление...</div>
-            <div class="loading-bar"></div>
-        </div>`;
-}
-
 function loadData() {
     const btn = document.getElementById('refresh-btn');
     btn.classList.add('spinning');
     setTimeout(() => btn.classList.remove('spinning'), 600);
-    setLoading();
-    if (WebApp) WebApp.sendData(JSON.stringify({ action: 'get_data' }));
+    if (WebApp) {
+        WebApp.sendData(JSON.stringify({ action: 'get_data' }));
+    }
 }
 
 document.getElementById('refresh-btn').addEventListener('click', loadData);
 
 if (WebApp) {
-    WebApp.onEvent('web_app_data', raw => {
-        try {
-            const p = JSON.parse(raw);
-            if (p.action === 'boss_data') renderBosses(p.bosses);
-        } catch(e) { console.error(e); }
-    });
+    WebApp.onEvent('main_button_pressed', loadData);
+    renderBosses(null);
     loadData();
 } else {
-    document.getElementById('boss-list').innerHTML = `
-        <div class="placeholder">
-            <div class="placeholder-icon">[ ⚠ ]</div>
-            <div class="placeholder-text">Только через Telegram</div>
-        </div>`;
+    renderBosses(null);
     document.getElementById('refresh-btn').disabled = true;
 }
 </script>
