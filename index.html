@@ -22,199 +22,77 @@
             --warn:    #f39c12;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Rajdhani', sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+        body { background: var(--bg); color: var(--text); font-family: 'Rajdhani', sans-serif; min-height: 100vh; overflow-x: hidden; }
         body::before {
-            content: '';
-            position: fixed; inset: 0;
-            background-image:
-                linear-gradient(rgba(74,158,255,0.018) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(74,158,255,0.018) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none; z-index: 0;
+            content: ''; position: fixed; inset: 0;
+            background-image: linear-gradient(rgba(74,158,255,0.018) 1px, transparent 1px), linear-gradient(90deg, rgba(74,158,255,0.018) 1px, transparent 1px);
+            background-size: 40px 40px; pointer-events: none; z-index: 0;
         }
-        .app {
-            position: relative; z-index: 1;
-            max-width: 480px; margin: 0 auto;
-            padding: 0 14px 40px;
-        }
-        .header {
-            padding: 22px 0 18px;
-            display: flex; align-items: flex-end; justify-content: space-between;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 20px;
-        }
-        .logo-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 20px; font-weight: 900;
-            color: var(--white); letter-spacing: 2px; line-height: 1;
-        }
-        .logo-title em { color: var(--accent); font-style: normal; }
-        .logo-sub {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 10px; color: var(--muted);
-            margin-top: 5px; letter-spacing: 1px;
-        }
-        .version-pill {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 9px; color: var(--muted);
-            border: 1px solid var(--border2);
-            padding: 3px 8px; border-radius: 2px;
-            background: var(--surface); letter-spacing: 1px;
-        }
+        .app { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 0 14px 40px; }
 
-        .next-boss {
-            background: var(--surface);
-            border: 1px solid var(--border2);
-            border-radius: 10px;
-            padding: 14px 16px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            position: relative;
-            overflow: hidden;
-        }
-        .next-boss::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, var(--accent), transparent);
-        }
-        .next-boss.nb-ready::before {
-            background: linear-gradient(90deg, var(--ready), transparent);
-        }
-        .next-boss-label {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 8px; color: var(--muted);
-            letter-spacing: 3px; text-transform: uppercase;
-            margin-bottom: 4px;
-        }
+        .header { padding: 22px 0 18px; display: flex; align-items: flex-end; justify-content: space-between; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+        .logo-title { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 900; color: var(--white); letter-spacing: 2px; line-height: 1; }
+        .logo-title em { color: var(--accent); font-style: normal; }
+        .logo-sub { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 5px; letter-spacing: 1px; }
+        .version-pill { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--muted); border: 1px solid var(--border2); padding: 3px 8px; border-radius: 2px; background: var(--surface); letter-spacing: 1px; }
+
+        .next-boss { background: var(--surface); border: 1px solid var(--border2); border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 14px; position: relative; overflow: hidden; }
+        .next-boss::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), transparent); }
+        .next-boss.nb-ready::before { background: linear-gradient(90deg, var(--ready), transparent); }
         .next-boss-icon { font-size: 28px; flex-shrink: 0; }
         .next-boss-info { flex: 1; min-width: 0; }
-        .next-boss-name {
-            font-size: 14px; font-weight: 600;
-            color: var(--white);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            margin-bottom: 3px;
-        }
-        .next-boss-time {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 13px; color: var(--accent);
-        }
-        .next-boss.nb-ready .next-boss-time { color: var(--ready); }
-        .next-boss-countdown {
-            font-family: 'Orbitron', monospace;
-            font-size: 18px; font-weight: 700;
-            color: var(--accent);
-            flex-shrink: 0; text-align: right;
-            min-width: 70px;
-        }
+        .next-boss-label { font-family: 'Share Tech Mono', monospace; font-size: 8px; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 4px; }
+        .next-boss-name { font-size: 14px; font-weight: 600; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; }
+        .next-boss-status { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--accent); }
+        .next-boss.nb-ready .next-boss-status { color: var(--ready); }
+        .next-boss-countdown { font-family: 'Orbitron', monospace; font-size: 18px; font-weight: 700; color: var(--accent); flex-shrink: 0; text-align: right; min-width: 70px; }
         .next-boss.nb-ready .next-boss-countdown { color: var(--ready); }
 
-        .stats {
-            display: grid; grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px; margin-bottom: 16px;
-        }
-        .stat {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 6px; padding: 12px 10px 10px;
-            text-align: center; position: relative; overflow: hidden;
-        }
-        .stat::after {
-            content: ''; position: absolute;
-            bottom: 0; left: 0; right: 0; height: 2px;
-        }
+        .sound-row { display: flex; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; margin-bottom: 16px; }
+        .sound-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+        .sound-toggle { width: 40px; height: 22px; background: var(--panel); border: 1px solid var(--border2); border-radius: 11px; position: relative; cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
+        .sound-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; background: var(--muted); border-radius: 50%; transition: all 0.2s; }
+        .sound-toggle.on { background: rgba(74,158,255,0.12); border-color: var(--accent); }
+        .sound-toggle.on::after { transform: translateX(18px); background: var(--accent); box-shadow: 0 0 6px rgba(74,158,255,0.7); }
+
+        .stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+        .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 12px 10px 10px; text-align: center; position: relative; overflow: hidden; }
+        .stat::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; }
         .stat.s-ready::after  { background: var(--ready); }
         .stat.s-active::after { background: var(--accent); }
         .stat.s-notif::after  { background: var(--warn); }
-        .stat-val {
-            font-family: 'Orbitron', monospace;
-            font-size: 26px; font-weight: 700;
-            line-height: 1; margin-bottom: 5px;
-        }
+        .stat-val { font-family: 'Orbitron', monospace; font-size: 26px; font-weight: 700; line-height: 1; margin-bottom: 5px; }
         .stat.s-ready  .stat-val { color: var(--ready); }
         .stat.s-active .stat-val { color: var(--accent); }
         .stat.s-notif  .stat-val { color: var(--warn); }
-        .stat-label {
-            font-size: 10px; font-weight: 600;
-            color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase;
-        }
+        .stat-label { font-size: 10px; font-weight: 600; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; }
 
-        .refresh-btn {
-            width: 100%; background: transparent;
-            border: 1px solid var(--border2); color: var(--text);
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 14px; font-weight: 600;
-            letter-spacing: 2px; text-transform: uppercase;
-            padding: 11px 20px; border-radius: 6px;
-            cursor: pointer; margin-bottom: 14px;
-            transition: all 0.15s;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
+        .refresh-btn { width: 100%; background: transparent; border: 1px solid var(--border2); color: var(--text); font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 11px 20px; border-radius: 6px; cursor: pointer; margin-bottom: 14px; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .refresh-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(74,158,255,0.04); }
         .refresh-btn:active { transform: scale(0.99); }
-        .refresh-btn:disabled { opacity: 0.3; cursor: not-allowed; }
         .ri { display: inline-block; }
         .refresh-btn.spinning .ri { animation: spin 0.6s linear; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .sync-bar {
-            display: flex; align-items: center; gap: 6px;
-            margin-bottom: 16px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 9px; color: var(--dim); letter-spacing: 1px;
-        }
-        .sync-dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            background: var(--dim); flex-shrink: 0; transition: background 0.3s;
-        }
+        .sync-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 16px; font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--dim); letter-spacing: 1px; }
+        .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--dim); flex-shrink: 0; transition: background 0.3s; }
         .sync-dot.synced { background: var(--ready); box-shadow: 0 0 4px var(--ready); }
         .sync-dot.loading { background: var(--accent); animation: blink 1s infinite; }
         .sync-dot.error   { background: var(--warn); }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
         .sync-time { margin-left: auto; }
 
-        .section-head {
-            display: flex; align-items: center;
-            gap: 10px; margin-bottom: 10px;
-        }
+        .section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
         .section-line { flex: 1; height: 1px; background: var(--border); }
-        .section-text {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 9px; color: var(--dim);
-            letter-spacing: 3px; text-transform: uppercase;
-        }
+        .section-text { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--dim); letter-spacing: 3px; text-transform: uppercase; }
 
         .boss-list { display: flex; flex-direction: column; gap: 4px; }
-        .boss-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px; padding: 13px 14px;
-            display: grid; grid-template-columns: 38px 1fr auto;
-            align-items: center; gap: 12px;
-            transition: border-color 0.2s, background 0.2s;
-            animation: cardIn 0.3s ease backwards;
-            position: relative; overflow: hidden;
-        }
-        .boss-card::before {
-            content: ''; position: absolute;
-            top: 0; left: 0; bottom: 0; width: 3px;
-            background: var(--border2);
-            border-radius: 8px 0 0 8px;
-            transition: all 0.2s;
-        }
+        .boss-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 13px 14px; display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 12px; position: relative; overflow: hidden; }
+        .boss-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--border2); border-radius: 8px 0 0 8px; transition: all 0.2s; }
         .boss-card.state-ready { background: rgba(46,204,113,0.04); border-color: rgba(46,204,113,0.3); }
         .boss-card.state-ready::before { background: var(--ready); box-shadow: 0 0 10px rgba(46,204,113,0.5); }
         .boss-card.state-active::before { background: var(--accent); }
         .boss-card.state-unknown::before { background: var(--dim); }
-        @keyframes cardIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:translateX(0)} }
-
         .boss-left { display: flex; flex-direction: column; align-items: center; gap: 2px; }
         .boss-icon { font-size: 20px; line-height: 1; }
         .boss-id { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--dim); }
@@ -228,35 +106,18 @@
         .timer-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--ready); animation: pdot 1.8s ease-in-out infinite; }
         @keyframes pdot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.2;transform:scale(0.6)} }
 
-        .notif-toggle {
-            width: 40px; height: 22px;
-            background: var(--panel); border: 1px solid var(--border2);
-            border-radius: 11px; position: relative;
-            cursor: pointer; transition: all 0.2s; flex-shrink: 0;
-        }
-        .notif-toggle::after {
-            content: ''; position: absolute;
-            top: 3px; left: 3px; width: 14px; height: 14px;
-            background: var(--muted); border-radius: 50%; transition: all 0.2s;
-        }
+        .notif-toggle { width: 40px; height: 22px; background: var(--panel); border: 1px solid var(--border2); border-radius: 11px; position: relative; cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
+        .notif-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; background: var(--muted); border-radius: 50%; transition: all 0.2s; }
         .notif-toggle.on { background: rgba(243,156,18,0.12); border-color: var(--warn); }
         .notif-toggle.on::after { transform: translateX(18px); background: var(--warn); box-shadow: 0 0 6px rgba(243,156,18,0.7); }
 
-        .toast {
-            position: fixed; bottom: 24px; left: 50%;
-            transform: translateX(-50%) translateY(80px);
-            background: var(--panel); border: 1px solid var(--border2);
-            border-radius: 8px; padding: 10px 18px;
-            font-family: 'Share Tech Mono', monospace; font-size: 11px;
-            color: var(--text); letter-spacing: 1px;
-            transition: transform 0.3s ease; z-index: 999;
-            white-space: nowrap; pointer-events: none;
-        }
+        .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--panel); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 18px; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text); letter-spacing: 1px; transition: transform 0.3s ease; z-index: 999; white-space: nowrap; pointer-events: none; }
         .toast.show { transform: translateX(-50%) translateY(0); }
 
         .placeholder { text-align: center; padding: 50px 20px; }
         .ph-icon { font-family: 'Orbitron', monospace; font-size: 13px; color: var(--dim); letter-spacing: 4px; margin-bottom: 12px; }
-        .ph-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+        .ph-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 2px; margin-bottom: 6px; }
+        .ph-sub  { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--dim); letter-spacing: 1px; }
         .loading-bar { width: 120px; height: 2px; background: var(--border); margin: 14px auto 0; border-radius: 1px; overflow: hidden; }
         .loading-bar::after { content: ''; display: block; height: 100%; width: 40%; background: var(--accent); animation: ls 1.2s ease-in-out infinite; }
         @keyframes ls { 0%{transform:translateX(-150%)} 100%{transform:translateX(400%)} }
@@ -276,28 +137,24 @@
     </div>
 
     <div class="next-boss" id="next-boss" style="display:none">
-        <div class="next-boss-icon" id="nb-icon">❓</div>
+        <div class="next-boss-icon" id="nb-icon"></div>
         <div class="next-boss-info">
             <div class="next-boss-label">следующий босс</div>
-            <div class="next-boss-name" id="nb-name">—</div>
-            <div class="next-boss-time" id="nb-status">—</div>
+            <div class="next-boss-name" id="nb-name"></div>
+            <div class="next-boss-status" id="nb-status"></div>
         </div>
         <div class="next-boss-countdown" id="nb-countdown"></div>
     </div>
 
+    <div class="sound-row">
+        <span class="sound-label">🔊 ЗВУК ПРИ РЕСПАВНЕ</span>
+        <div class="sound-toggle" id="sound-toggle"></div>
+    </div>
+
     <div class="stats">
-        <div class="stat s-ready">
-            <div class="stat-val" id="cnt-ready">—</div>
-            <div class="stat-label">Готово</div>
-        </div>
-        <div class="stat s-active">
-            <div class="stat-val" id="cnt-active">—</div>
-            <div class="stat-label">В таймере</div>
-        </div>
-        <div class="stat s-notif">
-            <div class="stat-val" id="cnt-notif">—</div>
-            <div class="stat-label">Уведомл.</div>
-        </div>
+        <div class="stat s-ready"><div class="stat-val" id="cnt-ready">—</div><div class="stat-label">Готово</div></div>
+        <div class="stat s-active"><div class="stat-val" id="cnt-active">—</div><div class="stat-label">В таймере</div></div>
+        <div class="stat s-notif"><div class="stat-val" id="cnt-notif">—</div><div class="stat-label">Уведомл.</div></div>
     </div>
 
     <button class="refresh-btn" id="refresh-btn">
@@ -348,11 +205,56 @@ const BOSSES = [
     { id:12, full:"Мориэль. Падший ангел",              icon:"🖤" },
 ];
 
-const DATA_URL = "https://raw.githubusercontent.com/bebra28223-source/boss-tracker/main/data.json";
-const STORAGE_KEY = "bt_notif_v1";
+const GITHUB_API_URL = "https://api.github.com/repos/bebra28223-source/boss-tracker/contents/data.json";
+const STORAGE_KEY    = "bt_notif_v1";
+const SOUND_KEY      = "bt_sound_v1";
 
 const tg = window.Telegram?.WebApp;
 if (tg) { tg.expand(); tg.setHeaderColor('#0c0d10'); tg.setBackgroundColor('#0c0d10'); }
+
+let audioCtx = null;
+function getAudioCtx() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    return audioCtx;
+}
+
+function playBossReady() {
+    try {
+        const ctx = getAudioCtx();
+        const notes = [523, 659, 784, 1047];
+        notes.forEach((freq, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.type = 'sine';
+            osc.frequency.value = freq;
+            const start = ctx.currentTime + i * 0.12;
+            gain.gain.setValueAtTime(0, start);
+            gain.gain.linearRampToValueAtTime(0.3, start + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, start + 0.25);
+            osc.start(start);
+            osc.stop(start + 0.25);
+        });
+    } catch(e) {}
+}
+
+let soundEnabled = localStorage.getItem(SOUND_KEY) !== 'false';
+const soundToggleEl = document.getElementById('sound-toggle');
+function updateSoundToggle() {
+    soundToggleEl.classList.toggle('on', soundEnabled);
+}
+updateSoundToggle();
+soundToggleEl.addEventListener('click', () => {
+    if (!soundEnabled) {
+        try { getAudioCtx().resume(); } catch(e) {}
+    }
+    soundEnabled = !soundEnabled;
+    localStorage.setItem(SOUND_KEY, soundEnabled);
+    updateSoundToggle();
+    showToast(soundEnabled ? '🔊 Звук включён' : '🔇 Звук выключен');
+    if (soundEnabled) playBossReady();
+});
 
 function loadNotifications() {
     const def = {};
@@ -368,9 +270,10 @@ function saveNotifications() {
 }
 
 let notifications = loadNotifications();
-let tickInterval = null;
 let toastTimer = null;
-let nextBossId = null;
+let respawnData = [];
+let alreadyReady = new Set();
+let tickInterval = null;
 
 function fmtTime(sec) {
     if (sec <= 0) return null;
@@ -388,8 +291,8 @@ function setSyncState(state, label) {
 }
 function setSyncTime() {
     const d = new Date();
-    const t = [d.getHours(), d.getMinutes(), d.getSeconds()].map(n => String(n).padStart(2,'0')).join(':');
-    document.getElementById('sync-time').textContent = t;
+    document.getElementById('sync-time').textContent =
+        [d.getHours(), d.getMinutes(), d.getSeconds()].map(n => String(n).padStart(2,'0')).join(':');
 }
 function showToast(msg) {
     const el = document.getElementById('toast');
@@ -399,50 +302,55 @@ function showToast(msg) {
     toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
 }
 
-function updateNextBossWidget(data) {
-    let best = null;
-    let bestTime = Infinity;
+function getTimeLeft(respawn_at) {
+    if (respawn_at === null || respawn_at === undefined) return -1;
+    const diff = Math.floor(respawn_at - Date.now() / 1000);
+    return Math.max(diff, 0);
+}
 
-    data.forEach(d => {
-        if (d.time_left === 0) {
+function updateNextBoss() {
+    const nb = document.getElementById('next-boss');
+    let best = null, bestTime = Infinity;
+
+    respawnData.forEach(d => {
+        const tl = getTimeLeft(d.respawn_at);
+        if (tl === 0) {
             if (bestTime > 0) { best = d; bestTime = 0; }
-        } else if (d.time_left > 0 && d.time_left < bestTime) {
-            best = d;
-            bestTime = d.time_left;
+        } else if (tl > 0 && tl < bestTime) {
+            best = d; bestTime = tl;
         }
     });
 
-    const nb = document.getElementById('next-boss');
-    if (!best) { nb.style.display = 'none'; nextBossId = null; return; }
-
-    nb.style.display = 'flex';
-    nextBossId = best.id;
+    if (!best) { nb.style.display = 'none'; return; }
 
     const boss = BOSSES.find(b => b.id === best.id);
+    nb.style.display = 'flex';
     document.getElementById('nb-icon').textContent = boss ? boss.icon : '❓';
     document.getElementById('nb-name').textContent = boss ? boss.full : '—';
 
-    if (best.time_left === 0) {
+    const tl = getTimeLeft(best.respawn_at);
+    if (tl === 0) {
         nb.classList.add('nb-ready');
         document.getElementById('nb-status').textContent = 'Готов к бою';
         document.getElementById('nb-countdown').textContent = '✓';
     } else {
         nb.classList.remove('nb-ready');
         document.getElementById('nb-status').textContent = 'Заспавнится через';
-        document.getElementById('nb-countdown').textContent = fmtTime(best.time_left) || '';
+        document.getElementById('nb-countdown').textContent = fmtTime(tl) || '';
     }
 }
 
-function renderBosses(data) {
+function renderBosses() {
     const list = document.getElementById('boss-list');
     list.innerHTML = '';
     let cntReady = 0, cntActive = 0, cntNotif = 0;
 
     BOSSES.forEach((boss, i) => {
-        const d = data.find(b => b.id === boss.id) || { id: boss.id, time_left: -1 };
-        const isReady   = d.time_left === 0;
-        const isUnknown = d.time_left === -1;
-        const isActive  = d.time_left > 0;
+        const d = respawnData.find(b => b.id === boss.id) || { id: boss.id, respawn_at: null };
+        const tl = getTimeLeft(d.respawn_at);
+        const isReady   = tl === 0;
+        const isUnknown = tl === -1;
+        const isActive  = tl > 0;
 
         if (isReady)  cntReady++;
         if (isActive) cntActive++;
@@ -454,7 +362,7 @@ function renderBosses(data) {
         if (isReady) {
             timerHTML = `<div class="boss-timer-wrap"><div class="timer-dot"></div><span class="boss-timer t-ready">ГОТОВ К БОЮ</span></div>`;
         } else if (isActive) {
-            timerHTML = `<div class="boss-timer t-active" data-tl="${d.time_left}">${fmtTime(d.time_left)}</div>`;
+            timerHTML = `<div class="boss-timer t-active">${fmtTime(tl)}</div>`;
         } else {
             timerHTML = `<div class="boss-timer t-unknown">— неизвестно</div>`;
         }
@@ -462,7 +370,6 @@ function renderBosses(data) {
         const card = document.createElement('div');
         card.className = `boss-card ${state}`;
         card.dataset.bossId = boss.id;
-        card.style.animationDelay = `${i * 0.04}s`;
         card.innerHTML = `
             <div class="boss-left">
                 <div class="boss-icon">${boss.icon}</div>
@@ -481,114 +388,111 @@ function renderBosses(data) {
     document.getElementById('cnt-active').textContent = cntActive;
     document.getElementById('cnt-notif').textContent  = cntNotif;
 
-    updateNextBossWidget(data);
-
     document.querySelectorAll('.notif-toggle').forEach(el => {
         el.addEventListener('click', () => {
             const id = parseInt(el.dataset.id);
             notifications[id] = !notifications[id];
             el.classList.toggle('on', notifications[id]);
             saveNotifications();
-            const cnt = Object.values(notifications).filter(Boolean).length;
-            document.getElementById('cnt-notif').textContent = cnt;
-            showToast(`Босс #${id}: уведомления ${notifications[id] ? '🔔 включены' : '🔕 выключены'}`);
+            document.getElementById('cnt-notif').textContent =
+                Object.values(notifications).filter(Boolean).length;
+            showToast(`Босс #${id}: ${notifications[id] ? '🔔 включены' : '🔕 выключены'}`);
             tg?.HapticFeedback?.impactOccurred('light');
         });
     });
 
-    clearInterval(tickInterval);
-    tickInterval = setInterval(tick, 1000);
-    setSyncState('synced', 'Синхронизировано');
-    setSyncTime();
+    updateNextBoss();
 }
 
 function tick() {
-    let rdy = 0, act = 0;
-    let bestId = null, bestTime = Infinity;
+    if (!respawnData.length) return;
+
+    let cntReady = 0, cntActive = 0;
 
     document.querySelectorAll('.boss-card').forEach(card => {
-        const el = card.querySelector('.boss-timer.t-active[data-tl]');
-        if (el) {
-            let t = parseInt(el.getAttribute('data-tl')) - 1;
-            if (t <= 0) {
-                card.classList.remove('state-active');
-                card.classList.add('state-ready');
-                el.outerHTML = `<div class="boss-timer-wrap"><div class="timer-dot"></div><span class="boss-timer t-ready">ГОТОВ К БОЮ</span></div>`;
-            } else {
-                el.setAttribute('data-tl', t);
-                el.textContent = fmtTime(t);
-                const id = parseInt(card.dataset.bossId);
-                if (t < bestTime) { bestTime = t; bestId = id; }
+        const id = parseInt(card.dataset.bossId);
+        const d  = respawnData.find(b => b.id === id);
+        if (!d) return;
+
+        const tl = getTimeLeft(d.respawn_at);
+        const wasReady = alreadyReady.has(id);
+
+        if (tl === 0) {
+            if (!wasReady) {
+                alreadyReady.add(id);
+                if (soundEnabled && notifications[id]) playBossReady();
+                tg?.HapticFeedback?.notificationOccurred('success');
             }
+            if (!card.classList.contains('state-ready')) {
+                card.classList.remove('state-active', 'state-unknown');
+                card.classList.add('state-ready');
+                const center = card.querySelector('.boss-center');
+                const timerEl = center.querySelector('.boss-timer, .boss-timer-wrap');
+                if (timerEl) timerEl.outerHTML = `<div class="boss-timer-wrap"><div class="timer-dot"></div><span class="boss-timer t-ready">ГОТОВ К БОЮ</span></div>`;
+            }
+            cntReady++;
+        } else if (tl > 0) {
+            alreadyReady.delete(id);
+            if (!card.classList.contains('state-active')) {
+                card.classList.remove('state-ready', 'state-unknown');
+                card.classList.add('state-active');
+            }
+            const timerEl = card.querySelector('.boss-timer.t-active');
+            if (timerEl) timerEl.textContent = fmtTime(tl);
+            cntActive++;
         }
-        if (card.classList.contains('state-ready'))  { rdy++; }
-        if (card.classList.contains('state-active')) act++;
     });
 
-    document.getElementById('cnt-ready').textContent  = rdy;
-    document.getElementById('cnt-active').textContent = act;
+    document.getElementById('cnt-ready').textContent  = cntReady;
+    document.getElementById('cnt-active').textContent = cntActive;
+    updateNextBoss();
+}
 
-    const nb = document.getElementById('next-boss');
-    if (rdy > 0) {
-        const readyCard = document.querySelector('.boss-card.state-ready');
-        if (readyCard) {
-            const id = parseInt(readyCard.dataset.bossId);
-            const boss = BOSSES.find(b => b.id === id);
-            nb.style.display = 'flex';
-            nb.classList.add('nb-ready');
-            document.getElementById('nb-icon').textContent = boss ? boss.icon : '❓';
-            document.getElementById('nb-name').textContent = boss ? boss.full : '—';
-            document.getElementById('nb-status').textContent = 'Готов к бою';
-            document.getElementById('nb-countdown').textContent = '✓';
-        }
-    } else if (bestId !== null) {
-        const boss = BOSSES.find(b => b.id === bestId);
-        nb.style.display = 'flex';
-        nb.classList.remove('nb-ready');
-        document.getElementById('nb-icon').textContent = boss ? boss.icon : '❓';
-        document.getElementById('nb-name').textContent = boss ? boss.full : '—';
-        document.getElementById('nb-status').textContent = 'Заспавнится через';
-        document.getElementById('nb-countdown').textContent = fmtTime(bestTime) || '';
+async function loadData(silent) {
+    if (!silent) {
+        const btn = document.getElementById('refresh-btn');
+        btn.classList.add('spinning');
+        setTimeout(() => btn.classList.remove('spinning'), 600);
     }
-}
-
-function setLoading() {
-    clearInterval(tickInterval);
     setSyncState('loading', 'Загрузка...');
-    document.getElementById('boss-list').innerHTML = `
-        <div class="placeholder">
-            <div class="ph-icon">[ · · · ]</div>
-            <div class="ph-text">Обновление данных</div>
-            <div class="loading-bar"></div>
-        </div>`;
-}
 
-async function loadData() {
-    const btn = document.getElementById('refresh-btn');
-    btn.classList.add('spinning');
-    setTimeout(() => btn.classList.remove('spinning'), 600);
-    setLoading();
     try {
-        const res = await fetch(DATA_URL + '?t=' + Date.now());
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const payload = await res.json();
-        if (payload.bosses) {
-            renderBosses(payload.bosses);
+        const res = await fetch(GITHUB_API_URL + '?t=' + Date.now(), {
+            cache: 'no-store',
+            headers: { 'Accept': 'application/vnd.github.v3+json' }
+        });
+        if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
+        const meta = await res.json();
+        if (!meta.content) throw new Error('Нет content');
+        const payload = JSON.parse(atob(meta.content.replace(/\n/g, '')));
+        if (!payload.bosses || !Array.isArray(payload.bosses)) throw new Error('Нет bosses');
+
+        respawnData = payload.bosses;
+        renderBosses();
+        setSyncState('synced', 'Синхронизировано');
+        setSyncTime();
+
+        if (!tickInterval) {
+            tickInterval = setInterval(tick, 1000);
         }
     } catch(e) {
-        setSyncState('error', 'Нет данных');
-        document.getElementById('boss-list').innerHTML = `
-            <div class="placeholder">
-                <div class="ph-icon">[ ✕ ]</div>
-                <div class="ph-text">Бот не запущен или data.json не создан</div>
-            </div>`;
-        console.error('loadData error:', e);
+        setSyncState('error', 'Ошибка загрузки');
+        if (!respawnData.length) {
+            document.getElementById('boss-list').innerHTML = `
+                <div class="placeholder">
+                    <div class="ph-icon">[ ✕ ]</div>
+                    <div class="ph-text">${e.message}</div>
+                    <div class="ph-sub">Проверь что бот запущен</div>
+                </div>`;
+        }
     }
 }
 
-document.getElementById('refresh-btn').addEventListener('click', loadData);
-loadData();
-setInterval(loadData, 30000);
+document.getElementById('refresh-btn').addEventListener('click', () => loadData(false));
+document.addEventListener('click', () => { try { getAudioCtx().resume(); } catch(e) {} }, { once: true });
+
+loadData(false);
+setInterval(() => loadData(true), 5000);
 </script>
 </body>
 </html>
