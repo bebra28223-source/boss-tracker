@@ -35,7 +35,7 @@
         .refresh-btn:active { transform: scale(0.98); }
         .loading { text-align: center; padding: 40px; color: #777; }
         .pulse { display: inline-block; width: 12px; height: 12px; background: #00ff9d; border-radius: 50%; margin: 0 5px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
+ @keyframes pulse { 0% { opacity: 1; transform: scale(1 } 50% { opacity: 0.5; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
         .empty-state { text-align: center; padding: 40px 20px; color: #777; }
         .empty-state p { margin-top: 10px; font-size: 14px; }
     </style>
@@ -94,7 +94,7 @@
 
         const bossList = document.getElementById('boss-list');
         const refreshBtn = document.getElementById('refresh');
-        const WebApp = window.Telegram?.WebApp || null;
+        const WebApp = window.Telegram.WebApp;
         
         if (WebApp) {
             WebApp.expand();
@@ -186,6 +186,18 @@
         if (WebApp) {
             refreshBtn.addEventListener('click', loadData);
             loadData();
+            
+            WebApp.onEvent('web_app_data', (data) => {
+                try {
+                    const payload = JSON.parse(data);
+                    if (payload.action === 'boss_data') {
+                        renderBosses(payload.bosses);
+                    }
+                } catch (e) {
+                    console.error('Error parsing web_app_data:', e);
+                    console.log('Raw data:', data);
+                }
+            });
         } else {
             bossList.innerHTML = `
                 <div class="empty-state">
