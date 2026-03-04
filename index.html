@@ -172,21 +172,21 @@
 
 <div class="modal-overlay" id="modal-info">
     <div class="modal">
-        <div class="modal-title">ЛЕГЕНДА</div>
+        <div class="modal-title">Что значат цвета?</div>
         <div class="modal-close" id="close-info">✕</div>
         <div class="modal-row">
             <div class="modal-dot d-active"></div>
-            <div class="modal-desc"><strong>Синий</strong> — босс убит и находится на перезарядке. Показывается таймер до респавна.</div>
+            <div class="modal-desc"><strong>Синий</strong> — босс убит и находится на перезарядке, показывается таймер до респавна</div>
         </div>
         <div class="modal-divider"></div>
         <div class="modal-row">
             <div class="modal-dot d-ready"></div>
-            <div class="modal-desc"><strong>Зелёный</strong> — босс готов к бою. Таймер истёк, можно идти убивать.</div>
+            <div class="modal-desc"><strong>Зелёный</strong> — босс готов к бою, таймер истёк, можно идти убивать</div>
         </div>
         <div class="modal-divider"></div>
         <div class="modal-row">
             <div class="modal-dot d-unknown"></div>
-            <div class="modal-desc"><strong>Серый</strong> — босса не убивали с момента запуска бота. Время неизвестно.</div>
+            <div class="modal-desc"><strong>Серый</strong> — босса не убивали с момента запуска бота, время неизвестно</div>
         </div>
     </div>
 </div>
@@ -206,8 +206,8 @@
             <div class="logo-sub">by whyousolonely</div>
         </div>
         <div class="header-right">
-            <div class="version-pill">v1.0</div>
-            <div class="info-btn" id="info-btn">Узнать больше</div>
+            <div class="version-pill">ВЕР 1.0</div>
+            <div class="info-btn" id="info-btn">? Узнать больше</div>
         </div>
     </div>
 
@@ -260,9 +260,9 @@
     </div>
 
     <div class="footer">
-        <div class="footer-text">PrisonEvoy</div>
+        <div class="footer-text">PrisonEvo</div>
         <div class="footer-text" id="cristalix-footer">Cristalix 2026</div>
-        <div class="admin-link" id="admin-link" style="display:none">Админ панель</div>
+        <div class="admin-link" id="admin-link" style="display:none">⚙ Админ</div>
     </div>
 </div>
 
@@ -430,8 +430,8 @@ async function startProfileCreation() {
                 <div class="code-val">${code}</div>
                 <div class="code-timer" id="code-timer">Действует: 5:00</div>
             </div>
-            <div class="code-hint">Напишите на сервере в чат:</div>
-            <div class="code-cmd">/m PrisonEvoHelper verify ${code}</div>`;
+            <div class="code-hint">Напишите в чат на сервере:</div>
+            <div class="code-cmd">verify ${code}</div>`;
         clearCodeCountdown();
         codeCountdown = setInterval(() => {
             remaining--;
