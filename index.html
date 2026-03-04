@@ -11,7 +11,9 @@
         *{margin:0;padding:0;box-sizing:border-box;}
         body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;}
         body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(74,158,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.018) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
-        .app{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 14px 40px;}
+
+        .page{display:none;position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 14px 40px;}
+        .page.active{display:block;}
 
         .header{padding:22px 0 18px;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);margin-bottom:20px;}
         .logo-title{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--white);letter-spacing:2px;line-height:1;}
@@ -22,19 +24,14 @@
         .info-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);border:1px solid var(--accent);padding:3px 8px;border-radius:2px;background:rgba(74,158,255,0.06);letter-spacing:1px;cursor:pointer;transition:all 0.15s;}
         .info-btn:hover{background:rgba(74,158,255,0.12);}
 
-        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;display:none;align-items:center;justify-content:center;padding:20px;}
-        .modal-overlay.open{display:flex;}
-        .modal{background:var(--panel);border:1px solid var(--border2);border-radius:12px;padding:24px;max-width:340px;width:100%;position:relative;}
-        .modal-title{font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:var(--white);letter-spacing:2px;margin-bottom:20px;}
-        .modal-close{position:absolute;top:14px;right:14px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);cursor:pointer;border:1px solid var(--border2);padding:2px 8px;border-radius:2px;}
-        .modal-row{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
-        .modal-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;}
-        .modal-dot.d-active{background:var(--accent);box-shadow:0 0 6px rgba(74,158,255,0.6);}
-        .modal-dot.d-ready{background:var(--ready);box-shadow:0 0 6px rgba(46,204,113,0.6);}
-        .modal-dot.d-unknown{background:var(--dim);}
-        .modal-desc{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);line-height:1.5;}
-        .modal-desc strong{color:var(--white);}
-        .modal-divider{height:1px;background:var(--border);margin:4px 0 16px;}
+        .profile-bar{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+        .profile-left{display:flex;align-items:center;gap:10px;min-width:0;}
+        .profile-avatar{width:32px;height:32px;border-radius:50%;background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:1px solid var(--border2);}
+        .profile-name{font-size:13px;font-weight:600;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+        .profile-badge{font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;font-weight:700;flex-shrink:0;}
+        .profile-verify{font-size:12px;margin-left:4px;}
+        .create-profile-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);border:1px solid var(--accent);padding:4px 10px;border-radius:3px;background:rgba(74,158,255,0.06);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s;}
+        .create-profile-btn:hover{background:rgba(74,158,255,0.14);}
 
         .next-boss{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;}
         .next-boss::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);}
@@ -110,8 +107,10 @@
         .notif-toggle.on{background:rgba(243,156,18,0.12);border-color:var(--warn);}
         .notif-toggle.on::after{transform:translateX(18px);background:var(--warn);box-shadow:0 0 6px rgba(243,156,18,0.7);}
 
-        .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--border2);border-radius:8px;padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px;transition:transform 0.3s ease;z-index:999;white-space:nowrap;pointer-events:none;}
-        .toast.show{transform:translateX(-50%) translateY(0);}
+        .footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+        .footer-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px;}
+        .admin-link{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px;cursor:pointer;border:1px solid var(--border);padding:3px 8px;border-radius:2px;background:transparent;transition:all 0.15s;}
+        .admin-link:hover{border-color:var(--muted);color:var(--muted);}
 
         .placeholder{text-align:center;padding:50px 20px;}
         .ph-icon{font-family:'Orbitron',monospace;font-size:13px;color:var(--dim);letter-spacing:4px;margin-bottom:12px;}
@@ -121,44 +120,98 @@
         .loading-bar::after{content:'';display:block;height:100%;width:40%;background:var(--accent);animation:ls 1.2s ease-in-out infinite;}
         @keyframes ls{0%{transform:translateX(-150%)}100%{transform:translateX(400%)}}
 
-        .footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;}
-        .footer-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px;}
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
+        .modal-overlay.open{display:flex;}
+        .modal{background:var(--panel);border:1px solid var(--border2);border-radius:12px;padding:24px;max-width:340px;width:100%;position:relative;}
+        .modal-title{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--white);letter-spacing:2px;margin-bottom:18px;}
+        .modal-close{position:absolute;top:14px;right:14px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);cursor:pointer;border:1px solid var(--border2);padding:2px 8px;border-radius:2px;}
+        .modal-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
+        .modal-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0;margin-top:2px;}
+        .modal-dot.d-active{background:var(--accent);box-shadow:0 0 5px rgba(74,158,255,0.5);}
+        .modal-dot.d-ready{background:var(--ready);box-shadow:0 0 5px rgba(46,204,113,0.5);}
+        .modal-dot.d-unknown{background:var(--dim);}
+        .modal-desc{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5;}
+        .modal-desc strong{color:var(--white);}
+        .modal-divider{height:1px;background:var(--border);margin:2px 0 14px;}
+
+        .code-box{background:var(--bg);border:1px solid var(--border2);border-radius:6px;padding:16px;text-align:center;margin:10px 0 16px;}
+        .code-val{font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:var(--accent);letter-spacing:8px;}
+        .code-timer{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);margin-top:8px;}
+        .code-hint{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);line-height:1.5;margin-top:10px;text-align:left;}
+        .code-cmd{background:var(--surface);border:1px solid var(--border2);border-radius:4px;padding:6px 10px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);margin-top:8px;word-break:break-all;}
+
+        .admin-page-header{padding:22px 0 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);margin-bottom:20px;}
+        .admin-back{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);cursor:pointer;border:1px solid var(--border2);padding:4px 10px;border-radius:2px;background:transparent;flex-shrink:0;}
+        .admin-back:hover{color:var(--text);}
+        .admin-title{font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--white);letter-spacing:2px;}
+        .admin-title em{color:#ff4d6d;font-style:normal;}
+
+        .admin-user-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;}
+        .auc-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+        .auc-badge{font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 7px;border-radius:3px;font-weight:700;flex-shrink:0;}
+        .auc-nick{font-size:14px;font-weight:600;color:var(--white);}
+        .auc-verify{font-size:12px;}
+        .auc-bl{font-family:'Share Tech Mono',monospace;font-size:8px;color:#ff4d6d;border:1px solid #ff4d6d;padding:1px 5px;border-radius:2px;margin-left:auto;flex-shrink:0;}
+        .auc-uid{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);}
+        .auc-actions{display:flex;gap:6px;flex-wrap:wrap;}
+        .auc-btn{font-family:'Share Tech Mono',monospace;font-size:9px;padding:4px 10px;border-radius:3px;cursor:pointer;border:1px solid;transition:all 0.15s;}
+        .auc-btn.bl-add{color:#ff4d6d;border-color:#ff4d6d;background:rgba(255,77,109,0.06);}
+        .auc-btn.bl-add:hover{background:rgba(255,77,109,0.14);}
+        .auc-btn.bl-rem{color:var(--ready);border-color:var(--ready);background:rgba(46,204,113,0.06);}
+        .auc-btn.bl-rem:hover{background:rgba(46,204,113,0.14);}
+        .auc-btn.ver{color:var(--warn);border-color:var(--warn);background:rgba(243,156,18,0.06);}
+        .auc-btn.ver:hover{background:rgba(243,156,18,0.14);}
+        .auc-btn.del{color:var(--dim);border-color:var(--dim);background:transparent;}
+        .auc-btn.del:hover{color:var(--muted);border-color:var(--muted);}
+
+        .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--border2);border-radius:8px;padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px;transition:transform 0.3s ease;z-index:999;white-space:nowrap;pointer-events:none;}
+        .toast.show{transform:translateX(-50%) translateY(0);}
     </style>
 </head>
 <body>
 
-<div class="modal-overlay" id="modal-overlay">
+<div class="modal-overlay" id="modal-info">
     <div class="modal">
-        <div class="modal-title">Что значат цвета:</div>
-        <div class="modal-close" id="modal-close">✕ закрыть</div>
+        <div class="modal-title">ЛЕГЕНДА</div>
+        <div class="modal-close" id="close-info">✕</div>
         <div class="modal-row">
             <div class="modal-dot d-active"></div>
-            <div class="modal-desc"><strong>Синий</strong> — босс убит и находится на перезарядке, показывается таймер до респавна</div>
+            <div class="modal-desc"><strong>Синий</strong> — босс убит и находится на перезарядке. Показывается таймер до респавна.</div>
         </div>
         <div class="modal-divider"></div>
         <div class="modal-row">
             <div class="modal-dot d-ready"></div>
-            <div class="modal-desc"><strong>Зелёный</strong> — босс готов к бою, таймер истёк, можно идти убивать</div>
+            <div class="modal-desc"><strong>Зелёный</strong> — босс готов к бою. Таймер истёк, можно идти убивать.</div>
         </div>
         <div class="modal-divider"></div>
         <div class="modal-row">
             <div class="modal-dot d-unknown"></div>
-            <div class="modal-desc"><strong>Серый</strong> — босса не убивали с момента запуска бота, время неизвестно</div>
+            <div class="modal-desc"><strong>Серый</strong> — босса не убивали с момента запуска бота. Время неизвестно.</div>
         </div>
     </div>
 </div>
 
-<div class="app">
+<div class="modal-overlay" id="modal-profile">
+    <div class="modal">
+        <div class="modal-title">СОЗДАТЬ ПРОФИЛЬ</div>
+        <div class="modal-close" id="close-profile">✕</div>
+        <div id="profile-modal-body"></div>
+    </div>
+</div>
+
+<div class="page active" id="page-main">
     <div class="header">
         <div>
             <div class="logo-title">ТРЕКЕР<em>.</em>БОССОВ</div>
-            <div class="logo-sub">by whyousolonely</div>
+            <div class="logo-sub">// PRISON EVO · МОНИТОРИНГ В РЕАЛЬНОМ ВРЕМЕНИ</div>
         </div>
         <div class="header-right">
-            <div class="version-pill">v1.0</div>
-            <div class="info-btn" id="info-btn">Узнать больше</div>
+            <div class="version-pill">ВЕР 1.0</div>
+            <div class="info-btn" id="info-btn">? Узнать больше</div>
         </div>
     </div>
+
+    <div class="profile-bar" id="profile-bar"></div>
 
     <div class="next-boss" id="next-boss" style="display:none">
         <div id="nb-img-wrap"></div>
@@ -207,10 +260,25 @@
     </div>
 
     <div class="footer">
-        <div class="footer-text">PrisonEvo</div>
-        <div class="footer-text">Cristalix © 2026</div>
+        <div class="footer-text">by whyousolonely</div>
+        <div class="footer-text" id="cristalix-footer">Cristalix 2026</div>
+        <div class="admin-link" id="admin-link" style="display:none">⚙ Админ</div>
     </div>
 </div>
+
+<div class="page" id="page-admin">
+    <div class="admin-page-header">
+        <div class="admin-back" id="admin-back">← Назад</div>
+        <div class="admin-title">АДМИН<em>.</em>ПАНЕЛЬ</div>
+    </div>
+    <div id="admin-user-list">
+        <div class="placeholder">
+            <div class="ph-icon">[ · · · ]</div>
+            <div class="ph-text">Загрузка пользователей</div>
+        </div>
+    </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -229,7 +297,24 @@ const BOSSES = [
     { id:12, full:"Мориэль. Падший ангел",              icon:"🖤", img:"imgs/boss12.png" },
 ];
 
+const DONATE_STYLES = {
+    "I":      { color:"#9e9e9e", bg:"rgba(158,158,158,0.1)" },
+    "V":      { color:"#ffd600", bg:"rgba(255,214,0,0.1)"   },
+    "V+":     { color:"#ffd600", bg:"rgba(255,214,0,0.1)", plus:"#e53935" },
+    "P":      { color:"#43a047", bg:"rgba(67,160,71,0.1)"   },
+    "P+":     { color:"#43a047", bg:"rgba(67,160,71,0.1)",  plus:"#e53935" },
+    "D":      { color:"#29b6f6", bg:"rgba(41,182,246,0.1)"  },
+    "MVP":    { color:"#29b6f6", bg:"rgba(41,182,246,0.1)"  },
+    "MVP+":   { color:"#29b6f6", bg:"rgba(41,182,246,0.1)", plus:"#e53935" },
+    "E":      { color:"#43a047", bg:"rgba(67,160,71,0.1)"   },
+    "S":      { color:"#ff7043", bg:"rgba(255,112,67,0.1)"  },
+    "HE":     { color:"#ff7043", bg:"rgba(255,112,67,0.1)"  },
+    "God":    { color:"#ff7043", bg:"rgba(255,112,67,0.1)"  },
+    "Paradox":{ color:"#f48fb1", bg:"rgba(244,143,177,0.1)" },
+};
+
 const API_BASE  = "https://mnemonically-unfallen-jeanett.ngrok-free.dev";
+const ADMIN_ID  = 7388946695;
 const SOUND_KEY = "bt_sound_v1";
 const NOTIF_KEY = "bt_notif_v1";
 
@@ -237,16 +322,245 @@ const tg = window.Telegram?.WebApp;
 if (tg) { tg.expand(); tg.setHeaderColor('#0c0d10'); tg.setBackgroundColor('#0c0d10'); }
 const TG_USER_ID = tg?.initDataUnsafe?.user?.id || 0;
 
-document.getElementById('info-btn').addEventListener('click', () => {
-    document.getElementById('modal-overlay').classList.add('open');
-});
-document.getElementById('modal-close').addEventListener('click', () => {
-    document.getElementById('modal-overlay').classList.remove('open');
-});
-document.getElementById('modal-overlay').addEventListener('click', (e) => {
-    if (e.target === document.getElementById('modal-overlay'))
-        document.getElementById('modal-overlay').classList.remove('open');
-});
+let userProfile   = null;
+let codeCountdown = null;
+
+function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+document.getElementById('info-btn').addEventListener('click', () => openModal('modal-info'));
+document.getElementById('close-info').addEventListener('click', () => closeModal('modal-info'));
+document.getElementById('close-profile').addEventListener('click', () => { closeModal('modal-profile'); clearCodeCountdown(); });
+document.getElementById('modal-info').addEventListener('click', e => { if (e.target.id==='modal-info') closeModal('modal-info'); });
+document.getElementById('modal-profile').addEventListener('click', e => { if (e.target.id==='modal-profile') { closeModal('modal-profile'); clearCodeCountdown(); } });
+
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function clearCodeCountdown() { if (codeCountdown) { clearInterval(codeCountdown); codeCountdown = null; } }
+
+document.getElementById('admin-back').addEventListener('click', () => showPage('page-main'));
+document.getElementById('admin-link').addEventListener('click', () => { loadAdminUsers(); showPage('page-admin'); });
+
+function donateLabel(donate) {
+    const s = DONATE_STYLES[donate];
+    if (!s) return '';
+    if (donate.endsWith('+')) {
+        const base = donate.slice(0, -1);
+        return `<span style="color:${s.color}">${base}</span><span style="color:${s.plus}">+</span>`;
+    }
+    return `<span style="color:${s.color}">${donate}</span>`;
+}
+
+function donateBadge(donate, cls = 'profile-badge') {
+    const s = DONATE_STYLES[donate] || { color:'#9e9e9e', bg:'rgba(158,158,158,0.1)' };
+    let inner;
+    if (donate.endsWith('+')) {
+        const base = donate.slice(0, -1);
+        const plus = s.plus || '#e53935';
+        inner = `<span style="color:${s.color}">${base}</span><span style="color:${plus}">+</span>`;
+    } else {
+        inner = `<span style="color:${s.color}">${donate}</span>`;
+    }
+    return `<span class="${cls}" style="background:${s.bg};border:1px solid ${s.color}22">${inner}</span>`;
+}
+
+async function loadProfile() {
+    if (!TG_USER_ID) { renderProfileBar(null); return; }
+    try {
+        const res = await fetch(`${API_BASE}/profile?uid=${TG_USER_ID}`, {
+            cache:'no-store', headers:{'ngrok-skip-browser-warning':'1'}
+        });
+        if (res.status === 403) { renderProfileBar('blacklisted'); return; }
+        const data = await res.json();
+        userProfile = Object.keys(data).length ? data : null;
+        renderProfileBar(userProfile);
+    } catch(e) {
+        renderProfileBar(null);
+    }
+}
+
+function renderProfileBar(profile) {
+    const bar = document.getElementById('profile-bar');
+    if (profile === 'blacklisted') {
+        bar.innerHTML = `<div class="profile-left"><div class="profile-avatar">🚫</div><div class="profile-name" style="color:#ff4d6d">Вы в чёрном списке</div></div>`;
+        return;
+    }
+    if (!profile || !profile.nick) {
+        bar.innerHTML = `
+            <div class="profile-left">
+                <div class="profile-avatar">👤</div>
+                <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">Профиль не создан</div>
+            </div>
+            <div class="create-profile-btn" id="create-profile-btn">+ Создать профиль</div>`;
+        document.getElementById('create-profile-btn').addEventListener('click', startProfileCreation);
+        return;
+    }
+    const badge  = profile.donate ? donateBadge(profile.donate) : '';
+    const verify = profile.verified ? '<span class="profile-verify">✅</span>' : '';
+    bar.innerHTML = `
+        <div class="profile-left">
+            <div class="profile-avatar">👤</div>
+            <div>${badge ? badge + '&nbsp;' : ''}<span class="profile-name">${profile.nick}</span>${verify}</div>
+        </div>
+        <div class="create-profile-btn" id="create-profile-btn">↻ Сменить</div>`;
+    document.getElementById('create-profile-btn').addEventListener('click', startProfileCreation);
+}
+
+async function startProfileCreation() {
+    const body = document.getElementById('profile-modal-body');
+    body.innerHTML = `<div class="ph-text" style="text-align:center">Генерация кода...</div>`;
+    openModal('modal-profile');
+    try {
+        const res  = await fetch(`${API_BASE}/profile/create`, {
+            method:'POST', cache:'no-store',
+            headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},
+            body: JSON.stringify({ user_id: TG_USER_ID })
+        });
+        if (res.status === 403) {
+            body.innerHTML = `<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:#ff4d6d;text-align:center">Вы в чёрном списке</div>`;
+            return;
+        }
+        const data = await res.json();
+        const code = data.code;
+        let remaining = 300;
+        body.innerHTML = `
+            <div class="code-box">
+                <div class="code-val">${code}</div>
+                <div class="code-timer" id="code-timer">Действует: 5:00</div>
+            </div>
+            <div class="code-hint">Напишите на сервере в чат:</div>
+            <div class="code-cmd">/m PrisonEvoHelper verify ${code}</div>`;
+        clearCodeCountdown();
+        codeCountdown = setInterval(() => {
+            remaining--;
+            if (remaining <= 0) {
+                clearCodeCountdown();
+                closeModal('modal-profile');
+                showToast('⌛ Код истёк');
+                return;
+            }
+            const m = Math.floor(remaining / 60), s = remaining % 60;
+            const el = document.getElementById('code-timer');
+            if (el) el.textContent = `Действует: ${m}:${String(s).padStart(2,'0')}`;
+        }, 1000);
+        pollVerification(code);
+    } catch(e) {
+        body.innerHTML = `<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--warn);text-align:center">Бот выключен</div>`;
+    }
+}
+
+function pollVerification(code) {
+    let attempts = 0;
+    const iv = setInterval(async () => {
+        attempts++;
+        if (attempts > 60) { clearInterval(iv); return; }
+        try {
+            const res  = await fetch(`${API_BASE}/profile?uid=${TG_USER_ID}`, {
+                cache:'no-store', headers:{'ngrok-skip-browser-warning':'1'}
+            });
+            const data = await res.json();
+            if (data.nick) {
+                clearInterval(iv);
+                clearCodeCountdown();
+                closeModal('modal-profile');
+                userProfile = data;
+                renderProfileBar(data);
+                showToast(`✅ Профиль создан: ${data.nick}`);
+            }
+        } catch(e) {}
+    }, 5000);
+}
+
+async function loadAdminUsers() {
+    const list = document.getElementById('admin-user-list');
+    list.innerHTML = `<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка...</div></div>`;
+    try {
+        const res  = await fetch(`${API_BASE}/admin/users?uid=${TG_USER_ID}`, {
+            cache:'no-store', headers:{'ngrok-skip-browser-warning':'1'}
+        });
+        if (!res.ok) { list.innerHTML = `<div class="placeholder"><div class="ph-text">Нет доступа</div></div>`; return; }
+        const data = await res.json();
+        if (!data.users || !data.users.length) {
+            list.innerHTML = `<div class="placeholder"><div class="ph-text">Нет пользователей</div></div>`;
+            return;
+        }
+        list.innerHTML = '';
+        data.users.forEach(u => list.appendChild(buildAdminCard(u)));
+    } catch(e) {
+        list.innerHTML = `<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;
+    }
+}
+
+function buildAdminCard(u) {
+    const card = document.createElement('div');
+    card.className = 'admin-user-card';
+    card.dataset.uid = u.user_id;
+    const badge  = u.donate ? donateBadge(u.donate, 'auc-badge') : '';
+    const verify = u.verified ? '<span class="auc-verify">✅</span>' : '';
+    const blTag  = u.blacklisted ? '<span class="auc-bl">БЛОК</span>' : '';
+    card.innerHTML = `
+        <div class="auc-top">
+            ${badge}
+            <span class="auc-nick">${u.nick || '—'}</span>${verify}
+            ${blTag}
+        </div>
+        <div class="auc-uid">ID: ${u.user_id}</div>
+        <div class="auc-actions" style="margin-top:10px">
+            ${u.blacklisted
+                ? `<div class="auc-btn bl-rem" data-action="bl-rem" data-uid="${u.user_id}">✓ Снять блок</div>`
+                : `<div class="auc-btn bl-add" data-action="bl-add" data-uid="${u.user_id}">✗ Заблокировать</div>`}
+            ${u.verified
+                ? `<div class="auc-btn ver" data-action="unverify" data-uid="${u.user_id}">✗ Снять галочку</div>`
+                : `<div class="auc-btn ver" data-action="verify" data-uid="${u.user_id}">✓ Верифицировать</div>`}
+            <div class="auc-btn del" data-action="delete" data-uid="${u.user_id}">🗑 Удалить</div>
+        </div>`;
+    card.querySelectorAll('.auc-btn').forEach(btn => {
+        btn.addEventListener('click', () => handleAdminAction(btn.dataset.action, parseInt(btn.dataset.uid)));
+    });
+    return card;
+}
+
+async function handleAdminAction(action, targetUid) {
+    const headers = {'Content-Type':'application/json','ngrok-skip-browser-warning':'1'};
+    try {
+        if (action === 'bl-add') {
+            await fetch(`${API_BASE}/admin/blacklist`, {
+                method:'POST', cache:'no-store', headers,
+                body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid, action: 'add' })
+            });
+            showToast('🚫 Пользователь заблокирован');
+        } else if (action === 'bl-rem') {
+            await fetch(`${API_BASE}/admin/blacklist`, {
+                method:'POST', cache:'no-store', headers,
+                body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid, action: 'remove' })
+            });
+            showToast('✅ Блок снят');
+        } else if (action === 'verify') {
+            await fetch(`${API_BASE}/admin/verify`, {
+                method:'POST', cache:'no-store', headers,
+                body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid, verified: true })
+            });
+            showToast('✅ Верифицирован');
+        } else if (action === 'unverify') {
+            await fetch(`${API_BASE}/admin/verify`, {
+                method:'POST', cache:'no-store', headers,
+                body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid, verified: false })
+            });
+            showToast('✗ Галочка снята');
+        } else if (action === 'delete') {
+            await fetch(`${API_BASE}/admin/delete`, {
+                method:'POST', cache:'no-store', headers,
+                body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid })
+            });
+            showToast('🗑 Профиль удалён');
+        }
+        setTimeout(loadAdminUsers, 600);
+    } catch(e) {
+        showToast('Ошибка соединения');
+    }
+}
 
 function mkImg(src, icon, imgCls, fbCls) {
     const img = document.createElement('img');
@@ -318,7 +632,7 @@ soundEl.addEventListener('click', () => {
 
 function loadNotifLocal() {
     const def = {}; BOSSES.forEach(b => def[b.id] = true);
-    try { const s = localStorage.getItem(NOTIF_KEY); if (s) return {...def, ...JSON.parse(s)}; } catch(e) {}
+    try { const s = localStorage.getItem(NOTIF_KEY); if (s) return {...def,...JSON.parse(s)}; } catch(e) {}
     return def;
 }
 function saveNotifLocal() { try { localStorage.setItem(NOTIF_KEY, JSON.stringify(notifications)); } catch(e) {} }
@@ -326,8 +640,8 @@ async function pushToggleToBot(bossId, enabled) {
     if (!TG_USER_ID) return;
     try {
         await fetch(API_BASE + '/toggle', {
-            method: 'POST', cache: 'no-store',
-            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': '1' },
+            method:'POST', cache:'no-store',
+            headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},
             body: JSON.stringify({ user_id: TG_USER_ID, boss_id: bossId, enabled })
         });
     } catch(e) {}
@@ -463,8 +777,8 @@ async function loadData(silent) {
     setSyncState('loading', 'Загрузка...');
     try {
         const res = await fetch(
-            `${API_BASE}/bosses${TG_USER_ID ? '?uid=' + TG_USER_ID : ''}`,
-            { cache: 'no-store', headers: { 'ngrok-skip-browser-warning': '1' } }
+            `${API_BASE}/bosses${TG_USER_ID ? '?uid='+TG_USER_ID : ''}`,
+            { cache:'no-store', headers:{'ngrok-skip-browser-warning':'1'} }
         );
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
@@ -496,6 +810,11 @@ async function loadData(silent) {
 document.getElementById('refresh-btn').addEventListener('click', () => loadData(false));
 document.addEventListener('click', () => { try { getACtx().resume(); } catch(e) {} }, { once: true });
 
+if (TG_USER_ID === ADMIN_ID) {
+    document.getElementById('admin-link').style.display = 'block';
+}
+
+loadProfile();
 loadData(false);
 setInterval(() => loadData(true), 5000);
 </script>
