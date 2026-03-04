@@ -29,7 +29,9 @@
         .profile-avatar{width:32px;height:32px;border-radius:50%;background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:1px solid var(--border2);}
         .profile-name{font-size:13px;font-weight:600;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
         .profile-badge{font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;font-weight:700;flex-shrink:0;}
-        .profile-verify{font-size:12px;margin-left:4px;}
+        .profile-verify{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#4a9eff;margin-left:5px;flex-shrink:0;vertical-align:middle;box-shadow:0 0 6px rgba(74,158,255,0.5);}
+        .profile-verify svg{width:9px;height:9px;}
+        .profile-avatar img{width:32px;height:32px;border-radius:50%;object-fit:cover;display:block;}
         .create-profile-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);border:1px solid var(--accent);padding:4px 10px;border-radius:3px;background:rgba(74,158,255,0.06);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s;}
         .create-profile-btn:hover{background:rgba(74,158,255,0.14);}
 
@@ -155,14 +157,14 @@
         .auc-uid{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);}
         .auc-actions{display:flex;gap:6px;flex-wrap:wrap;}
         .auc-btn{font-family:'Share Tech Mono',monospace;font-size:9px;padding:4px 10px;border-radius:3px;cursor:pointer;border:1px solid;transition:all 0.15s;}
-        .auc-btn.bl-add{color:#ff4d6d;border-color:#ff4d6d;background:rgba(255,77,109,0.06);}
-        .auc-btn.bl-add:hover{background:rgba(255,77,109,0.14);}
+        .auc-btn.bl-add{color:#ff9800;border-color:#ff9800;background:rgba(255,152,0,0.06);}
+        .auc-btn.bl-add:hover{background:rgba(255,152,0,0.14);}
         .auc-btn.bl-rem{color:var(--ready);border-color:var(--ready);background:rgba(46,204,113,0.06);}
         .auc-btn.bl-rem:hover{background:rgba(46,204,113,0.14);}
-        .auc-btn.ver{color:var(--warn);border-color:var(--warn);background:rgba(243,156,18,0.06);}
-        .auc-btn.ver:hover{background:rgba(243,156,18,0.14);}
-        .auc-btn.del{color:var(--dim);border-color:var(--dim);background:transparent;}
-        .auc-btn.del:hover{color:var(--muted);border-color:var(--muted);}
+        .auc-btn.ver{color:#4a9eff;border-color:#4a9eff;background:rgba(74,158,255,0.06);}
+        .auc-btn.ver:hover{background:rgba(74,158,255,0.14);}
+        .auc-btn.del{color:#ff4d6d;border-color:#ff4d6d;background:rgba(255,77,109,0.06);}
+        .auc-btn.del:hover{background:rgba(255,77,109,0.14);}
 
         .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--border2);border-radius:8px;padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px;transition:transform 0.3s ease;z-index:999;white-space:nowrap;pointer-events:none;}
         .toast.show{transform:translateX(-50%) translateY(0);}
@@ -206,8 +208,8 @@
             <div class="logo-sub">by whyousolonely</div>
         </div>
         <div class="header-right">
-            <div class="version-pill">ВЕР 1.0</div>
-            <div class="info-btn" id="info-btn">? Узнать больше</div>
+            <div class="version-pill">v1.0</div>
+            <div class="info-btn" id="info-btn">Узнать больше</div>
         </div>
     </div>
 
@@ -381,6 +383,16 @@ async function loadProfile() {
     }
 }
 
+function verifyBadge() {
+    return `<span class="profile-verify"><svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5.2L4 7.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+}
+
+function getTgAvatar() {
+    const photo = tg?.initDataUnsafe?.user?.photo_url;
+    if (photo) return `<img src="${photo}" onerror="this.parentElement.textContent='👤'">`;
+    return '👤';
+}
+
 function renderProfileBar(profile) {
     const bar = document.getElementById('profile-bar');
     if (profile === 'blacklisted') {
@@ -398,14 +410,15 @@ function renderProfileBar(profile) {
         return;
     }
     const badge  = profile.donate ? donateBadge(profile.donate) : '';
-    const verify = profile.verified ? '<span class="profile-verify">✅</span>' : '';
+    const verify = profile.verified ? verifyBadge() : '';
+    const avatar = profile.avatar_url
+        ? `<img src="${profile.avatar_url}" onerror="this.parentElement.textContent='👤'">`
+        : getTgAvatar();
     bar.innerHTML = `
         <div class="profile-left">
-            <div class="profile-avatar">👤</div>
-            <div>${badge ? badge + '&nbsp;' : ''}<span class="profile-name">${profile.nick}</span>${verify}</div>
-        </div>
-        <div class="create-profile-btn" id="create-profile-btn">↻ Сменить</div>`;
-    document.getElementById('create-profile-btn').addEventListener('click', startProfileCreation);
+            <div class="profile-avatar">${avatar}</div>
+            <div style="display:flex;align-items:center;gap:4px">${badge ? badge + '&nbsp;' : ''}<span class="profile-name">${profile.nick}</span>${verify}</div>
+        </div>`;
 }
 
 async function startProfileCreation() {
@@ -416,7 +429,7 @@ async function startProfileCreation() {
         const res  = await fetch(`${API_BASE}/profile/create`, {
             method:'POST', cache:'no-store',
             headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},
-            body: JSON.stringify({ user_id: TG_USER_ID })
+            body: JSON.stringify({ user_id: TG_USER_ID, avatar_url: tgAvatarUrl })
         });
         if (res.status === 403) {
             body.innerHTML = `<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:#ff4d6d;text-align:center">Вы в чёрном списке</div>`;
@@ -424,6 +437,7 @@ async function startProfileCreation() {
         }
         const data = await res.json();
         const code = data.code;
+        const tgAvatarUrl = tg?.initDataUnsafe?.user?.photo_url || null;
         let remaining = 300;
         body.innerHTML = `
             <div class="code-box">
@@ -498,7 +512,7 @@ function buildAdminCard(u) {
     card.className = 'admin-user-card';
     card.dataset.uid = u.user_id;
     const badge  = u.donate ? donateBadge(u.donate, 'auc-badge') : '';
-    const verify = u.verified ? '<span class="auc-verify">✅</span>' : '';
+    const verify = u.verified ? `<span class="profile-verify" style="width:14px;height:14px;margin-left:4px"><svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5.2L4 7.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>` : '';
     const blTag  = u.blacklisted ? '<span class="auc-bl">БЛОК</span>' : '';
     card.innerHTML = `
         <div class="auc-top">
