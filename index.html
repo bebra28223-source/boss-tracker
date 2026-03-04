@@ -7,11 +7,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg:#0c0d10;--surface:#12141a;--panel:#181b23;--border:#252a35;--border2:#2e3545;
-            --text:#cdd4e0;--muted:#5a6478;--dim:#363d4e;--white:#eef2f8;
-            --accent:#4a9eff;--ready:#2ecc71;--warn:#f39c12;
-        }
+        :root{--bg:#0c0d10;--surface:#12141a;--panel:#181b23;--border:#252a35;--border2:#2e3545;--text:#cdd4e0;--muted:#5a6478;--dim:#363d4e;--white:#eef2f8;--accent:#4a9eff;--ready:#2ecc71;--warn:#f39c12;}
         *{margin:0;padding:0;box-sizing:border-box;}
         body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;}
         body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(74,158,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.018) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
@@ -21,7 +17,24 @@
         .logo-title{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--white);letter-spacing:2px;line-height:1;}
         .logo-title em{color:var(--accent);font-style:normal;}
         .logo-sub{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);margin-top:5px;letter-spacing:1px;}
+        .header-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
         .version-pill{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);border:1px solid var(--border2);padding:3px 8px;border-radius:2px;background:var(--surface);letter-spacing:1px;}
+        .info-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);border:1px solid var(--accent);padding:3px 8px;border-radius:2px;background:rgba(74,158,255,0.06);letter-spacing:1px;cursor:pointer;transition:all 0.15s;}
+        .info-btn:hover{background:rgba(74,158,255,0.12);}
+
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;display:none;align-items:center;justify-content:center;padding:20px;}
+        .modal-overlay.open{display:flex;}
+        .modal{background:var(--panel);border:1px solid var(--border2);border-radius:12px;padding:24px;max-width:340px;width:100%;position:relative;}
+        .modal-title{font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:var(--white);letter-spacing:2px;margin-bottom:20px;}
+        .modal-close{position:absolute;top:14px;right:14px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);cursor:pointer;border:1px solid var(--border2);padding:2px 8px;border-radius:2px;}
+        .modal-row{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+        .modal-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;}
+        .modal-dot.d-active{background:var(--accent);box-shadow:0 0 6px rgba(74,158,255,0.6);}
+        .modal-dot.d-ready{background:var(--ready);box-shadow:0 0 6px rgba(46,204,113,0.6);}
+        .modal-dot.d-unknown{background:var(--dim);}
+        .modal-desc{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);line-height:1.5;}
+        .modal-desc strong{color:var(--white);}
+        .modal-divider{height:1px;background:var(--border);margin:4px 0 16px;}
 
         .next-boss{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;}
         .next-boss::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);}
@@ -99,6 +112,7 @@
 
         .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--border2);border-radius:8px;padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px;transition:transform 0.3s ease;z-index:999;white-space:nowrap;pointer-events:none;}
         .toast.show{transform:translateX(-50%) translateY(0);}
+
         .placeholder{text-align:center;padding:50px 20px;}
         .ph-icon{font-family:'Orbitron',monospace;font-size:13px;color:var(--dim);letter-spacing:4px;margin-bottom:12px;}
         .ph-text{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px;margin-bottom:6px;}
@@ -106,18 +120,44 @@
         .loading-bar{width:120px;height:2px;background:var(--border);margin:14px auto 0;border-radius:1px;overflow:hidden;}
         .loading-bar::after{content:'';display:block;height:100%;width:40%;background:var(--accent);animation:ls 1.2s ease-in-out infinite;}
         @keyframes ls{0%{transform:translateX(-150%)}100%{transform:translateX(400%)}}
+
         .footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;}
         .footer-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px;}
     </style>
 </head>
 <body>
+
+<div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+        <div class="modal-title">ЛЕГЕНДА</div>
+        <div class="modal-close" id="modal-close">✕ закрыть</div>
+        <div class="modal-row">
+            <div class="modal-dot d-active"></div>
+            <div class="modal-desc"><strong>Синий</strong> — босс убит и находится на перезарядке. Показывается таймер до респавна.</div>
+        </div>
+        <div class="modal-divider"></div>
+        <div class="modal-row">
+            <div class="modal-dot d-ready"></div>
+            <div class="modal-desc"><strong>Зелёный</strong> — босс готов к бою. Таймер истёк, можно идти убивать.</div>
+        </div>
+        <div class="modal-divider"></div>
+        <div class="modal-row">
+            <div class="modal-dot d-unknown"></div>
+            <div class="modal-desc"><strong>Серый</strong> — босса не убивали с момента запуска бота. Время неизвестно.</div>
+        </div>
+    </div>
+</div>
+
 <div class="app">
     <div class="header">
         <div>
             <div class="logo-title">ТРЕКЕР<em>.</em>БОССОВ</div>
             <div class="logo-sub">// PRISON EVO · МОНИТОРИНГ В РЕАЛЬНОМ ВРЕМЕНИ</div>
         </div>
-        <div class="version-pill">ВЕР 1.0</div>
+        <div class="header-right">
+            <div class="version-pill">ВЕР 1.0</div>
+            <div class="info-btn" id="info-btn">? Узнать больше</div>
+        </div>
     </div>
 
     <div class="next-boss" id="next-boss" style="display:none">
@@ -197,6 +237,17 @@ const tg = window.Telegram?.WebApp;
 if (tg) { tg.expand(); tg.setHeaderColor('#0c0d10'); tg.setBackgroundColor('#0c0d10'); }
 const TG_USER_ID = tg?.initDataUnsafe?.user?.id || 0;
 
+document.getElementById('info-btn').addEventListener('click', () => {
+    document.getElementById('modal-overlay').classList.add('open');
+});
+document.getElementById('modal-close').addEventListener('click', () => {
+    document.getElementById('modal-overlay').classList.remove('open');
+});
+document.getElementById('modal-overlay').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('modal-overlay'))
+        document.getElementById('modal-overlay').classList.remove('open');
+});
+
 function mkImg(src, icon, imgCls, fbCls) {
     const img = document.createElement('img');
     img.src = src; img.className = imgCls;
@@ -246,8 +297,8 @@ function playBossReady() {
             osc.type = 'sine'; osc.frequency.value = freq;
             const t = ctx.currentTime + delay;
             gain.gain.setValueAtTime(0,t);
-            gain.gain.linearRampToValueAtTime(0.3, t+0.02);
-            gain.gain.exponentialRampToValueAtTime(0.001, t+0.28);
+            gain.gain.linearRampToValueAtTime(0.3,t+0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001,t+0.28);
             osc.start(t); osc.stop(t+0.28);
         });
     } catch(e) {}
@@ -270,9 +321,7 @@ function loadNotifLocal() {
     try { const s = localStorage.getItem(NOTIF_KEY); if (s) return {...def, ...JSON.parse(s)}; } catch(e) {}
     return def;
 }
-function saveNotifLocal() {
-    try { localStorage.setItem(NOTIF_KEY, JSON.stringify(notifications)); } catch(e) {}
-}
+function saveNotifLocal() { try { localStorage.setItem(NOTIF_KEY, JSON.stringify(notifications)); } catch(e) {} }
 async function pushToggleToBot(bossId, enabled) {
     if (!TG_USER_ID) return;
     try {
@@ -285,18 +334,17 @@ async function pushToggleToBot(bossId, enabled) {
 }
 
 let notifications = loadNotifLocal();
-
-let respawnData  = [];
-let alreadyReady = new Set();
-let tickInterval = null;
+let respawnData   = [];
+let alreadyReady  = new Set();
+let tickInterval  = null;
 
 function updateNextBoss() {
     const nb = document.getElementById('next-boss');
     let best = null, bestTime = Infinity;
     respawnData.forEach(d => {
         const tl = getTL(d.respawn_at);
-        if (tl === 0 && bestTime > 0)       { best = d; bestTime = 0; }
-        else if (tl > 0 && tl < bestTime)   { best = d; bestTime = tl; }
+        if (tl === 0 && bestTime > 0)     { best = d; bestTime = 0; }
+        else if (tl > 0 && tl < bestTime) { best = d; bestTime = tl; }
     });
     if (!best) { nb.style.display = 'none'; return; }
     const boss = BOSSES.find(b => b.id === best.id);
@@ -321,7 +369,6 @@ function renderBosses() {
     const list = document.getElementById('boss-list');
     list.innerHTML = '';
     let cntReady = 0, cntActive = 0, cntNotif = 0;
-
     BOSSES.forEach(boss => {
         const d  = respawnData.find(b => b.id === boss.id) || { id: boss.id, respawn_at: null };
         const tl = getTL(d.respawn_at);
@@ -329,35 +376,28 @@ function renderBosses() {
         if (isReady)  cntReady++;
         if (isActive) cntActive++;
         if (notifications[boss.id]) cntNotif++;
-
         const state = isReady ? 'state-ready' : isActive ? 'state-active' : 'state-unknown';
         let timerHTML;
         if (isReady)       timerHTML = `<div class="boss-timer-wrap"><div class="timer-dot"></div><span class="boss-timer t-ready">ГОТОВ К БОЮ</span></div>`;
         else if (isActive) timerHTML = `<div class="boss-timer t-active">${fmtTime(tl)}</div>`;
         else               timerHTML = `<div class="boss-timer t-unknown">— неизвестно</div>`;
-
         const card = document.createElement('div');
         card.className = `boss-card ${state}`;
         card.dataset.bossId = boss.id;
-
         const center = document.createElement('div');
         center.className = 'boss-center';
         center.innerHTML = `<div class="boss-name">${boss.full}</div>${timerHTML}`;
-
         const toggle = document.createElement('div');
         toggle.className = `notif-toggle ${notifications[boss.id] ? 'on' : ''}`;
         toggle.dataset.id = boss.id;
-
         card.appendChild(mkImg(boss.img, boss.icon, 'boss-avatar', 'boss-avatar-fb'));
         card.appendChild(center);
         card.appendChild(toggle);
         list.appendChild(card);
     });
-
     document.getElementById('cnt-ready').textContent  = cntReady;
     document.getElementById('cnt-active').textContent = cntActive;
     document.getElementById('cnt-notif').textContent  = cntNotif;
-
     document.querySelectorAll('.notif-toggle').forEach(el => {
         el.addEventListener('click', () => {
             const id = parseInt(el.dataset.id);
@@ -371,20 +411,17 @@ function renderBosses() {
             tg?.HapticFeedback?.impactOccurred('light');
         });
     });
-
     updateNextBoss();
 }
 
 function tick() {
     if (!respawnData.length) return;
     let cntReady = 0, cntActive = 0;
-
     document.querySelectorAll('.boss-card').forEach(card => {
         const id = parseInt(card.dataset.bossId);
         const d  = respawnData.find(b => b.id === id);
         if (!d) return;
         const tl = getTL(d.respawn_at);
-
         if (tl === 0) {
             if (!alreadyReady.has(id)) {
                 alreadyReady.add(id);
@@ -394,16 +431,16 @@ function tick() {
                 tg?.HapticFeedback?.notificationOccurred('success');
             }
             if (!card.classList.contains('state-ready')) {
-                card.classList.remove('state-active', 'state-unknown');
+                card.classList.remove('state-active','state-unknown');
                 card.classList.add('state-ready');
-                const old = card.querySelector('.boss-center .boss-timer, .boss-center .boss-timer-wrap');
+                const old = card.querySelector('.boss-center .boss-timer,.boss-center .boss-timer-wrap');
                 if (old) old.outerHTML = `<div class="boss-timer-wrap"><div class="timer-dot"></div><span class="boss-timer t-ready">ГОТОВ К БОЮ</span></div>`;
             }
             cntReady++;
         } else if (tl > 0) {
             alreadyReady.delete(id);
             if (!card.classList.contains('state-active')) {
-                card.classList.remove('state-ready', 'state-unknown');
+                card.classList.remove('state-ready','state-unknown');
                 card.classList.add('state-active');
             }
             const el = card.querySelector('.boss-timer.t-active');
@@ -413,7 +450,6 @@ function tick() {
             alreadyReady.delete(id);
         }
     });
-
     document.getElementById('cnt-ready').textContent  = cntReady;
     document.getElementById('cnt-active').textContent = cntActive;
     updateNextBoss();
@@ -433,28 +469,25 @@ async function loadData(silent) {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (!data.bosses) throw new Error('Нет данных');
-
         respawnData = data.bosses;
-
         if (data.notifications && Object.keys(data.notifications).length > 0) {
             Object.entries(data.notifications).forEach(([id, val]) => {
                 notifications[parseInt(id)] = val;
             });
             saveNotifLocal();
         }
-
         renderBosses();
         setSyncState('synced', 'Синхронизировано');
         setSyncTime();
         if (!tickInterval) tickInterval = setInterval(tick, 1000);
     } catch(e) {
-        setSyncState('error', 'Нет связи');
+        setSyncState('error', 'Бот выключен');
         if (!respawnData.length) {
             document.getElementById('boss-list').innerHTML = `
                 <div class="placeholder">
                     <div class="ph-icon">[ ✕ ]</div>
-                    <div class="ph-text">${e.message}</div>
-                    <div class="ph-sub">Проверь что бот и ngrok запущены</div>
+                    <div class="ph-text">Бот выключен</div>
+                    <div class="ph-sub">Ожидайте включения</div>
                 </div>`;
         }
     }
