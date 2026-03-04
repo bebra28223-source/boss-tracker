@@ -16,11 +16,13 @@
         body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;}
         body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(74,158,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.018) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
         .app{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 14px 40px;}
+
         .header{padding:22px 0 18px;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);margin-bottom:20px;}
         .logo-title{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--white);letter-spacing:2px;line-height:1;}
         .logo-title em{color:var(--accent);font-style:normal;}
         .logo-sub{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);margin-top:5px;letter-spacing:1px;}
         .version-pill{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);border:1px solid var(--border2);padding:3px 8px;border-radius:2px;background:var(--surface);letter-spacing:1px;}
+
         .next-boss{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;}
         .next-boss::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);}
         .next-boss.nb-ready::before{background:linear-gradient(90deg,var(--ready),transparent);}
@@ -33,12 +35,14 @@
         .next-boss.nb-ready .next-boss-status{color:var(--ready);}
         .next-boss-countdown{font-family:'Orbitron',monospace;font-size:18px;font-weight:700;color:var(--accent);flex-shrink:0;text-align:right;min-width:70px;}
         .next-boss.nb-ready .next-boss-countdown{color:var(--ready);}
+
         .sound-row{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 14px;margin-bottom:16px;}
         .sound-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;}
-        .sound-toggle{width:40px;height:22px;background:var(--panel);border:1px solid var(--border2);border-radius:11px;position:relative;cursor:pointer;transition:all 0.2s;flex-shrink:0;}
-        .sound-toggle::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;background:var(--muted);border-radius:50%;transition:all 0.2s;}
-        .sound-toggle.on{background:rgba(74,158,255,0.12);border-color:var(--accent);}
-        .sound-toggle.on::after{transform:translateX(18px);background:var(--accent);box-shadow:0 0 6px rgba(74,158,255,0.7);}
+        .toggle-btn{width:40px;height:22px;background:var(--panel);border:1px solid var(--border2);border-radius:11px;position:relative;cursor:pointer;transition:all 0.2s;flex-shrink:0;}
+        .toggle-btn::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;background:var(--muted);border-radius:50%;transition:all 0.2s;}
+        .toggle-btn.on{background:rgba(74,158,255,0.12);border-color:var(--accent);}
+        .toggle-btn.on::after{transform:translateX(18px);background:var(--accent);box-shadow:0 0 6px rgba(74,158,255,0.7);}
+
         .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;}
         .stat{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 10px 10px;text-align:center;position:relative;overflow:hidden;}
         .stat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;}
@@ -50,12 +54,14 @@
         .stat.s-active .stat-val{color:var(--accent);}
         .stat.s-notif .stat-val{color:var(--warn);}
         .stat-label{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;}
+
         .refresh-btn{width:100%;background:transparent;border:1px solid var(--border2);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:11px 20px;border-radius:6px;cursor:pointer;margin-bottom:14px;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:8px;}
         .refresh-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(74,158,255,0.04);}
         .refresh-btn:active{transform:scale(0.99);}
         .ri{display:inline-block;}
         .refresh-btn.spinning .ri{animation:spin 0.6s linear;}
         @keyframes spin{to{transform:rotate(360deg);}}
+
         .sync-bar{display:flex;align-items:center;gap:6px;margin-bottom:16px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px;}
         .sync-dot{width:6px;height:6px;border-radius:50%;background:var(--dim);flex-shrink:0;transition:background 0.3s;}
         .sync-dot.synced{background:var(--ready);box-shadow:0 0 4px var(--ready);}
@@ -63,9 +69,11 @@
         .sync-dot.error{background:var(--warn);}
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
         .sync-time{margin-left:auto;}
+
         .section-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
         .section-line{flex:1;height:1px;background:var(--border);}
         .section-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:3px;text-transform:uppercase;}
+
         .boss-list{display:flex;flex-direction:column;gap:4px;}
         .boss-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:11px 14px;display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:12px;position:relative;overflow:hidden;}
         .boss-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--border2);border-radius:8px 0 0 8px;transition:background 0.3s;}
@@ -88,6 +96,7 @@
         .notif-toggle::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;background:var(--muted);border-radius:50%;transition:all 0.2s;}
         .notif-toggle.on{background:rgba(243,156,18,0.12);border-color:var(--warn);}
         .notif-toggle.on::after{transform:translateX(18px);background:var(--warn);box-shadow:0 0 6px rgba(243,156,18,0.7);}
+
         .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--border2);border-radius:8px;padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px;transition:transform 0.3s ease;z-index:999;white-space:nowrap;pointer-events:none;}
         .toast.show{transform:translateX(-50%) translateY(0);}
         .placeholder{text-align:center;padding:50px 20px;}
@@ -106,9 +115,9 @@
     <div class="header">
         <div>
             <div class="logo-title">ТРЕКЕР<em>.</em>БОССОВ</div>
-            <div class="logo-sub">by whyousolonely</div>
+            <div class="logo-sub">// PRISON EVO · МОНИТОРИНГ В РЕАЛЬНОМ ВРЕМЕНИ</div>
         </div>
-        <div class="version-pill">v1.0</div>
+        <div class="version-pill">ВЕР 1.0</div>
     </div>
 
     <div class="next-boss" id="next-boss" style="display:none">
@@ -123,7 +132,7 @@
 
     <div class="sound-row">
         <span class="sound-label">🔊 ЗВУК ПРИ РЕСПАВНЕ</span>
-        <div class="sound-toggle" id="sound-toggle"></div>
+        <div class="toggle-btn" id="sound-toggle"></div>
     </div>
 
     <div class="stats">
@@ -158,8 +167,8 @@
     </div>
 
     <div class="footer">
-        <div class="footer-text">PrisonEvo</div>
-        <div class="footer-text">Cristalix © 2026</div>
+        <div class="footer-text">by whyousolonely</div>
+        <div class="footer-text">prison evo © 2025</div>
     </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -186,11 +195,11 @@ const NOTIF_KEY = "bt_notif_v1";
 
 const tg = window.Telegram?.WebApp;
 if (tg) { tg.expand(); tg.setHeaderColor('#0c0d10'); tg.setBackgroundColor('#0c0d10'); }
-const TG_USER_ID = tg?.initDataUnsafe?.user?.id || 7388946695;
+const TG_USER_ID = tg?.initDataUnsafe?.user?.id || 0;
 
-function mkImg(src, icon, cls, fbCls) {
+function mkImg(src, icon, imgCls, fbCls) {
     const img = document.createElement('img');
-    img.src = src; img.className = cls; img.alt = '';
+    img.src = src; img.className = imgCls;
     img.onerror = function() {
         const fb = document.createElement('div');
         fb.className = fbCls; fb.textContent = icon;
@@ -199,44 +208,6 @@ function mkImg(src, icon, cls, fbCls) {
     return img;
 }
 
-let audioCtx = null;
-function getAudioCtx() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); return audioCtx; }
-function playBossReady() {
-    try {
-        const ctx = getAudioCtx();
-        [[523,0],[659,0.13],[784,0.26],[1047,0.39]].forEach(([freq,delay]) => {
-            const osc = ctx.createOscillator(), gain = ctx.createGain();
-            osc.connect(gain); gain.connect(ctx.destination);
-            osc.type = 'sine'; osc.frequency.value = freq;
-            const t = ctx.currentTime + delay;
-            gain.gain.setValueAtTime(0,t); gain.gain.linearRampToValueAtTime(0.3,t+0.02); gain.gain.exponentialRampToValueAtTime(0.001,t+0.28);
-            osc.start(t); osc.stop(t+0.28);
-        });
-    } catch(e) {}
-}
-
-let soundEnabled = localStorage.getItem(SOUND_KEY) !== 'false';
-const soundEl = document.getElementById('sound-toggle');
-function updateSoundEl() { soundEl.classList.toggle('on', soundEnabled); }
-updateSoundEl();
-soundEl.addEventListener('click', () => {
-    soundEnabled = !soundEnabled;
-    localStorage.setItem(SOUND_KEY, soundEnabled);
-    updateSoundEl();
-    showToast(soundEnabled ? '🔊 Звук включён' : '🔇 Звук выключен');
-    if (soundEnabled) { try { getAudioCtx().resume().then(playBossReady); } catch(e) {} }
-});
-
-function loadNotificationsLocal() {
-    const def = {}; BOSSES.forEach(b => def[b.id] = true);
-    try { const s = localStorage.getItem(NOTIF_KEY); if (s) return { ...def, ...JSON.parse(s) }; } catch(e) {}
-    return def;
-}
-function saveNotificationsLocal() { try { localStorage.setItem(NOTIF_KEY, JSON.stringify(notifications)); } catch(e) {} }
-
-let notifications = loadNotificationsLocal();
-let respawnData = [], alreadyReady = new Set(), tickInterval = null, toastTimer = null;
-
 function fmtTime(sec) {
     if (sec <= 0) return null;
     const h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60), s = Math.floor(sec%60);
@@ -244,12 +215,66 @@ function fmtTime(sec) {
     if (m > 0) return `${m}м ${String(s).padStart(2,'0')}с`;
     return `${s}с`;
 }
-function getTL(ra) { if (ra === null || ra === undefined) return -1; return Math.max(0, Math.floor(ra - Date.now()/1000)); }
-function setSyncState(state, label) { document.getElementById('sync-dot').className = 'sync-dot ' + state; document.getElementById('sync-label').textContent = label; }
-function setSyncTime() { const d = new Date(); document.getElementById('sync-time').textContent = [d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':'); }
-function showToast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2200); }
+function getTL(ra) {
+    if (ra === null || ra === undefined) return -1;
+    return Math.max(0, Math.floor(ra - Date.now() / 1000));
+}
+function setSyncState(state, label) {
+    document.getElementById('sync-dot').className = 'sync-dot ' + state;
+    document.getElementById('sync-label').textContent = label;
+}
+function setSyncTime() {
+    const d = new Date();
+    document.getElementById('sync-time').textContent =
+        [d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':');
+}
+let toastTimer = null;
+function showToast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg; el.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
 
-async function syncToggleToBot(bossId, enabled) {
+let audioCtx = null;
+function getACtx() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); return audioCtx; }
+function playBossReady() {
+    try {
+        const ctx = getACtx();
+        [[523,0],[659,0.13],[784,0.26],[1047,0.39]].forEach(([freq,delay]) => {
+            const osc = ctx.createOscillator(), gain = ctx.createGain();
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.type = 'sine'; osc.frequency.value = freq;
+            const t = ctx.currentTime + delay;
+            gain.gain.setValueAtTime(0,t);
+            gain.gain.linearRampToValueAtTime(0.3, t+0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, t+0.28);
+            osc.start(t); osc.stop(t+0.28);
+        });
+    } catch(e) {}
+}
+
+let soundEnabled = localStorage.getItem(SOUND_KEY) !== 'false';
+const soundEl = document.getElementById('sound-toggle');
+function refreshSoundEl() { soundEl.classList.toggle('on', soundEnabled); }
+refreshSoundEl();
+soundEl.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    localStorage.setItem(SOUND_KEY, soundEnabled);
+    refreshSoundEl();
+    showToast(soundEnabled ? '🔊 Звук включён' : '🔇 Звук выключен');
+    if (soundEnabled) try { getACtx().resume().then(playBossReady); } catch(e) {}
+});
+
+function loadNotifLocal() {
+    const def = {}; BOSSES.forEach(b => def[b.id] = true);
+    try { const s = localStorage.getItem(NOTIF_KEY); if (s) return {...def, ...JSON.parse(s)}; } catch(e) {}
+    return def;
+}
+function saveNotifLocal() {
+    try { localStorage.setItem(NOTIF_KEY, JSON.stringify(notifications)); } catch(e) {}
+}
+async function pushToggleToBot(bossId, enabled) {
+    if (!TG_USER_ID) return;
     try {
         await fetch(API_BASE + '/toggle', {
             method: 'POST', cache: 'no-store',
@@ -259,10 +284,20 @@ async function syncToggleToBot(bossId, enabled) {
     } catch(e) {}
 }
 
+let notifications = loadNotifLocal();
+
+let respawnData  = [];
+let alreadyReady = new Set();
+let tickInterval = null;
+
 function updateNextBoss() {
     const nb = document.getElementById('next-boss');
     let best = null, bestTime = Infinity;
-    respawnData.forEach(d => { const tl = getTL(d.respawn_at); if (tl === 0 && bestTime > 0) { best = d; bestTime = 0; } else if (tl > 0 && tl < bestTime) { best = d; bestTime = tl; } });
+    respawnData.forEach(d => {
+        const tl = getTL(d.respawn_at);
+        if (tl === 0 && bestTime > 0)       { best = d; bestTime = 0; }
+        else if (tl > 0 && tl < bestTime)   { best = d; bestTime = tl; }
+    });
     if (!best) { nb.style.display = 'none'; return; }
     const boss = BOSSES.find(b => b.id === best.id);
     nb.style.display = 'flex';
@@ -271,107 +306,163 @@ function updateNextBoss() {
     if (boss) wrap.appendChild(mkImg(boss.img, boss.icon, 'nb-img', 'nb-img-fb'));
     document.getElementById('nb-name').textContent = boss?.full || '—';
     const tl = getTL(best.respawn_at);
-    if (tl === 0) { nb.classList.add('nb-ready'); document.getElementById('nb-status').textContent = 'Готов к бою'; document.getElementById('nb-countdown').textContent = '✓'; }
-    else { nb.classList.remove('nb-ready'); document.getElementById('nb-status').textContent = 'Заспавнится через'; document.getElementById('nb-countdown').textContent = fmtTime(tl) || ''; }
+    if (tl === 0) {
+        nb.classList.add('nb-ready');
+        document.getElementById('nb-status').textContent    = 'Готов к бою';
+        document.getElementById('nb-countdown').textContent = '✓';
+    } else {
+        nb.classList.remove('nb-ready');
+        document.getElementById('nb-status').textContent    = 'Заспавнится через';
+        document.getElementById('nb-countdown').textContent = fmtTime(tl) || '';
+    }
 }
 
 function renderBosses() {
     const list = document.getElementById('boss-list');
     list.innerHTML = '';
     let cntReady = 0, cntActive = 0, cntNotif = 0;
+
     BOSSES.forEach(boss => {
-        const d = respawnData.find(b => b.id === boss.id) || { id: boss.id, respawn_at: null };
+        const d  = respawnData.find(b => b.id === boss.id) || { id: boss.id, respawn_at: null };
         const tl = getTL(d.respawn_at);
         const isReady = tl === 0, isActive = tl > 0;
-        if (isReady) cntReady++; if (isActive) cntActive++; if (notifications[boss.id]) cntNotif++;
+        if (isReady)  cntReady++;
+        if (isActive) cntActive++;
+        if (notifications[boss.id]) cntNotif++;
+
         const state = isReady ? 'state-ready' : isActive ? 'state-active' : 'state-unknown';
         let timerHTML;
         if (isReady)       timerHTML = `<div class="boss-timer-wrap"><div class="timer-dot"></div><span class="boss-timer t-ready">ГОТОВ К БОЮ</span></div>`;
         else if (isActive) timerHTML = `<div class="boss-timer t-active">${fmtTime(tl)}</div>`;
         else               timerHTML = `<div class="boss-timer t-unknown">— неизвестно</div>`;
+
         const card = document.createElement('div');
-        card.className = `boss-card ${state}`; card.dataset.bossId = boss.id;
-        const avatarEl = mkImg(boss.img, boss.icon, 'boss-avatar', 'boss-avatar-fb');
-        const center = document.createElement('div'); center.className = 'boss-center';
+        card.className = `boss-card ${state}`;
+        card.dataset.bossId = boss.id;
+
+        const center = document.createElement('div');
+        center.className = 'boss-center';
         center.innerHTML = `<div class="boss-name">${boss.full}</div>${timerHTML}`;
+
         const toggle = document.createElement('div');
-        toggle.className = `notif-toggle ${notifications[boss.id] ? 'on' : ''}`; toggle.dataset.id = boss.id;
-        card.appendChild(avatarEl); card.appendChild(center); card.appendChild(toggle);
+        toggle.className = `notif-toggle ${notifications[boss.id] ? 'on' : ''}`;
+        toggle.dataset.id = boss.id;
+
+        card.appendChild(mkImg(boss.img, boss.icon, 'boss-avatar', 'boss-avatar-fb'));
+        card.appendChild(center);
+        card.appendChild(toggle);
         list.appendChild(card);
     });
+
     document.getElementById('cnt-ready').textContent  = cntReady;
     document.getElementById('cnt-active').textContent = cntActive;
     document.getElementById('cnt-notif').textContent  = cntNotif;
+
     document.querySelectorAll('.notif-toggle').forEach(el => {
         el.addEventListener('click', () => {
             const id = parseInt(el.dataset.id);
             notifications[id] = !notifications[id];
             el.classList.toggle('on', notifications[id]);
-            saveNotificationsLocal(); syncToggleToBot(id, notifications[id]);
-            document.getElementById('cnt-notif').textContent = Object.values(notifications).filter(Boolean).length;
-            showToast(`Босс #${id}: ${notifications[id] ? '🔔 уведомления включены' : '🔕 уведомления выключены'}`);
+            saveNotifLocal();
+            pushToggleToBot(id, notifications[id]);
+            document.getElementById('cnt-notif').textContent =
+                Object.values(notifications).filter(Boolean).length;
+            showToast(notifications[id] ? `🔔 Уведомления босса #${id} включены` : `🔕 Уведомления босса #${id} выключены`);
             tg?.HapticFeedback?.impactOccurred('light');
         });
     });
+
     updateNextBoss();
 }
 
 function tick() {
     if (!respawnData.length) return;
     let cntReady = 0, cntActive = 0;
+
     document.querySelectorAll('.boss-card').forEach(card => {
         const id = parseInt(card.dataset.bossId);
-        const d = respawnData.find(b => b.id === id); if (!d) return;
+        const d  = respawnData.find(b => b.id === id);
+        if (!d) return;
         const tl = getTL(d.respawn_at);
+
         if (tl === 0) {
             if (!alreadyReady.has(id)) {
                 alreadyReady.add(id);
-                if (soundEnabled && notifications[id]) { try { getAudioCtx().resume().then(playBossReady); } catch(e) {} }
+                if (soundEnabled && notifications[id]) {
+                    try { getACtx().resume().then(playBossReady); } catch(e) {}
+                }
                 tg?.HapticFeedback?.notificationOccurred('success');
             }
             if (!card.classList.contains('state-ready')) {
-                card.classList.remove('state-active','state-unknown'); card.classList.add('state-ready');
+                card.classList.remove('state-active', 'state-unknown');
+                card.classList.add('state-ready');
                 const old = card.querySelector('.boss-center .boss-timer, .boss-center .boss-timer-wrap');
                 if (old) old.outerHTML = `<div class="boss-timer-wrap"><div class="timer-dot"></div><span class="boss-timer t-ready">ГОТОВ К БОЮ</span></div>`;
             }
             cntReady++;
         } else if (tl > 0) {
             alreadyReady.delete(id);
-            if (!card.classList.contains('state-active')) { card.classList.remove('state-ready','state-unknown'); card.classList.add('state-active'); }
-            const el = card.querySelector('.boss-timer.t-active'); if (el) el.textContent = fmtTime(tl);
+            if (!card.classList.contains('state-active')) {
+                card.classList.remove('state-ready', 'state-unknown');
+                card.classList.add('state-active');
+            }
+            const el = card.querySelector('.boss-timer.t-active');
+            if (el) el.textContent = fmtTime(tl);
             cntActive++;
-        } else { alreadyReady.delete(id); }
+        } else {
+            alreadyReady.delete(id);
+        }
     });
+
     document.getElementById('cnt-ready').textContent  = cntReady;
     document.getElementById('cnt-active').textContent = cntActive;
     updateNextBoss();
 }
 
 async function loadData(silent) {
-    if (!silent) { document.getElementById('refresh-btn').classList.add('spinning'); setTimeout(() => document.getElementById('refresh-btn').classList.remove('spinning'), 600); }
+    if (!silent) {
+        document.getElementById('refresh-btn').classList.add('spinning');
+        setTimeout(() => document.getElementById('refresh-btn').classList.remove('spinning'), 600);
+    }
     setSyncState('loading', 'Загрузка...');
     try {
-        const res = await fetch(`${API_BASE}/bosses?uid=${TG_USER_ID}`, { cache: 'no-store', headers: { 'ngrok-skip-browser-warning': '1' } });
+        const res = await fetch(
+            `${API_BASE}/bosses${TG_USER_ID ? '?uid=' + TG_USER_ID : ''}`,
+            { cache: 'no-store', headers: { 'ngrok-skip-browser-warning': '1' } }
+        );
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (!data.bosses) throw new Error('Нет данных');
+
         respawnData = data.bosses;
+
         if (data.notifications && Object.keys(data.notifications).length > 0) {
-            Object.entries(data.notifications).forEach(([id, val]) => { notifications[parseInt(id)] = val; });
-            saveNotificationsLocal();
+            Object.entries(data.notifications).forEach(([id, val]) => {
+                notifications[parseInt(id)] = val;
+            });
+            saveNotifLocal();
         }
-        renderBosses(); setSyncState('synced', 'Синхронизировано'); setSyncTime();
+
+        renderBosses();
+        setSyncState('synced', 'Синхронизировано');
+        setSyncTime();
         if (!tickInterval) tickInterval = setInterval(tick, 1000);
     } catch(e) {
         setSyncState('error', 'Нет связи');
         if (!respawnData.length) {
-            document.getElementById('boss-list').innerHTML = `<div class="placeholder"><div class="ph-icon">[ ✕ ]</div><div class="ph-text">${e.message}</div><div class="ph-sub">Проверь что бот запущен</div></div>`;
+            document.getElementById('boss-list').innerHTML = `
+                <div class="placeholder">
+                    <div class="ph-icon">[ ✕ ]</div>
+                    <div class="ph-text">${e.message}</div>
+                    <div class="ph-sub">Проверь что бот и ngrok запущены</div>
+                </div>`;
         }
     }
 }
 
 document.getElementById('refresh-btn').addEventListener('click', () => loadData(false));
-document.addEventListener('click', () => { try { getAudioCtx().resume(); } catch(e) {} }, { once: true });
+document.addEventListener('click', () => { try { getACtx().resume(); } catch(e) {} }, { once: true });
+
 loadData(false);
 setInterval(() => loadData(true), 5000);
 </script>
