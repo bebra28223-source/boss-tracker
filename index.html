@@ -11,10 +11,8 @@
         *{margin:0;padding:0;box-sizing:border-box;}
         body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;}
         body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(74,158,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.018) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
-
         .page{display:none;position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 14px 40px;}
         .page.active{display:block;}
-
         .header{padding:22px 0 18px;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);margin-bottom:20px;}
         .logo-title{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--white);letter-spacing:2px;line-height:1;}
         .logo-title em{color:var(--accent);font-style:normal;}
@@ -23,18 +21,18 @@
         .version-pill{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);border:1px solid var(--border2);padding:3px 8px;border-radius:2px;background:var(--surface);letter-spacing:1px;}
         .info-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);border:1px solid var(--accent);padding:3px 8px;border-radius:2px;background:rgba(74,158,255,0.06);letter-spacing:1px;cursor:pointer;transition:all 0.15s;}
         .info-btn:hover{background:rgba(74,158,255,0.12);}
-
         .profile-bar{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
         .profile-left{display:flex;align-items:center;gap:10px;min-width:0;}
-        .profile-avatar{width:32px;height:32px;border-radius:50%;background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:1px solid var(--border2);}
+        .profile-avatar{width:32px;height:32px;border-radius:50%;background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:1px solid var(--border2);overflow:hidden;}
+        .profile-avatar img{width:32px;height:32px;border-radius:50%;object-fit:cover;display:block;}
         .profile-name{font-size:13px;font-weight:600;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
         .profile-badge{font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;font-weight:700;flex-shrink:0;}
-        .profile-verify{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#4a9eff;margin-left:5px;flex-shrink:0;vertical-align:middle;box-shadow:0 0 6px rgba(74,158,255,0.5);}
-        .profile-verify svg{width:9px;height:9px;}
-        .profile-avatar img{width:32px;height:32px;border-radius:50%;object-fit:cover;display:block;}
+        .badge-verify{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#4a9eff;margin-left:4px;flex-shrink:0;vertical-align:middle;box-shadow:0 0 6px rgba(74,158,255,0.5);}
+        .badge-verify svg{width:9px;height:9px;}
+        .badge-dev-green{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#57f287;margin-left:4px;flex-shrink:0;vertical-align:middle;box-shadow:0 0 6px rgba(87,242,135,0.5);}
+        .badge-dev-green svg{width:9px;height:9px;}
         .create-profile-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);border:1px solid var(--accent);padding:4px 10px;border-radius:3px;background:rgba(74,158,255,0.06);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s;}
         .create-profile-btn:hover{background:rgba(74,158,255,0.14);}
-
         .next-boss{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;}
         .next-boss::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);}
         .next-boss.nb-ready::before{background:linear-gradient(90deg,var(--ready),transparent);}
@@ -47,14 +45,12 @@
         .next-boss.nb-ready .next-boss-status{color:var(--ready);}
         .next-boss-countdown{font-family:'Orbitron',monospace;font-size:18px;font-weight:700;color:var(--accent);flex-shrink:0;text-align:right;min-width:70px;}
         .next-boss.nb-ready .next-boss-countdown{color:var(--ready);}
-
         .sound-row{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 14px;margin-bottom:16px;}
         .sound-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;}
         .toggle-btn{width:40px;height:22px;background:var(--panel);border:1px solid var(--border2);border-radius:11px;position:relative;cursor:pointer;transition:all 0.2s;flex-shrink:0;}
         .toggle-btn::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;background:var(--muted);border-radius:50%;transition:all 0.2s;}
         .toggle-btn.on{background:rgba(74,158,255,0.12);border-color:var(--accent);}
         .toggle-btn.on::after{transform:translateX(18px);background:var(--accent);box-shadow:0 0 6px rgba(74,158,255,0.7);}
-
         .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;}
         .stat{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 10px 10px;text-align:center;position:relative;overflow:hidden;}
         .stat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;}
@@ -66,14 +62,21 @@
         .stat.s-active .stat-val{color:var(--accent);}
         .stat.s-notif .stat-val{color:var(--warn);}
         .stat-label{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;}
-
-        .refresh-btn{width:100%;background:transparent;border:1px solid var(--border2);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:11px 20px;border-radius:6px;cursor:pointer;margin-bottom:14px;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:8px;}
+        .action-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:14px;}
+        .refresh-btn{background:transparent;border:1px solid var(--border2);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:11px 20px;border-radius:6px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:8px;}
         .refresh-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(74,158,255,0.04);}
         .refresh-btn:active{transform:scale(0.99);}
         .ri{display:inline-block;}
         .refresh-btn.spinning .ri{animation:spin 0.6s linear;}
         @keyframes spin{to{transform:rotate(360deg);}}
-
+        .top-btn{background:rgba(255,214,0,0.06);border:1px solid #ffd600;color:#ffd600;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;padding:11px 14px;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:all 0.15s;}
+        .top-btn:hover{background:rgba(255,214,0,0.12);}
+        .donate-row{background:linear-gradient(135deg,rgba(255,152,0,0.06),rgba(255,214,0,0.04));border:1px solid rgba(255,152,0,0.25);border-radius:8px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+        .donate-row-left{min-width:0;}
+        .donate-row-title{font-family:'Share Tech Mono',monospace;font-size:10px;color:#ff9800;letter-spacing:1px;margin-bottom:2px;}
+        .donate-row-sub{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:0.5px;}
+        .donate-open-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:#ff9800;border:1px solid #ff9800;padding:5px 12px;border-radius:3px;background:rgba(255,152,0,0.06);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s;}
+        .donate-open-btn:hover{background:rgba(255,152,0,0.14);}
         .sync-bar{display:flex;align-items:center;gap:6px;margin-bottom:16px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px;}
         .sync-dot{width:6px;height:6px;border-radius:50%;background:var(--dim);flex-shrink:0;transition:background 0.3s;}
         .sync-dot.synced{background:var(--ready);box-shadow:0 0 4px var(--ready);}
@@ -81,11 +84,9 @@
         .sync-dot.error{background:var(--warn);}
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
         .sync-time{margin-left:auto;}
-
         .section-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
         .section-line{flex:1;height:1px;background:var(--border);}
         .section-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:3px;text-transform:uppercase;}
-
         .boss-list{display:flex;flex-direction:column;gap:4px;}
         .boss-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:11px 14px;display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:12px;position:relative;overflow:hidden;}
         .boss-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--border2);border-radius:8px 0 0 8px;transition:background 0.3s;}
@@ -108,12 +109,10 @@
         .notif-toggle::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;background:var(--muted);border-radius:50%;transition:all 0.2s;}
         .notif-toggle.on{background:rgba(243,156,18,0.12);border-color:var(--warn);}
         .notif-toggle.on::after{transform:translateX(18px);background:var(--warn);box-shadow:0 0 6px rgba(243,156,18,0.7);}
-
         .footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
         .footer-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px;}
         .admin-link{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px;cursor:pointer;border:1px solid var(--border);padding:3px 8px;border-radius:2px;background:transparent;transition:all 0.15s;}
         .admin-link:hover{border-color:var(--muted);color:var(--muted);}
-
         .placeholder{text-align:center;padding:50px 20px;}
         .ph-icon{font-family:'Orbitron',monospace;font-size:13px;color:var(--dim);letter-spacing:4px;margin-bottom:12px;}
         .ph-text{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px;margin-bottom:6px;}
@@ -121,7 +120,6 @@
         .loading-bar{width:120px;height:2px;background:var(--border);margin:14px auto 0;border-radius:1px;overflow:hidden;}
         .loading-bar::after{content:'';display:block;height:100%;width:40%;background:var(--accent);animation:ls 1.2s ease-in-out infinite;}
         @keyframes ls{0%{transform:translateX(-150%)}100%{transform:translateX(400%)}}
-
         .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
         .modal-overlay.open{display:flex;}
         .modal{background:var(--panel);border:1px solid var(--border2);border-radius:12px;padding:24px;max-width:340px;width:100%;position:relative;}
@@ -135,24 +133,27 @@
         .modal-desc{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5;}
         .modal-desc strong{color:var(--white);}
         .modal-divider{height:1px;background:var(--border);margin:2px 0 14px;}
-
         .code-box{background:var(--bg);border:1px solid var(--border2);border-radius:6px;padding:16px;text-align:center;margin:10px 0 16px;}
         .code-val{font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:var(--accent);letter-spacing:8px;}
         .code-timer{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);margin-top:8px;}
         .code-hint{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);line-height:1.5;margin-top:10px;text-align:left;}
         .code-cmd{background:var(--surface);border:1px solid var(--border2);border-radius:4px;padding:6px 10px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);margin-top:8px;word-break:break-all;}
-
+        .donate-modal-tabs{display:flex;gap:8px;margin-bottom:18px;}
+        .dtab{flex:1;font-family:'Share Tech Mono',monospace;font-size:10px;padding:8px;border-radius:5px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);cursor:pointer;text-align:center;transition:all 0.15s;}
+        .dtab.active{border-color:#ff9800;color:#ff9800;background:rgba(255,152,0,0.08);}
+        .donate-info{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);line-height:1.6;margin-bottom:14px;}
+        .donate-info strong{color:var(--text);}
+        .donate-cmd{background:var(--bg);border:1px solid var(--border2);border-radius:4px;padding:8px 10px;font-family:'Share Tech Mono',monospace;font-size:10px;color:#ffd600;margin-top:8px;word-break:break-all;}
+        .donate-note{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);margin-top:8px;line-height:1.4;}
         .admin-page-header{padding:22px 0 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);margin-bottom:20px;}
         .admin-back{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);cursor:pointer;border:1px solid var(--border2);padding:4px 10px;border-radius:2px;background:transparent;flex-shrink:0;}
         .admin-back:hover{color:var(--text);}
         .admin-title{font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--white);letter-spacing:2px;}
         .admin-title em{color:#ff4d6d;font-style:normal;}
-
         .admin-user-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;}
-        .auc-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+        .auc-top{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
         .auc-badge{font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 7px;border-radius:3px;font-weight:700;flex-shrink:0;}
         .auc-nick{font-size:14px;font-weight:600;color:var(--white);}
-        .auc-verify{font-size:12px;}
         .auc-bl{font-family:'Share Tech Mono',monospace;font-size:8px;color:#ff4d6d;border:1px solid #ff4d6d;padding:1px 5px;border-radius:2px;margin-left:auto;flex-shrink:0;}
         .auc-uid{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);}
         .auc-actions{display:flex;gap:6px;flex-wrap:wrap;}
@@ -163,9 +164,28 @@
         .auc-btn.bl-rem:hover{background:rgba(46,204,113,0.14);}
         .auc-btn.ver{color:#4a9eff;border-color:#4a9eff;background:rgba(74,158,255,0.06);}
         .auc-btn.ver:hover{background:rgba(74,158,255,0.14);}
+        .auc-btn.dev-on{color:#57f287;border-color:#57f287;background:rgba(87,242,135,0.06);}
+        .auc-btn.dev-on:hover{background:rgba(87,242,135,0.14);}
+        .auc-btn.dev-off{color:var(--muted);border-color:var(--muted);background:transparent;}
+        .auc-btn.dev-off:hover{color:var(--text);border-color:var(--text);}
         .auc-btn.del{color:#ff4d6d;border-color:#ff4d6d;background:rgba(255,77,109,0.06);}
         .auc-btn.del:hover{background:rgba(255,77,109,0.14);}
-
+        .top-page-header{padding:22px 0 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);margin-bottom:20px;}
+        .top-page-title{font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--white);letter-spacing:2px;}
+        .top-page-title em{color:#ffd600;font-style:normal;}
+        .top-tabs{display:flex;gap:8px;margin-bottom:16px;}
+        .ttab{flex:1;font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px;border-radius:5px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);cursor:pointer;text-align:center;transition:all 0.15s;}
+        .ttab.active.coins{border-color:#ffd600;color:#ffd600;background:rgba(255,214,0,0.06);}
+        .ttab.active.stars{border-color:#b59bf5;color:#b59bf5;background:rgba(181,155,245,0.06);}
+        .top-row{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+        .top-rank{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--dim);min-width:22px;text-align:center;}
+        .top-rank.r1{color:#ffd600;}
+        .top-rank.r2{color:#b0bec5;}
+        .top-rank.r3{color:#ff7043;}
+        .top-nick-wrap{flex:1;min-width:0;display:flex;align-items:center;gap:6px;}
+        .top-nick{font-size:13px;font-weight:600;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+        .top-amount{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:#ffd600;flex-shrink:0;}
+        .top-amount.stars{color:#b59bf5;}
         .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--border2);border-radius:8px;padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px;transition:transform 0.3s ease;z-index:999;white-space:nowrap;pointer-events:none;}
         .toast.show{transform:translateX(-50%) translateY(0);}
     </style>
@@ -201,6 +221,18 @@
     </div>
 </div>
 
+<div class="modal-overlay" id="modal-donate">
+    <div class="modal">
+        <div class="modal-title">💰 ПОДДЕРЖАТЬ</div>
+        <div class="modal-close" id="close-donate">✕</div>
+        <div class="donate-modal-tabs">
+            <div class="dtab active" id="dtab-coins" onclick="switchDonateTab('coins')">💰 Монеты</div>
+            <div class="dtab" id="dtab-stars" onclick="switchDonateTab('stars')">⭐ Звёзды</div>
+        </div>
+        <div id="donate-tab-content"></div>
+    </div>
+</div>
+
 <div class="page active" id="page-main">
     <div class="header">
         <div>
@@ -208,8 +240,8 @@
             <div class="logo-sub">by whyousolonely</div>
         </div>
         <div class="header-right">
-            <div class="version-pill">v1.0</div>
-            <div class="info-btn" id="info-btn">Узнать больше</div>
+            <div class="version-pill">ВЕР 1.0</div>
+            <div class="info-btn" id="info-btn">? Узнать больше</div>
         </div>
     </div>
 
@@ -226,7 +258,7 @@
     </div>
 
     <div class="sound-row">
-        <span class="sound-label">🔊 ЗВУК ПРИ РЕСПАВНЕ</span>
+        <span class="sound-label">🔊 ЗВУК ЗА 1 МИН ДО РЕСПАВНА</span>
         <div class="toggle-btn" id="sound-toggle"></div>
     </div>
 
@@ -236,10 +268,21 @@
         <div class="stat s-notif"><div class="stat-val" id="cnt-notif">—</div><div class="stat-label">Уведомл.</div></div>
     </div>
 
-    <button class="refresh-btn" id="refresh-btn">
-        <span class="ri">↻</span>
-        <span>Обновить данные</span>
-    </button>
+    <div class="donate-row">
+        <div class="donate-row-left">
+            <div class="donate-row-title">💰 ПОДДЕРЖИ ПРОЕКТ</div>
+            <div class="donate-row-sub">Попади в топ жертвователей</div>
+        </div>
+        <div class="donate-open-btn" id="donate-open-btn">Поддержать</div>
+    </div>
+
+    <div class="action-row">
+        <button class="refresh-btn" id="refresh-btn">
+            <span class="ri">↻</span>
+            <span>Обновить данные</span>
+        </button>
+        <div class="top-btn" id="top-btn">🏆 Топ</div>
+    </div>
 
     <div class="sync-bar">
         <div class="sync-dot" id="sync-dot"></div>
@@ -263,8 +306,8 @@
 
     <div class="footer">
         <div class="footer-text">PrisonEvo</div>
-        <div class="footer-text" id="cristalix-footer">Cristalix 2026</div>
-        <div class="admin-link" id="admin-link" style="display:none">⚙ Админ</div>
+        <div class="footer-text">Cristalix 2026</div>
+        <div class="admin-link" id="admin-link" style="display:none">Админ панель</div>
     </div>
 </div>
 
@@ -278,6 +321,20 @@
             <div class="ph-icon">[ · · · ]</div>
             <div class="ph-text">Загрузка пользователей</div>
         </div>
+    </div>
+</div>
+
+<div class="page" id="page-top">
+    <div class="top-page-header">
+        <div class="admin-back" id="top-back">← Назад</div>
+        <div class="top-page-title">ТОП<em>.</em>ДОНАТОВ</div>
+    </div>
+    <div class="top-tabs">
+        <div class="ttab active coins" id="ttab-coins" onclick="switchTopTab('coins')">💰 Монеты</div>
+        <div class="ttab stars" id="ttab-stars" onclick="switchTopTab('stars')">⭐ Звёзды</div>
+    </div>
+    <div id="top-list">
+        <div class="placeholder"><div class="ph-text">Загрузка...</div></div>
     </div>
 </div>
 
@@ -326,6 +383,18 @@ const TG_USER_ID = tg?.initDataUnsafe?.user?.id || 0;
 
 let userProfile   = null;
 let codeCountdown = null;
+let isBlacklisted = false;
+let currentTopTab = 'coins';
+
+const SVG_CHECK = `<svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5.2L4 7.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const SVG_WRENCH = `<svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 1.5 Q8.5 2.5 7 4L3.5 7.5 Q2.5 8.5 1.5 7.5 Q0.5 6.5 1.5 5.5L5 2 Q6.5 0.5 7.5 1.5Z" stroke="white" stroke-width="1" fill="white" opacity="0.9"/></svg>`;
+
+function verifyBadgeHTML()  { return `<span class="badge-verify">${SVG_CHECK}</span>`; }
+function devBadgeHTML()     { return `<span class="badge-dev-green">${SVG_WRENCH}</span>`; }
+
+function badgesHTML(verified, dev) {
+    return (verified ? verifyBadgeHTML() : '') + (dev ? devBadgeHTML() : '');
+}
 
 function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -335,37 +404,36 @@ function showPage(id) {
 document.getElementById('info-btn').addEventListener('click', () => openModal('modal-info'));
 document.getElementById('close-info').addEventListener('click', () => closeModal('modal-info'));
 document.getElementById('close-profile').addEventListener('click', () => { closeModal('modal-profile'); clearCodeCountdown(); });
+document.getElementById('close-donate').addEventListener('click', () => closeModal('modal-donate'));
 document.getElementById('modal-info').addEventListener('click', e => { if (e.target.id==='modal-info') closeModal('modal-info'); });
 document.getElementById('modal-profile').addEventListener('click', e => { if (e.target.id==='modal-profile') { closeModal('modal-profile'); clearCodeCountdown(); } });
+document.getElementById('modal-donate').addEventListener('click', e => { if (e.target.id==='modal-donate') closeModal('modal-donate'); });
+document.getElementById('admin-back').addEventListener('click', () => showPage('page-main'));
+document.getElementById('top-back').addEventListener('click', () => showPage('page-main'));
+document.getElementById('admin-link').addEventListener('click', () => { loadAdminUsers(); showPage('page-admin'); });
+document.getElementById('top-btn').addEventListener('click', () => { loadTopList(currentTopTab); showPage('page-top'); });
+document.getElementById('donate-open-btn').addEventListener('click', () => { openDonateModal(); openModal('modal-donate'); });
 
 function openModal(id)  { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 function clearCodeCountdown() { if (codeCountdown) { clearInterval(codeCountdown); codeCountdown = null; } }
 
-document.getElementById('admin-back').addEventListener('click', () => showPage('page-main'));
-document.getElementById('admin-link').addEventListener('click', () => { loadAdminUsers(); showPage('page-admin'); });
-
-function donateLabel(donate) {
-    const s = DONATE_STYLES[donate];
-    if (!s) return '';
-    if (donate.endsWith('+')) {
-        const base = donate.slice(0, -1);
-        return `<span style="color:${s.color}">${base}</span><span style="color:${s.plus}">+</span>`;
-    }
-    return `<span style="color:${s.color}">${donate}</span>`;
-}
-
-function donateBadge(donate, cls = 'profile-badge') {
+function donateBadge(donate, cls='profile-badge') {
     const s = DONATE_STYLES[donate] || { color:'#9e9e9e', bg:'rgba(158,158,158,0.1)' };
     let inner;
     if (donate.endsWith('+')) {
-        const base = donate.slice(0, -1);
-        const plus = s.plus || '#e53935';
+        const base = donate.slice(0,-1), plus = s.plus || '#e53935';
         inner = `<span style="color:${s.color}">${base}</span><span style="color:${plus}">+</span>`;
     } else {
         inner = `<span style="color:${s.color}">${donate}</span>`;
     }
     return `<span class="${cls}" style="background:${s.bg};border:1px solid ${s.color}22">${inner}</span>`;
+}
+
+function getTgAvatar() {
+    const photo = tg?.initDataUnsafe?.user?.photo_url;
+    if (photo) return `<img src="${photo}" onerror="this.parentElement.innerHTML='👤'">`;
+    return '👤';
 }
 
 async function loadProfile() {
@@ -378,19 +446,7 @@ async function loadProfile() {
         const data = await res.json();
         userProfile = Object.keys(data).length ? data : null;
         renderProfileBar(userProfile);
-    } catch(e) {
-        renderProfileBar(null);
-    }
-}
-
-function verifyBadge() {
-    return `<span class="profile-verify"><svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5.2L4 7.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
-}
-
-function getTgAvatar() {
-    const photo = tg?.initDataUnsafe?.user?.photo_url;
-    if (photo) return `<img src="${photo}" onerror="this.parentElement.textContent='👤'">`;
-    return '👤';
+    } catch(e) { renderProfileBar(null); }
 }
 
 function renderProfileBar(profile) {
@@ -410,14 +466,16 @@ function renderProfileBar(profile) {
         return;
     }
     const badge  = profile.donate ? donateBadge(profile.donate) : '';
-    const verify = profile.verified ? verifyBadge() : '';
+    const bgs    = badgesHTML(profile.verified, profile.dev);
     const avatar = profile.avatar_url
-        ? `<img src="${profile.avatar_url}" onerror="this.parentElement.textContent='👤'">`
+        ? `<img src="${profile.avatar_url}" onerror="this.parentElement.innerHTML='👤'">`
         : getTgAvatar();
     bar.innerHTML = `
         <div class="profile-left">
             <div class="profile-avatar">${avatar}</div>
-            <div style="display:flex;align-items:center;gap:4px">${badge ? badge + '&nbsp;' : ''}<span class="profile-name">${profile.nick}</span>${verify}</div>
+            <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+                ${badge ? badge + '&nbsp;' : ''}<span class="profile-name">${profile.nick}</span>${bgs}
+            </div>
         </div>`;
 }
 
@@ -427,7 +485,7 @@ async function startProfileCreation() {
     openModal('modal-profile');
     const tgAvatarUrl = tg?.initDataUnsafe?.user?.photo_url || null;
     try {
-        const res  = await fetch(`${API_BASE}/profile/create`, {
+        const res = await fetch(`${API_BASE}/profile/create`, {
             method:'POST', cache:'no-store',
             headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},
             body: JSON.stringify({ user_id: TG_USER_ID, avatar_url: tgAvatarUrl })
@@ -449,13 +507,8 @@ async function startProfileCreation() {
         clearCodeCountdown();
         codeCountdown = setInterval(() => {
             remaining--;
-            if (remaining <= 0) {
-                clearCodeCountdown();
-                closeModal('modal-profile');
-                showToast('⌛ Код истёк');
-                return;
-            }
-            const m = Math.floor(remaining / 60), s = remaining % 60;
+            if (remaining <= 0) { clearCodeCountdown(); closeModal('modal-profile'); showToast('⌛ Код истёк'); return; }
+            const m = Math.floor(remaining/60), s = remaining%60;
             const el = document.getElementById('code-timer');
             if (el) el.textContent = `Действует: ${m}:${String(s).padStart(2,'0')}`;
         }, 1000);
@@ -471,35 +524,50 @@ function pollVerification(code) {
         attempts++;
         if (attempts > 60) { clearInterval(iv); return; }
         try {
-            const res  = await fetch(`${API_BASE}/profile?uid=${TG_USER_ID}`, {
-                cache:'no-store', headers:{'ngrok-skip-browser-warning':'1'}
-            });
+            const res  = await fetch(`${API_BASE}/profile?uid=${TG_USER_ID}`, { cache:'no-store', headers:{'ngrok-skip-browser-warning':'1'} });
             const data = await res.json();
             if (data.nick) {
-                clearInterval(iv);
-                clearCodeCountdown();
-                closeModal('modal-profile');
-                userProfile = data;
-                renderProfileBar(data);
+                clearInterval(iv); clearCodeCountdown(); closeModal('modal-profile');
+                userProfile = data; renderProfileBar(data);
                 showToast(`✅ Профиль создан: ${data.nick}`);
             }
         } catch(e) {}
     }, 5000);
 }
 
+function openDonateModal() {
+    switchDonateTab('coins');
+}
+
+function switchDonateTab(tab) {
+    document.getElementById('dtab-coins').classList.toggle('active', tab==='coins');
+    document.getElementById('dtab-stars').classList.toggle('active', tab==='stars');
+    const c = document.getElementById('donate-tab-content');
+    if (tab === 'coins') {
+        c.innerHTML = `
+            <div class="donate-info">
+                Переведи монеты боту <strong>PrisonEvoHelper</strong> на сервере и попади в топ жертвователей!<br><br>
+                Команда для перевода:
+            </div>
+            <div class="donate-cmd">/pay PrisonEvoHelper [сумма]</div>
+            <div class="donate-note">⚠️ Учитывается сумма, которая приходит боту — после комиссии сервера. Сумма добавляется автоматически при обнаружении перевода в логах.</div>`;
+    } else {
+        c.innerHTML = `
+            <div class="donate-info">
+                Отправь звёзды автору проекта через Telegram и напиши нику в лс боту, чтобы попасть в топ!<br><br>
+                Звёзды добавляются вручную администратором после подтверждения.
+            </div>`;
+    }
+}
+
 async function loadAdminUsers() {
     const list = document.getElementById('admin-user-list');
     list.innerHTML = `<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка...</div></div>`;
     try {
-        const res  = await fetch(`${API_BASE}/admin/users?uid=${TG_USER_ID}`, {
-            cache:'no-store', headers:{'ngrok-skip-browser-warning':'1'}
-        });
+        const res  = await fetch(`${API_BASE}/admin/users?uid=${TG_USER_ID}`, { cache:'no-store', headers:{'ngrok-skip-browser-warning':'1'} });
         if (!res.ok) { list.innerHTML = `<div class="placeholder"><div class="ph-text">Нет доступа</div></div>`; return; }
         const data = await res.json();
-        if (!data.users || !data.users.length) {
-            list.innerHTML = `<div class="placeholder"><div class="ph-text">Нет пользователей</div></div>`;
-            return;
-        }
+        if (!data.users || !data.users.length) { list.innerHTML = `<div class="placeholder"><div class="ph-text">Нет пользователей</div></div>`; return; }
         list.innerHTML = '';
         data.users.forEach(u => list.appendChild(buildAdminCard(u)));
     } catch(e) {
@@ -510,14 +578,13 @@ async function loadAdminUsers() {
 function buildAdminCard(u) {
     const card = document.createElement('div');
     card.className = 'admin-user-card';
-    card.dataset.uid = u.user_id;
     const badge  = u.donate ? donateBadge(u.donate, 'auc-badge') : '';
-    const verify = u.verified ? `<span class="profile-verify" style="width:14px;height:14px;margin-left:4px"><svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5.2L4 7.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>` : '';
+    const bgs    = badgesHTML(u.verified, u.dev);
     const blTag  = u.blacklisted ? '<span class="auc-bl">БЛОК</span>' : '';
     card.innerHTML = `
         <div class="auc-top">
             ${badge}
-            <span class="auc-nick">${u.nick || '—'}</span>${verify}
+            <span class="auc-nick">${u.nick || '—'}</span>${bgs}
             ${blTag}
         </div>
         <div class="auc-uid">ID: ${u.user_id}</div>
@@ -528,6 +595,9 @@ function buildAdminCard(u) {
             ${u.verified
                 ? `<div class="auc-btn ver" data-action="unverify" data-uid="${u.user_id}">✗ Снять галочку</div>`
                 : `<div class="auc-btn ver" data-action="verify" data-uid="${u.user_id}">✓ Верифицировать</div>`}
+            ${u.dev
+                ? `<div class="auc-btn dev-off" data-action="undev" data-uid="${u.user_id}">✗ Снять Dev</div>`
+                : `<div class="auc-btn dev-on" data-action="dev" data-uid="${u.user_id}">🔧 Dev</div>`}
             <div class="auc-btn del" data-action="delete" data-uid="${u.user_id}">🗑 Удалить</div>
         </div>`;
     card.querySelectorAll('.auc-btn').forEach(btn => {
@@ -540,40 +610,72 @@ async function handleAdminAction(action, targetUid) {
     const headers = {'Content-Type':'application/json','ngrok-skip-browser-warning':'1'};
     try {
         if (action === 'bl-add') {
-            await fetch(`${API_BASE}/admin/blacklist`, {
-                method:'POST', cache:'no-store', headers,
-                body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid, action: 'add' })
-            });
+            await fetch(`${API_BASE}/admin/blacklist`, { method:'POST', cache:'no-store', headers, body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid, action: 'add' }) });
             showToast('🚫 Пользователь заблокирован');
         } else if (action === 'bl-rem') {
-            await fetch(`${API_BASE}/admin/blacklist`, {
-                method:'POST', cache:'no-store', headers,
-                body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid, action: 'remove' })
-            });
+            await fetch(`${API_BASE}/admin/blacklist`, { method:'POST', cache:'no-store', headers, body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid, action: 'remove' }) });
             showToast('✅ Блок снят');
         } else if (action === 'verify') {
-            await fetch(`${API_BASE}/admin/verify`, {
-                method:'POST', cache:'no-store', headers,
-                body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid, verified: true })
-            });
+            await fetch(`${API_BASE}/admin/verify`, { method:'POST', cache:'no-store', headers, body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid, verified: true }) });
             showToast('✅ Верифицирован');
         } else if (action === 'unverify') {
-            await fetch(`${API_BASE}/admin/verify`, {
-                method:'POST', cache:'no-store', headers,
-                body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid, verified: false })
-            });
+            await fetch(`${API_BASE}/admin/verify`, { method:'POST', cache:'no-store', headers, body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid, verified: false }) });
             showToast('✗ Галочка снята');
+        } else if (action === 'dev') {
+            await fetch(`${API_BASE}/admin/dev`, { method:'POST', cache:'no-store', headers, body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid, dev: true }) });
+            showToast('🔧 Dev выдан');
+        } else if (action === 'undev') {
+            await fetch(`${API_BASE}/admin/dev`, { method:'POST', cache:'no-store', headers, body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid, dev: false }) });
+            showToast('✗ Dev снят');
         } else if (action === 'delete') {
-            await fetch(`${API_BASE}/admin/delete`, {
-                method:'POST', cache:'no-store', headers,
-                body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid })
-            });
+            await fetch(`${API_BASE}/admin/delete`, { method:'POST', cache:'no-store', headers, body: JSON.stringify({ admin_id: TG_USER_ID, user_id: targetUid }) });
             showToast('🗑 Профиль удалён');
         }
         setTimeout(loadAdminUsers, 600);
+    } catch(e) { showToast('Ошибка соединения'); }
+}
+
+async function loadTopList(kind) {
+    currentTopTab = kind;
+    document.getElementById('ttab-coins').classList.toggle('active', kind==='coins');
+    document.getElementById('ttab-stars').classList.toggle('active', kind==='stars');
+    document.getElementById('ttab-coins').className = `ttab${kind==='coins' ? ' active coins' : ''}`;
+    document.getElementById('ttab-stars').className = `ttab${kind==='stars' ? ' active stars' : ''}`;
+    const list = document.getElementById('top-list');
+    list.innerHTML = `<div class="placeholder"><div class="ph-text">Загрузка...</div></div>`;
+    try {
+        const res  = await fetch(`${API_BASE}/leaderboard?kind=${kind}`, { cache:'no-store', headers:{'ngrok-skip-browser-warning':'1'} });
+        const data = await res.json();
+        if (!data.leaderboard || !data.leaderboard.length) {
+            list.innerHTML = `<div class="placeholder"><div class="ph-text">Никто ещё не задонатил</div></div>`;
+            return;
+        }
+        list.innerHTML = '';
+        data.leaderboard.forEach((row, idx) => {
+            const rankCls = idx===0 ? 'r1' : idx===1 ? 'r2' : idx===2 ? 'r3' : '';
+            const badge   = row.donate ? donateBadge(row.donate, 'auc-badge') : '';
+            const bgs     = badgesHTML(row.verified, row.dev);
+            const amountCls = kind==='stars' ? 'stars' : '';
+            const icon    = kind==='stars' ? '⭐' : '💰';
+            const el = document.createElement('div');
+            el.className = 'top-row';
+            el.innerHTML = `
+                <div class="top-rank ${rankCls}">${idx+1}</div>
+                <div class="top-nick-wrap">
+                    ${badge}
+                    <span class="top-nick">${row.nick}</span>
+                    ${bgs}
+                </div>
+                <div class="top-amount ${amountCls}">${icon} ${row.amount.toLocaleString('ru')}</div>`;
+            list.appendChild(el);
+        });
     } catch(e) {
-        showToast('Ошибка соединения');
+        list.innerHTML = `<div class="placeholder"><div class="ph-text">Ошибка загрузки</div></div>`;
     }
+}
+
+function switchTopTab(kind) {
+    loadTopList(kind);
 }
 
 function mkImg(src, icon, imgCls, fbCls) {
@@ -596,7 +698,7 @@ function fmtTime(sec) {
 }
 function getTL(ra) {
     if (ra === null || ra === undefined) return -1;
-    return Math.max(0, Math.floor(ra - Date.now() / 1000));
+    return Math.max(0, Math.floor(ra - Date.now()/1000));
 }
 function setSyncState(state, label) {
     document.getElementById('sync-dot').className = 'sync-dot ' + state;
@@ -653,7 +755,7 @@ function saveNotifLocal() { try { localStorage.setItem(NOTIF_KEY, JSON.stringify
 async function pushToggleToBot(bossId, enabled) {
     if (!TG_USER_ID) return;
     try {
-        await fetch(API_BASE + '/toggle', {
+        await fetch(API_BASE+'/toggle', {
             method:'POST', cache:'no-store',
             headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},
             body: JSON.stringify({ user_id: TG_USER_ID, boss_id: bossId, enabled })
@@ -664,9 +766,11 @@ async function pushToggleToBot(bossId, enabled) {
 let notifications = loadNotifLocal();
 let respawnData   = [];
 let alreadyReady  = new Set();
+let soundedAt1min = new Set();
 let tickInterval  = null;
 
 function updateNextBoss() {
+    if (isBlacklisted) { document.getElementById('next-boss').style.display='none'; return; }
     const nb = document.getElementById('next-boss');
     let best = null, bestTime = Infinity;
     respawnData.forEach(d => {
@@ -674,9 +778,9 @@ function updateNextBoss() {
         if (tl === 0 && bestTime > 0)     { best = d; bestTime = 0; }
         else if (tl > 0 && tl < bestTime) { best = d; bestTime = tl; }
     });
-    if (!best) { nb.style.display = 'none'; return; }
-    const boss = BOSSES.find(b => b.id === best.id);
-    nb.style.display = 'flex';
+    if (!best) { nb.style.display='none'; return; }
+    const boss = BOSSES.find(b => b.id===best.id);
+    nb.style.display='flex';
     const wrap = document.getElementById('nb-img-wrap');
     wrap.innerHTML = '';
     if (boss) wrap.appendChild(mkImg(boss.img, boss.icon, 'nb-img', 'nb-img-fb'));
@@ -694,13 +798,25 @@ function updateNextBoss() {
 }
 
 function renderBosses() {
+    if (isBlacklisted) {
+        document.getElementById('boss-list').innerHTML = `
+            <div class="placeholder">
+                <div class="ph-icon">[ 🚫 ]</div>
+                <div class="ph-text" style="color:#ff4d6d">Вы в чёрном списке</div>
+                <div class="ph-sub">Доступ к таймерам закрыт</div>
+            </div>`;
+        document.getElementById('cnt-ready').textContent  = '—';
+        document.getElementById('cnt-active').textContent = '—';
+        document.getElementById('cnt-notif').textContent  = '—';
+        return;
+    }
     const list = document.getElementById('boss-list');
     list.innerHTML = '';
     let cntReady = 0, cntActive = 0, cntNotif = 0;
     BOSSES.forEach(boss => {
-        const d  = respawnData.find(b => b.id === boss.id) || { id: boss.id, respawn_at: null };
+        const d  = respawnData.find(b => b.id===boss.id) || { id: boss.id, respawn_at: null };
         const tl = getTL(d.respawn_at);
-        const isReady = tl === 0, isActive = tl > 0;
+        const isReady = tl===0, isActive = tl>0;
         if (isReady)  cntReady++;
         if (isActive) cntActive++;
         if (notifications[boss.id]) cntNotif++;
@@ -733,8 +849,7 @@ function renderBosses() {
             el.classList.toggle('on', notifications[id]);
             saveNotifLocal();
             pushToggleToBot(id, notifications[id]);
-            document.getElementById('cnt-notif').textContent =
-                Object.values(notifications).filter(Boolean).length;
+            document.getElementById('cnt-notif').textContent = Object.values(notifications).filter(Boolean).length;
             showToast(notifications[id] ? `🔔 Уведомления босса #${id} включены` : `🔕 Уведомления босса #${id} выключены`);
             tg?.HapticFeedback?.impactOccurred('light');
         });
@@ -743,21 +858,16 @@ function renderBosses() {
 }
 
 function tick() {
-    if (!respawnData.length) return;
+    if (!respawnData.length || isBlacklisted) return;
     let cntReady = 0, cntActive = 0;
     document.querySelectorAll('.boss-card').forEach(card => {
         const id = parseInt(card.dataset.bossId);
-        const d  = respawnData.find(b => b.id === id);
+        const d  = respawnData.find(b => b.id===id);
         if (!d) return;
         const tl = getTL(d.respawn_at);
         if (tl === 0) {
-            if (!alreadyReady.has(id)) {
-                alreadyReady.add(id);
-                if (soundEnabled && notifications[id]) {
-                    try { getACtx().resume().then(playBossReady); } catch(e) {}
-                }
-                tg?.HapticFeedback?.notificationOccurred('success');
-            }
+            alreadyReady.add(id);
+            soundedAt1min.delete(id);
             if (!card.classList.contains('state-ready')) {
                 card.classList.remove('state-active','state-unknown');
                 card.classList.add('state-ready');
@@ -767,6 +877,16 @@ function tick() {
             cntReady++;
         } else if (tl > 0) {
             alreadyReady.delete(id);
+            if (tl <= 60 && !soundedAt1min.has(id)) {
+                soundedAt1min.add(id);
+                if (soundEnabled && notifications[id]) {
+                    try { getACtx().resume().then(playBossReady); } catch(e) {}
+                }
+                tg?.HapticFeedback?.notificationOccurred('success');
+            }
+            if (tl > 60) {
+                soundedAt1min.delete(id);
+            }
             if (!card.classList.contains('state-active')) {
                 card.classList.remove('state-ready','state-unknown');
                 card.classList.add('state-active');
@@ -776,6 +896,7 @@ function tick() {
             cntActive++;
         } else {
             alreadyReady.delete(id);
+            soundedAt1min.delete(id);
         }
     });
     document.getElementById('cnt-ready').textContent  = cntReady;
@@ -796,12 +917,18 @@ async function loadData(silent) {
         );
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
+        if (data.blacklisted) {
+            isBlacklisted = true;
+            renderProfileBar('blacklisted');
+            renderBosses();
+            setSyncState('error', 'Заблокирован');
+            return;
+        }
         if (!data.bosses) throw new Error('Нет данных');
+        isBlacklisted = false;
         respawnData = data.bosses;
         if (data.notifications && Object.keys(data.notifications).length > 0) {
-            Object.entries(data.notifications).forEach(([id, val]) => {
-                notifications[parseInt(id)] = val;
-            });
+            Object.entries(data.notifications).forEach(([id, val]) => { notifications[parseInt(id)] = val; });
             saveNotifLocal();
         }
         renderBosses();
