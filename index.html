@@ -155,7 +155,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .profiles-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
 .profiles-info-btn{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--border2);border:1px solid var(--border2);font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);cursor:pointer;transition:all 0.15s;flex-shrink:0;position:relative;}
 .profiles-info-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
-.profiles-info-btn .badge-tooltip{display:none;position:fixed;background:var(--panel);border:1px solid var(--border2);border-radius:5px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--white);padding:8px 12px;pointer-events:none;z-index:9999;box-shadow:0 4px 18px rgba(0,0,0,0.75);width:230px;white-space:normal;line-height:1.6;text-align:left;}
+.profiles-info-btn .badge-tooltip{display:none;position:fixed;background:#1a1d26;border:1px solid #3a4255;border-radius:7px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:500;color:#cdd4e0;padding:10px 13px;pointer-events:none;z-index:9999;box-shadow:0 6px 24px rgba(0,0,0,0.8);width:240px;white-space:normal;line-height:1.55;text-align:left;letter-spacing:0.2px;}
 .profiles-info-btn:hover .badge-tooltip{display:block;}
 .profiles-entry{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
 .pe-scoins{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#a78bfa;flex-shrink:0;display:flex;align-items:center;gap:3px;}
@@ -184,6 +184,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .auc-btn.badge-rm:hover{color:var(--text);}
 .auc-btn.del{color:#ff4d6d;border-color:#ff4d6d;background:rgba(255,77,109,0.06);}
 .auc-btn.del:hover{background:rgba(255,77,109,0.14);}
+.auc-btn.ideaunbl{color:#a78bfa;border-color:#a78bfa;background:rgba(167,139,250,0.06);}
+.auc-btn.ideaunbl:hover{background:rgba(167,139,250,0.14);}
+.auc-btn.idea-cd-rm{color:#29b6f6;border-color:#29b6f6;background:rgba(41,182,246,0.06);}
+.auc-btn.idea-cd-rm:hover{background:rgba(41,182,246,0.14);}
 .top-title{font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--white);letter-spacing:2px;}
 .top-title em{color:var(--warn);font-style:normal;}
 .top-entry{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
@@ -222,8 +226,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .aic-btn.rm:hover{color:var(--text);}
 .aic-btn.ideabl{color:#ff4d6d;border-color:#ff4d6d;background:rgba(255,77,109,0.06);}
 .aic-btn.ideabl:hover{background:rgba(255,77,109,0.14);}
-.auc-btn.ideaunbl{color:#a78bfa;border-color:#a78bfa;background:rgba(167,139,250,0.06);}
-.auc-btn.ideaunbl:hover{background:rgba(167,139,250,0.14);}
+.auc-btn.idea-cd-rm{color:#29b6f6;border-color:#29b6f6;background:rgba(41,182,246,0.06);}
+.auc-btn.idea-cd-rm:hover{background:rgba(41,182,246,0.14);}
 .idea-filter-row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
 .idea-filter-btn{font-family:'Share Tech Mono',monospace;font-size:9px;padding:4px 10px;border-radius:3px;cursor:pointer;border:1px solid var(--border2);color:var(--muted);background:transparent;transition:all 0.15s;}
 .idea-filter-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(74,158,255,0.07);}
@@ -669,6 +673,7 @@ const data=await res.json();
 const ideaBanned=data.idea_banned||false;
 const lastIdea=data.last_idea||null;
 const ideaStatus=data.idea_status||null;
+const allIdeas=data.all_ideas||[];
 if(ideaBanned){
 wrap.innerHTML=`<div class="placeholder"><div class="ph-icon">[ X ]</div><div class="ph-text" style="color:#ff4d6d">Вы лишены права писать идеи</div></div>`;
 return;
@@ -681,13 +686,29 @@ else if(ideaStatus==='rejected')statusHtml=`<div class="idea-status rejected">В
 else if(ideaStatus==='deleted')statusHtml=`<div class="idea-status deleted">Ваша идея была удалена</div>`;
 else if(lastIdea)statusHtml=`<div class="idea-status pending">Идея отправлена — ожидает рассмотрения</div>`;
 const now=Date.now();
-const cdUntil=parseInt(localStorage.getItem(IDEA_CD_KEY)||'0');
+const serverCd=data.cd_until?data.cd_until*1000:0;
+const localCd=parseInt(localStorage.getItem(IDEA_CD_KEY)||'0');
+const cdUntil=Math.max(serverCd,localCd);
 const cdLeft=Math.max(0,Math.floor((cdUntil-now)/1000));
 const disabled=cdLeft>0?'disabled':'';
-inputBox.innerHTML=`${statusHtml}<textarea class="idea-textarea" id="idea-text" placeholder="Напиши свою идею..." maxlength="500"></textarea><button class="idea-send-btn" id="idea-send-btn" ${disabled}>Отправить идею</button>${cdLeft>0?`<div class="idea-cd" id="idea-cd">Следующая идея через ${fmtCD(cdLeft)}</div>`:''}`;
+inputBox.innerHTML=`${statusHtml}<textarea class="idea-textarea" id="idea-text" placeholder="Напиши свою идею для улучшения бота..." maxlength="500"></textarea><button class="idea-send-btn" id="idea-send-btn" ${disabled}>Отправить идею</button>${cdLeft>0?`<div class="idea-cd" id="idea-cd">Ты не сможешь отправить идею ещё ${fmtCD(cdLeft)}</div>`:''}`;
 wrap.appendChild(inputBox);
 if(cdLeft>0)startIdeaCDTimer(cdUntil);
 document.getElementById('idea-send-btn').addEventListener('click',sendIdea);
+const resolved=allIdeas.filter(i=>i.status==='accepted'||i.status==='rejected');
+if(resolved.length){
+const sec=document.createElement('div');
+sec.style.cssText='margin-top:16px';
+sec.innerHTML=`<div class="section-head" style="margin-bottom:10px"><div class="section-line"></div><div class="section-text">Мои идеи</div><div class="section-line"></div></div>`;
+resolved.sort((a,b)=>b.ts-a.ts).forEach(idea=>{
+const el=document.createElement('div');
+const isAcc=idea.status==='accepted';
+el.style.cssText=`background:var(--surface);border:1px solid ${isAcc?'rgba(46,204,113,0.3)':'rgba(255,77,109,0.25)'};border-radius:8px;padding:10px 14px;margin-bottom:6px;`;
+el.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);margin-bottom:5px;display:flex;align-items:center;justify-content:space-between"><span>${new Date(idea.ts*1000).toLocaleString('ru')}</span><span style="color:${isAcc?'var(--ready)':'#ff4d6d'}">${isAcc?'ПРИНЯТА':'ОТКЛОНЕНА'}</span></div><div style="font-family:'Rajdhani',sans-serif;font-size:13px;color:var(--text);line-height:1.5">${idea.text}</div>`;
+sec.appendChild(el);
+});
+wrap.appendChild(sec);
+}
 }catch(e){wrap.innerHTML=`<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;}
 }
 
@@ -701,7 +722,7 @@ const left=Math.max(0,Math.floor((until-Date.now())/1000));
 const cdEl=document.getElementById('idea-cd');
 const btn=document.getElementById('idea-send-btn');
 if(left<=0){clearInterval(cdTimerRef);if(cdEl)cdEl.textContent='';if(btn)btn.disabled=false;return;}
-if(cdEl)cdEl.textContent=`Следующая идея через ${fmtCD(left)}`;
+if(cdEl)cdEl.textContent=`Ты не сможешь отправить идею ещё ${fmtCD(left)}`;
 if(btn)btn.disabled=true;
 },1000);
 }
@@ -830,6 +851,7 @@ const badges=badgesHtml(u.verified,u.badge||'',true);
 const blTag=u.blacklisted?'<span class="auc-bl">БЛОК</span>':'';
 const hasBadge=u.badge==='green';
 const ideaBannedBtn=u.idea_banned?`<div class="auc-btn ideaunbl" data-action="idea-unban" data-uid="${u.user_id}">Разблок.идеи</div>`:'';
+const ideaCdBtn=u.idea_cd_left>0?`<div class="auc-btn idea-cd-rm" data-action="idea-cd-reset" data-uid="${u.user_id}">Снять КД идей</div>`:'';
 card.innerHTML=`
 <div class="auc-top">${badge}<span class="auc-nick">${u.nick||'—'}</span>${badges}${blTag}</div>
 <div class="auc-uid">ID: ${u.user_id}</div>
@@ -837,7 +859,7 @@ card.innerHTML=`
 ${u.blacklisted?`<div class="auc-btn bl-rem" data-action="bl-rem" data-uid="${u.user_id}">Снять блок</div>`:`<div class="auc-btn bl-add" data-action="bl-add" data-uid="${u.user_id}">Заблокировать</div>`}
 ${u.verified?`<div class="auc-btn ver" data-action="unverify" data-uid="${u.user_id}">Снять галочку</div>`:`<div class="auc-btn ver" data-action="verify" data-uid="${u.user_id}">Верифицировать</div>`}
 ${hasBadge?`<div class="auc-btn badge-rm" data-action="badge-rm" data-uid="${u.user_id}">Снять Dev</div>`:`<div class="auc-btn badge-g" data-action="badge-green" data-uid="${u.user_id}">&lt;/&gt; Dev</div>`}
-${ideaBannedBtn}
+${ideaBannedBtn}${ideaCdBtn}
 <div class="auc-btn del" data-action="delete" data-uid="${u.user_id}">Удалить</div>
 </div>`;
 card.querySelectorAll('.auc-btn').forEach(btn=>{
@@ -857,6 +879,7 @@ else if(action==='unverify'){await post('/admin/verify',{admin_id:TG_USER_ID,use
 else if(action==='badge-green'){await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:'green'});showToast('Dev выдан');}
 else if(action==='badge-rm'){await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:''});showToast('Dev снят');}
 else if(action==='idea-unban'){await post('/admin/idea-unban',{admin_id:TG_USER_ID,user_id:targetUid});showToast('Идеи разблокированы');}
+else if(action==='idea-cd-reset'){await post('/admin/idea-cd-reset',{admin_id:TG_USER_ID,user_id:targetUid});showToast('КД идей снято');}
 else if(action==='delete'){await post('/admin/delete',{admin_id:TG_USER_ID,user_id:targetUid});showToast('Профиль удалён');}
 setTimeout(loadAdminUsers,600);
 }catch(e){showToast('Ошибка соединения');}
