@@ -155,7 +155,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .profiles-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
 .profiles-info-btn{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--border2);border:1px solid var(--border2);font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);cursor:pointer;transition:all 0.15s;flex-shrink:0;position:relative;}
 .profiles-info-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
-.profiles-info-btn .badge-tooltip{display:none;position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--border2);border-radius:5px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--white);white-space:nowrap;padding:6px 10px;pointer-events:none;z-index:500;box-shadow:0 4px 14px rgba(0,0,0,0.6);width:220px;white-space:normal;line-height:1.5;text-align:left;}
+.profiles-info-btn .badge-tooltip{display:none;position:fixed;background:var(--panel);border:1px solid var(--border2);border-radius:5px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--white);padding:8px 12px;pointer-events:none;z-index:9999;box-shadow:0 4px 18px rgba(0,0,0,0.75);width:230px;white-space:normal;line-height:1.6;text-align:left;}
 .profiles-info-btn:hover .badge-tooltip{display:block;}
 .profiles-entry{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
 .pe-scoins{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#a78bfa;flex-shrink:0;display:flex;align-items:center;gap:3px;}
@@ -222,6 +222,15 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .aic-btn.rm:hover{color:var(--text);}
 .aic-btn.ideabl{color:#ff4d6d;border-color:#ff4d6d;background:rgba(255,77,109,0.06);}
 .aic-btn.ideabl:hover{background:rgba(255,77,109,0.14);}
+.auc-btn.ideaunbl{color:#a78bfa;border-color:#a78bfa;background:rgba(167,139,250,0.06);}
+.auc-btn.ideaunbl:hover{background:rgba(167,139,250,0.14);}
+.idea-filter-row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.idea-filter-btn{font-family:'Share Tech Mono',monospace;font-size:9px;padding:4px 10px;border-radius:3px;cursor:pointer;border:1px solid var(--border2);color:var(--muted);background:transparent;transition:all 0.15s;}
+.idea-filter-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(74,158,255,0.07);}
+.aic-status-tag{font-family:'Share Tech Mono',monospace;font-size:8px;padding:1px 6px;border-radius:2px;margin-left:auto;flex-shrink:0;}
+.aic-status-tag.st-pending{color:var(--warn);border:1px solid rgba(243,156,18,0.5);}
+.aic-status-tag.st-accepted{color:var(--ready);border:1px solid rgba(46,204,113,0.5);}
+.aic-status-tag.st-rejected{color:#ff9800;border:1px solid rgba(255,152,0,0.5);}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--border2);border-radius:8px;padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px;transition:transform 0.3s ease;z-index:999;white-space:nowrap;pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
 </style>
@@ -744,6 +753,9 @@ data.users.forEach(u=>list.appendChild(buildAdminCard(u)));
 }catch(e){list.innerHTML=`<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;}
 }
 
+let adminIdeasFilter='all';
+let adminIdeasCache=[];
+
 async function loadAdminIdeas(){
 const list=document.getElementById('admin-ideas-list');
 list.innerHTML=`<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка...</div></div>`;
@@ -751,25 +763,46 @@ try{
 const res=await fetch(`${API_BASE}/admin/ideas?uid=${TG_USER_ID}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
 if(!res.ok){list.innerHTML=`<div class="placeholder"><div class="ph-text">Нет доступа</div></div>`;return;}
 const data=await res.json();
-if(!data.ideas||!data.ideas.length){list.innerHTML=`<div class="placeholder"><div class="ph-text">Идей нет</div></div>`;return;}
-list.innerHTML='';
-data.ideas.forEach(idea=>list.appendChild(buildAdminIdeaCard(idea)));
-}catch(e){list.innerHTML=`<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;}
+adminIdeasCache=data.ideas||[];
+renderAdminIdeas();
+}catch(e){document.getElementById('admin-ideas-list').innerHTML=`<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;}
+}
+
+function renderAdminIdeas(){
+const list=document.getElementById('admin-ideas-list');
+const filtered=adminIdeasFilter==='all'?adminIdeasCache:adminIdeasCache.filter(i=>i.status===adminIdeasFilter);
+const filterBar=`<div class="idea-filter-row">
+<div class="idea-filter-btn ${adminIdeasFilter==='all'?'active':''}" data-f="all">Все</div>
+<div class="idea-filter-btn ${adminIdeasFilter==='pending'?'active':''}" data-f="pending">Ожидают</div>
+<div class="idea-filter-btn ${adminIdeasFilter==='accepted'?'active':''}" data-f="accepted">Принятые</div>
+<div class="idea-filter-btn ${adminIdeasFilter==='rejected'?'active':''}" data-f="rejected">Отклонённые</div>
+</div>`;
+list.innerHTML=filterBar;
+list.querySelectorAll('.idea-filter-btn').forEach(b=>{
+b.addEventListener('click',()=>{adminIdeasFilter=b.dataset.f;renderAdminIdeas();});
+});
+if(!filtered.length){list.insertAdjacentHTML('beforeend',`<div class="placeholder"><div class="ph-text">Идей нет</div></div>`);return;}
+filtered.forEach(idea=>list.appendChild(buildAdminIdeaCard(idea)));
 }
 
 function buildAdminIdeaCard(idea){
 const card=document.createElement('div');
 card.className='admin-idea-card';
-card.innerHTML=`
-<div class="aic-meta">ID: ${idea.id} &bull; ${new Date(idea.ts*1000).toLocaleString('ru')}</div>
-<div class="aic-nick">${idea.nick||'—'}</div>
-<div class="aic-text">${idea.text}</div>
-<div class="aic-actions">
+const isPending=idea.status==='pending';
+const statusTag=idea.status==='accepted'?`<span class="aic-status-tag st-accepted">принята</span>`:
+idea.status==='rejected'?`<span class="aic-status-tag st-rejected">отклонена</span>`:
+`<span class="aic-status-tag st-pending">ожидает</span>`;
+const actionBtns=isPending?`
 <div class="aic-btn accept" data-action="accept" data-id="${idea.id}">Принять</div>
 <div class="aic-btn reject" data-action="reject" data-id="${idea.id}">Отклонить</div>
 <div class="aic-btn rm" data-action="delete" data-id="${idea.id}">Удалить</div>
 <div class="aic-btn ideabl" data-action="ban" data-id="${idea.id}">Заблокировать</div>
-</div>`;
+`:`<div class="aic-btn rm" data-action="delete" data-id="${idea.id}">Удалить</div>`;
+card.innerHTML=`
+<div class="aic-meta" style="display:flex;align-items:center">ID: ${idea.id} &bull; ${new Date(idea.ts*1000).toLocaleString('ru')} ${statusTag}</div>
+<div class="aic-nick">${idea.nick||'—'}</div>
+<div class="aic-text">${idea.text}</div>
+<div class="aic-actions">${actionBtns}</div>`;
 card.querySelectorAll('.aic-btn').forEach(btn=>{
 btn.addEventListener('click',()=>handleIdeaAction(btn.dataset.action,btn.dataset.id));
 });
@@ -796,6 +829,7 @@ const badge=u.donate?donateBadge(u.donate,'auc-badge'):'';
 const badges=badgesHtml(u.verified,u.badge||'',true);
 const blTag=u.blacklisted?'<span class="auc-bl">БЛОК</span>':'';
 const hasBadge=u.badge==='green';
+const ideaBannedBtn=u.idea_banned?`<div class="auc-btn ideaunbl" data-action="idea-unban" data-uid="${u.user_id}">Разблок.идеи</div>`:'';
 card.innerHTML=`
 <div class="auc-top">${badge}<span class="auc-nick">${u.nick||'—'}</span>${badges}${blTag}</div>
 <div class="auc-uid">ID: ${u.user_id}</div>
@@ -803,6 +837,7 @@ card.innerHTML=`
 ${u.blacklisted?`<div class="auc-btn bl-rem" data-action="bl-rem" data-uid="${u.user_id}">Снять блок</div>`:`<div class="auc-btn bl-add" data-action="bl-add" data-uid="${u.user_id}">Заблокировать</div>`}
 ${u.verified?`<div class="auc-btn ver" data-action="unverify" data-uid="${u.user_id}">Снять галочку</div>`:`<div class="auc-btn ver" data-action="verify" data-uid="${u.user_id}">Верифицировать</div>`}
 ${hasBadge?`<div class="auc-btn badge-rm" data-action="badge-rm" data-uid="${u.user_id}">Снять Dev</div>`:`<div class="auc-btn badge-g" data-action="badge-green" data-uid="${u.user_id}">&lt;/&gt; Dev</div>`}
+${ideaBannedBtn}
 <div class="auc-btn del" data-action="delete" data-uid="${u.user_id}">Удалить</div>
 </div>`;
 card.querySelectorAll('.auc-btn').forEach(btn=>{
@@ -821,6 +856,7 @@ else if(action==='verify'){await post('/admin/verify',{admin_id:TG_USER_ID,user_
 else if(action==='unverify'){await post('/admin/verify',{admin_id:TG_USER_ID,user_id:targetUid,verified:false});showToast('Галочка снята');}
 else if(action==='badge-green'){await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:'green'});showToast('Dev выдан');}
 else if(action==='badge-rm'){await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:''});showToast('Dev снят');}
+else if(action==='idea-unban'){await post('/admin/idea-unban',{admin_id:TG_USER_ID,user_id:targetUid});showToast('Идеи разблокированы');}
 else if(action==='delete'){await post('/admin/delete',{admin_id:TG_USER_ID,user_id:targetUid});showToast('Профиль удалён');}
 setTimeout(loadAdminUsers,600);
 }catch(e){showToast('Ошибка соединения');}
@@ -972,6 +1008,25 @@ if(!respawnData.length){document.getElementById('boss-list').innerHTML=`<div cla
 document.getElementById('refresh-btn').addEventListener('click',()=>loadData(false));
 document.addEventListener('click',()=>{try{getACtx().resume();}catch(e){}},{once:true});
 if(TG_USER_ID===ADMIN_ID)document.getElementById('admin-link').style.display='block';
+
+(function(){
+const btn=document.querySelector('.profiles-info-btn');
+const tip=btn?.querySelector('.badge-tooltip');
+if(!btn||!tip)return;
+btn.addEventListener('mouseenter',e=>{
+tip.style.display='block';
+const bRect=btn.getBoundingClientRect();
+const tW=tip.offsetWidth||230,tH=tip.offsetHeight||60;
+let left=bRect.left+bRect.width/2-tW/2;
+let top=bRect.top-tH-8;
+if(left<8)left=8;
+if(left+tW>window.innerWidth-8)left=window.innerWidth-tW-8;
+if(top<8)top=bRect.bottom+8;
+tip.style.left=left+'px';
+tip.style.top=top+'px';
+});
+btn.addEventListener('mouseleave',()=>{tip.style.display='none';});
+})();
 loadProfile();
 loadData(false);
 setInterval(()=>loadData(true),5000);
