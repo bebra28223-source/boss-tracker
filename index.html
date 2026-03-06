@@ -33,12 +33,26 @@
         .profile-avatar img{width:32px;height:32px;border-radius:50%;object-fit:cover;display:block;}
         .profile-name{font-size:13px;font-weight:600;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
         .profile-badge{font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;font-weight:700;flex-shrink:0;}
-        .profile-verify{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#4a9eff;margin-left:4px;flex-shrink:0;vertical-align:middle;box-shadow:0 0 6px rgba(74,158,255,0.5);}
+
+        .badge-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-left:4px;vertical-align:middle;flex-shrink:0;}
+        .badge-wrap .badge-tooltip{
+            display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
+            background:var(--panel);border:1px solid var(--border2);border-radius:5px;
+            font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--white);
+            white-space:nowrap;padding:4px 8px;pointer-events:none;z-index:400;
+            box-shadow:0 2px 10px rgba(0,0,0,0.5);
+        }
+        .badge-wrap:hover .badge-tooltip{display:block;}
+
+        .profile-verify{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#4a9eff;box-shadow:0 0 6px rgba(74,158,255,0.5);}
         .profile-verify svg{width:9px;height:9px;}
-        .badge-dev{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;margin-left:4px;flex-shrink:0;vertical-align:middle;}
-        .badge-dev.dev-green{background:#23a55a;box-shadow:0 0 6px rgba(35,165,90,0.6);}
-        .badge-dev.dev-orange{background:#f0722a;box-shadow:0 0 6px rgba(240,114,42,0.6);}
-        .badge-dev svg{width:9px;height:9px;}
+        .badge-dev-icon{
+            display:inline-flex;align-items:center;justify-content:center;
+            width:16px;height:16px;border-radius:5px;
+            background:#23a55a;box-shadow:0 0 6px rgba(35,165,90,0.6);
+        }
+        .badge-dev-icon svg{width:10px;height:10px;}
+
         .create-profile-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);border:1px solid var(--accent);padding:4px 10px;border-radius:3px;background:rgba(74,158,255,0.06);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s;}
         .create-profile-btn:hover{background:rgba(74,158,255,0.14);}
         .view-profiles-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);border:1px solid var(--border2);padding:4px 10px;border-radius:3px;background:transparent;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s;}
@@ -172,7 +186,7 @@
         .donate-note{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.5;margin-top:6px;}
 
         .profiles-entry{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
-        .pe-scoins{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#a78bfa;flex-shrink:0;}
+        .pe-scoins{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#a78bfa;flex-shrink:0;display:flex;align-items:center;gap:3px;}
 
         .admin-page-header{padding:22px 0 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);margin-bottom:20px;}
         .page-back{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);cursor:pointer;border:1px solid var(--border2);padding:4px 10px;border-radius:2px;background:transparent;flex-shrink:0;}
@@ -195,8 +209,6 @@
         .auc-btn.ver:hover{background:rgba(74,158,255,0.14);}
         .auc-btn.badge-g{color:#23a55a;border-color:#23a55a;background:rgba(35,165,90,0.06);}
         .auc-btn.badge-g:hover{background:rgba(35,165,90,0.14);}
-        .auc-btn.badge-o{color:#f0722a;border-color:#f0722a;background:rgba(240,114,42,0.06);}
-        .auc-btn.badge-o:hover{background:rgba(240,114,42,0.14);}
         .auc-btn.badge-rm{color:var(--muted);border-color:var(--muted);background:transparent;}
         .auc-btn.badge-rm:hover{color:var(--text);}
         .auc-btn.del{color:#ff4d6d;border-color:#ff4d6d;background:rgba(255,77,109,0.06);}
@@ -204,10 +216,6 @@
 
         .top-title{font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--white);letter-spacing:2px;}
         .top-title em{color:var(--warn);font-style:normal;}
-        .top-tabs{display:flex;gap:8px;margin-bottom:16px;}
-        .top-tab{flex:1;padding:9px;border:1px solid var(--border2);border-radius:6px;background:var(--surface);font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);text-align:center;cursor:pointer;transition:all 0.15s;}
-        .top-tab.active-coins{border-color:var(--warn);color:var(--warn);background:rgba(243,156,18,0.08);}
-        .top-tab.active-scoins{border-color:#a78bfa;color:#a78bfa;background:rgba(167,139,250,0.08);}
         .top-entry{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
         .top-rank{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--dim);width:24px;text-align:center;flex-shrink:0;}
         .top-rank.r1{color:#ffd700;}
@@ -215,9 +223,7 @@
         .top-rank.r3{color:#cd7f32;}
         .top-nick-wrap{flex:1;min-width:0;display:flex;align-items:center;gap:5px;overflow:hidden;}
         .top-nick{font-size:13px;font-weight:600;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-        .top-amount{font-family:'Orbitron',monospace;font-size:12px;font-weight:700;flex-shrink:0;}
-        .top-amount.coins-clr{color:var(--warn);}
-        .top-amount.scoins-clr{color:#a78bfa;}
+        .top-amount{font-family:'Orbitron',monospace;font-size:12px;font-weight:700;flex-shrink:0;color:var(--warn);}
 
         .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--border2);border-radius:8px;padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px;transition:transform 0.3s ease;z-index:999;white-space:nowrap;pointer-events:none;}
         .toast.show{transform:translateX(-50%) translateY(0);}
@@ -251,10 +257,10 @@
         <div class="modal-close" id="close-donate">✕</div>
         <div class="donate-desc">Поддержи работу трекера — попади в топ донатеров! Любой взнос помогает боту развиваться.</div>
         <div class="donate-step">1. Зайди в игру на сервере <span>PrisonEvo</span></div>
-        <div class="donate-step">2. Напиши команду в чат:</div>
+        <div class="donate-step">2. Переведи монеты боту в чате:</div>
         <div class="donate-cmd">/transfer PrisonEvoHelper [сумма]</div>
         <div class="donate-step">3. Бот автоматически зачислит монеты в топ</div>
-        <div class="donate-note">⚠️ Учитывается сумма после комиссии сервера. Ник должен совпадать с ником твоего профиля в боте.</div>
+        <div class="donate-note">⚠️ Ник перевода должен совпадать с ником твоего профиля в боте.</div>
     </div>
 </div>
 
@@ -287,10 +293,6 @@
             <div class="action-btn-icon">🏆</div>
             <div class="action-btn-label">Топ донатов</div>
         </div>
-        <div class="action-btn" id="btn-top-scoins">
-            <div class="action-btn-icon">💜</div>
-            <div class="action-btn-label">Топ S-монет</div>
-        </div>
         <div class="action-btn" id="btn-donate">
             <div class="action-btn-icon">🪙</div>
             <div class="action-btn-label">Поддержать</div>
@@ -320,8 +322,8 @@
                 <option value="fanfare">Фанфара (fanfare)</option>
             </select>
             <div class="sound-vol-wrap">
-                <span class="sound-vol-label" id="vol-label">70</span>
-                <input type="range" class="sound-vol-slider" id="vol-slider" min="1" max="100" value="70">
+                <span class="sound-vol-label" id="vol-label">67</span>
+                <input type="range" class="sound-vol-slider" id="vol-slider" min="1" max="100" value="67">
             </div>
         </div>
     </div>
@@ -367,11 +369,7 @@
 <div class="page" id="page-top">
     <div class="admin-page-header">
         <div class="page-back" id="top-back">← Назад</div>
-        <div class="top-title" id="top-page-title">ТОП<em>.</em>ДОНАТОВ</div>
-    </div>
-    <div class="top-tabs">
-        <div class="top-tab" id="ttab-coins" onclick="showTopTab('coins')">🪙 Монеты</div>
-        <div class="top-tab" id="ttab-scoins" onclick="showTopTab('scoins')">💜 S-монеты</div>
+        <div class="top-title">ТОП<em>.</em>ДОНАТОВ</div>
     </div>
     <div id="top-list">
         <div class="placeholder"><div class="ph-text">Загрузка...</div></div>
@@ -436,30 +434,32 @@ const tg = window.Telegram?.WebApp;
 if (tg) { tg.expand(); tg.setHeaderColor('#0c0d10'); tg.setBackgroundColor('#0c0d10'); }
 const TG_USER_ID = tg?.initDataUnsafe?.user?.id || 0;
 
-let userProfile    = null;
-let codeCountdown  = null;
-let isBlacklisted  = false;
-let currentTopMode = 'coins';
+let userProfile   = null;
+let codeCountdown = null;
+let isBlacklisted = false;
 
-let scoinSeconds = parseInt(localStorage.getItem('bt_scoins_sec') || '0');
-let scoinTimer   = null;
+let scoinSeconds      = parseInt(localStorage.getItem('bt_scoins_sec') || '0');
+let scoinSentMinutes  = parseInt(localStorage.getItem('bt_scoins_sent') || '0');
+let scoinInterval     = null;
 
 function startScoinTimer() {
-    if (scoinTimer) return;
-    scoinTimer = setInterval(() => {
+    if (scoinInterval) return;
+    scoinInterval = setInterval(() => {
         scoinSeconds++;
         localStorage.setItem('bt_scoins_sec', scoinSeconds);
-        if (scoinSeconds % 60 === 0) {
-            syncScoins();
+        const totalMinutes = Math.floor(scoinSeconds / 60);
+        if (totalMinutes > scoinSentMinutes) {
+            const toSend = totalMinutes - scoinSentMinutes;
+            scoinSentMinutes = totalMinutes;
+            localStorage.setItem('bt_scoins_sent', scoinSentMinutes);
+            syncScoins(toSend);
         }
     }, 1000);
 }
 startScoinTimer();
 
-async function syncScoins() {
-    if (!TG_USER_ID || isBlacklisted) return;
-    const minutes = Math.floor(scoinSeconds / 60);
-    if (minutes <= 0) return;
+async function syncScoins(minutes) {
+    if (!TG_USER_ID || isBlacklisted || minutes <= 0) return;
     try {
         await fetch(`${API_BASE}/scoins/add`, {
             method:'POST', cache:'no-store',
@@ -470,24 +470,32 @@ async function syncScoins() {
 }
 
 const CHECK_SVG = `<svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5.2L4 7.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-const TOOL_SVG  = `<svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.5 1.5L8.5 3.5L3.5 8.5L1 9L1.5 6.5L6.5 1.5Z" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const CODE_SVG  = `<svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 2.5L1.5 6L4.5 9.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 2.5L10.5 6L7.5 9.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const SCOIN_SVG = `<svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="6,1 7.8,4.2 11.5,4.8 8.9,7.4 9.5,11 6,9.2 2.5,11 3.1,7.4 0.5,4.8 4.2,4.2" fill="#a78bfa" opacity="0.9"/></svg>`;
 
 function verifyBadge(small) {
     const sz = small ? 'width:14px;height:14px;' : '';
-    return `<span class="profile-verify" style="${sz}">${CHECK_SVG}</span>`;
+    return `<span class="badge-wrap">
+        <span class="profile-verify" style="${sz}">${CHECK_SVG}</span>
+        <span class="badge-tooltip">Официальный пользователь</span>
+    </span>`;
 }
-function devBadge(type, small) {
+
+function devBadge(small) {
     const sz = small ? 'width:14px;height:14px;' : '';
-    const cls = type === 'orange' ? 'dev-orange' : 'dev-green';
-    return `<span class="badge-dev ${cls}" style="${sz}">${TOOL_SVG}</span>`;
+    return `<span class="badge-wrap">
+        <span class="badge-dev-icon" style="${sz}">${CODE_SVG}</span>
+        <span class="badge-tooltip">Разработчик</span>
+    </span>`;
 }
+
 function badgesHtml(verified, badge, small) {
     let out = '';
-    if (badge === 'green')  out += devBadge('green',  small);
-    if (badge === 'orange') out += devBadge('orange', small);
+    if (badge === 'green') out += devBadge(small);
     if (verified) out += verifyBadge(small);
     return out;
 }
+
 function donateBadge(donate, cls) {
     cls = cls || 'profile-badge';
     const s = DONATE_STYLES[donate] || {color:'#9e9e9e',bg:'rgba(158,158,158,0.1)'};
@@ -500,6 +508,11 @@ function donateBadge(donate, cls) {
     }
     return `<span class="${cls}" style="background:${s.bg};border:1px solid ${s.color}22">${inner}</span>`;
 }
+
+function scoinDisplay(amount) {
+    return `<span class="pe-scoins"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="6,1 7.8,4.2 11.5,4.8 8.9,7.4 9.5,11 6,9.2 2.5,11 3.1,7.4 0.5,4.8 4.2,4.2" fill="#a78bfa"/></svg>${(amount||0).toLocaleString('ru')}</span>`;
+}
+
 function getTgAvatar() {
     const photo = tg?.initDataUnsafe?.user?.photo_url;
     if (photo) return `<img src="${photo}" onerror="this.parentElement.textContent='👤'">`;
@@ -519,13 +532,12 @@ document.getElementById('close-info').addEventListener('click', () => closeModal
 document.getElementById('close-profile').addEventListener('click', () => { closeModal('modal-profile'); clearCodeCountdown(); });
 document.getElementById('close-donate').addEventListener('click', () => closeModal('modal-donate'));
 document.getElementById('close-profiles').addEventListener('click', () => closeModal('modal-profiles'));
-document.getElementById('modal-info').addEventListener('click', e => { if (e.target.id==='modal-info') closeModal('modal-info'); });
-document.getElementById('modal-profile').addEventListener('click', e => { if (e.target.id==='modal-profile') { closeModal('modal-profile'); clearCodeCountdown(); } });
-document.getElementById('modal-donate').addEventListener('click', e => { if (e.target.id==='modal-donate') closeModal('modal-donate'); });
-document.getElementById('modal-profiles').addEventListener('click', e => { if (e.target.id==='modal-profiles') closeModal('modal-profiles'); });
+document.getElementById('modal-info').addEventListener('click', e => { if(e.target.id==='modal-info') closeModal('modal-info'); });
+document.getElementById('modal-profile').addEventListener('click', e => { if(e.target.id==='modal-profile'){closeModal('modal-profile');clearCodeCountdown();} });
+document.getElementById('modal-donate').addEventListener('click', e => { if(e.target.id==='modal-donate') closeModal('modal-donate'); });
+document.getElementById('modal-profiles').addEventListener('click', e => { if(e.target.id==='modal-profiles') closeModal('modal-profiles'); });
 document.getElementById('btn-donate').addEventListener('click', () => openModal('modal-donate'));
-document.getElementById('btn-top-coins').addEventListener('click', () => { currentTopMode='coins'; showTopTab('coins'); showPage('page-top'); });
-document.getElementById('btn-top-scoins').addEventListener('click', () => { currentTopMode='scoins'; showTopTab('scoins'); showPage('page-top'); });
+document.getElementById('btn-top-coins').addEventListener('click', () => { loadTopCoins(); showPage('page-top'); });
 document.getElementById('top-back').addEventListener('click', () => showPage('page-main'));
 document.getElementById('admin-back').addEventListener('click', () => showPage('page-main'));
 document.getElementById('admin-link').addEventListener('click', () => { loadAdminUsers(); showPage('page-admin'); });
@@ -534,7 +546,7 @@ async function loadProfile() {
     if (!TG_USER_ID) { renderProfileBar(null); return; }
     try {
         const res = await fetch(`${API_BASE}/profile?uid=${TG_USER_ID}`, {cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
-        if (res.status === 403) { isBlacklisted = true; renderProfileBar('blacklisted'); return; }
+        if (res.status===403) { isBlacklisted=true; renderProfileBar('blacklisted'); return; }
         const data = await res.json();
         userProfile = Object.keys(data).length ? data : null;
         renderProfileBar(userProfile);
@@ -558,14 +570,14 @@ function renderProfileBar(profile) {
         return;
     }
     const badge  = profile.donate ? donateBadge(profile.donate) : '';
-    const badges = badgesHtml(profile.verified, profile.badge || '', false);
+    const badges = badgesHtml(profile.verified, profile.badge||'', false);
     const avatar = profile.avatar_url
         ? `<img src="${profile.avatar_url}" onerror="this.parentElement.textContent='👤'">`
         : getTgAvatar();
     bar.innerHTML = `
         <div class="profile-left">
             <div class="profile-avatar">${avatar}</div>
-            <div style="display:flex;align-items:center;gap:4px;min-width:0;overflow:hidden">${badge ? badge+'&nbsp;' : ''}<span class="profile-name">${profile.nick}</span>${badges}</div>
+            <div style="display:flex;align-items:center;gap:4px;min-width:0;overflow:hidden">${badge?badge+'&nbsp;':''}<span class="profile-name">${profile.nick}</span>${badges}</div>
         </div>
         <div class="view-profiles-btn" id="view-profiles-btn">Профили</div>`;
     document.getElementById('view-profiles-btn').addEventListener('click', openProfilesList);
@@ -593,7 +605,7 @@ async function openProfilesList() {
                 ${badge}
                 <span style="font-size:13px;font-weight:600;color:var(--white);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.nick}</span>
                 ${badges}
-                <span class="pe-scoins">💜 ${(p.scoins||0).toLocaleString('ru')}</span>`;
+                ${scoinDisplay(p.scoins)}`;
             body.appendChild(el);
         });
     } catch(e) {
@@ -610,9 +622,9 @@ async function startProfileCreation() {
         const res = await fetch(`${API_BASE}/profile/create`, {
             method:'POST', cache:'no-store',
             headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},
-            body: JSON.stringify({user_id: TG_USER_ID, avatar_url: tgAvatarUrl})
+            body: JSON.stringify({user_id:TG_USER_ID, avatar_url:tgAvatarUrl})
         });
-        if (res.status === 403) {
+        if (res.status===403) {
             body.innerHTML = `<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:#ff4d6d;text-align:center">Вы в чёрном списке</div>`;
             return;
         }
@@ -629,10 +641,10 @@ async function startProfileCreation() {
         clearCodeCountdown();
         codeCountdown = setInterval(() => {
             remaining--;
-            if (remaining <= 0) { clearCodeCountdown(); closeModal('modal-profile'); showToast('⌛ Код истёк'); return; }
-            const m = Math.floor(remaining/60), s = remaining%60;
-            const el = document.getElementById('code-timer');
-            if (el) el.textContent = `Действует: ${m}:${String(s).padStart(2,'0')}`;
+            if (remaining<=0) { clearCodeCountdown(); closeModal('modal-profile'); showToast('⌛ Код истёк'); return; }
+            const m=Math.floor(remaining/60), s=remaining%60;
+            const el=document.getElementById('code-timer');
+            if (el) el.textContent=`Действует: ${m}:${String(s).padStart(2,'0')}`;
         }, 1000);
         pollVerification(code);
     } catch(e) {
@@ -641,258 +653,192 @@ async function startProfileCreation() {
 }
 
 function pollVerification(code) {
-    let attempts = 0;
-    const iv = setInterval(async () => {
+    let attempts=0;
+    const iv=setInterval(async()=>{
         attempts++;
-        if (attempts > 60) { clearInterval(iv); return; }
+        if(attempts>60){clearInterval(iv);return;}
         try {
-            const res  = await fetch(`${API_BASE}/profile?uid=${TG_USER_ID}`, {cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
-            const data = await res.json();
-            if (data.nick) {
-                clearInterval(iv); clearCodeCountdown(); closeModal('modal-profile');
-                userProfile = data; renderProfileBar(data);
-                showToast(`✅ Профиль создан: ${data.nick}`);
-            }
-        } catch(e) {}
-    }, 5000);
+            const res=await fetch(`${API_BASE}/profile?uid=${TG_USER_ID}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
+            const data=await res.json();
+            if(data.nick){clearInterval(iv);clearCodeCountdown();closeModal('modal-profile');userProfile=data;renderProfileBar(data);showToast(`✅ Профиль создан: ${data.nick}`);}
+        } catch(e){}
+    },5000);
 }
 
-async function showTopTab(mode) {
-    currentTopMode = mode;
-    const isCoins = mode === 'coins';
-    document.getElementById('ttab-coins').className  = `top-tab${isCoins ? ' active-coins' : ''}`;
-    document.getElementById('ttab-scoins').className = `top-tab${!isCoins ? ' active-scoins' : ''}`;
-    document.getElementById('top-page-title').innerHTML = isCoins
-        ? 'ТОП<em>.</em>ДОНАТОВ'
-        : 'ТОП<em>.</em>S-МОНЕТ';
-    const list = document.getElementById('top-list');
-    list.innerHTML = `<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка...</div></div>`;
+async function loadTopCoins() {
+    const list=document.getElementById('top-list');
+    list.innerHTML=`<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка...</div></div>`;
     try {
-        const res  = await fetch(`${API_BASE}/leaderboard?kind=${mode}`, {cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
-        if (!res.ok) throw new Error('err');
-        const data = await res.json();
-        const rows = data.leaderboard;
-        if (!rows || !rows.length) {
-            list.innerHTML = `<div class="placeholder"><div class="ph-text">Пусто</div><div class="ph-sub">Будь первым!</div></div>`;
-            return;
-        }
-        list.innerHTML = '';
-        rows.forEach((entry, i) => {
-            const rank = i+1;
-            const rankCls = rank===1?'r1':rank===2?'r2':rank===3?'r3':'';
-            const badge  = entry.donate ? donateBadge(entry.donate, 'profile-badge') : '';
-            const badges = badgesHtml(entry.verified, entry.badge||'', true);
-            const amtCls = isCoins ? 'coins-clr' : 'scoins-clr';
-            const icon   = isCoins ? '🪙' : '💜';
-            const el = document.createElement('div');
-            el.className = 'top-entry';
-            el.innerHTML = `
+        const res=await fetch(`${API_BASE}/leaderboard?kind=coins`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
+        if(!res.ok) throw new Error('err');
+        const data=await res.json();
+        const rows=data.leaderboard;
+        if(!rows||!rows.length){list.innerHTML=`<div class="placeholder"><div class="ph-text">Пусто</div><div class="ph-sub">Будь первым!</div></div>`;return;}
+        list.innerHTML='';
+        rows.forEach((entry,i)=>{
+            const rank=i+1;
+            const rankCls=rank===1?'r1':rank===2?'r2':rank===3?'r3':'';
+            const badge =entry.donate?donateBadge(entry.donate,'profile-badge'):'';
+            const badges=badgesHtml(entry.verified,entry.badge||'',true);
+            const el=document.createElement('div');
+            el.className='top-entry';
+            el.innerHTML=`
                 <div class="top-rank ${rankCls}">${rank}</div>
                 <div class="top-nick-wrap">${badge}<span class="top-nick">${entry.nick}</span>${badges}</div>
-                <div class="top-amount ${amtCls}">${icon} ${(entry.amount||0).toLocaleString('ru')}</div>`;
+                <div class="top-amount">🪙 ${(entry.amount||0).toLocaleString('ru')}</div>`;
             list.appendChild(el);
         });
     } catch(e) {
-        list.innerHTML = `<div class="placeholder"><div class="ph-text">Ошибка загрузки</div></div>`;
+        list.innerHTML=`<div class="placeholder"><div class="ph-text">Ошибка загрузки</div></div>`;
     }
 }
 
 async function loadAdminUsers() {
-    const list = document.getElementById('admin-user-list');
-    list.innerHTML = `<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка...</div></div>`;
+    const list=document.getElementById('admin-user-list');
+    list.innerHTML=`<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка...</div></div>`;
     try {
-        const res  = await fetch(`${API_BASE}/admin/users?uid=${TG_USER_ID}`, {cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
-        if (!res.ok) { list.innerHTML = `<div class="placeholder"><div class="ph-text">Нет доступа</div></div>`; return; }
-        const data = await res.json();
-        if (!data.users || !data.users.length) { list.innerHTML = `<div class="placeholder"><div class="ph-text">Нет пользователей</div></div>`; return; }
-        list.innerHTML = '';
-        data.users.forEach(u => list.appendChild(buildAdminCard(u)));
-    } catch(e) {
-        list.innerHTML = `<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;
-    }
+        const res=await fetch(`${API_BASE}/admin/users?uid=${TG_USER_ID}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
+        if(!res.ok){list.innerHTML=`<div class="placeholder"><div class="ph-text">Нет доступа</div></div>`;return;}
+        const data=await res.json();
+        if(!data.users||!data.users.length){list.innerHTML=`<div class="placeholder"><div class="ph-text">Нет пользователей</div></div>`;return;}
+        list.innerHTML='';
+        data.users.forEach(u=>list.appendChild(buildAdminCard(u)));
+    } catch(e){list.innerHTML=`<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;}
 }
 
 function buildAdminCard(u) {
-    const card = document.createElement('div');
-    card.className = 'admin-user-card';
-    const badge    = u.donate ? donateBadge(u.donate, 'auc-badge') : '';
-    const badges   = badgesHtml(u.verified, u.badge||'', true);
-    const blTag    = u.blacklisted ? '<span class="auc-bl">БЛОК</span>' : '';
-    const hasBadge = u.badge === 'green' || u.badge === 'orange';
-    card.innerHTML = `
+    const card=document.createElement('div');
+    card.className='admin-user-card';
+    const badge   =u.donate?donateBadge(u.donate,'auc-badge'):'';
+    const badges  =badgesHtml(u.verified,u.badge||'',true);
+    const blTag   =u.blacklisted?'<span class="auc-bl">БЛОК</span>':'';
+    const hasBadge=u.badge==='green';
+    card.innerHTML=`
         <div class="auc-top">${badge}<span class="auc-nick">${u.nick||'—'}</span>${badges}${blTag}</div>
         <div class="auc-uid">ID: ${u.user_id}</div>
         <div class="auc-actions">
             ${u.blacklisted
-                ? `<div class="auc-btn bl-rem" data-action="bl-rem" data-uid="${u.user_id}">✓ Снять блок</div>`
-                : `<div class="auc-btn bl-add" data-action="bl-add" data-uid="${u.user_id}">✗ Заблокировать</div>`}
+                ?`<div class="auc-btn bl-rem" data-action="bl-rem" data-uid="${u.user_id}">✓ Снять блок</div>`
+                :`<div class="auc-btn bl-add" data-action="bl-add" data-uid="${u.user_id}">✗ Заблокировать</div>`}
             ${u.verified
-                ? `<div class="auc-btn ver" data-action="unverify" data-uid="${u.user_id}">✗ Снять галочку</div>`
-                : `<div class="auc-btn ver" data-action="verify" data-uid="${u.user_id}">✓ Верифицировать</div>`}
+                ?`<div class="auc-btn ver" data-action="unverify" data-uid="${u.user_id}">✗ Снять галочку</div>`
+                :`<div class="auc-btn ver" data-action="verify" data-uid="${u.user_id}">✓ Верифицировать</div>`}
             ${hasBadge
-                ? `<div class="auc-btn badge-rm" data-action="badge-rm" data-uid="${u.user_id}">✗ Снять значок</div>`
-                : `<div class="auc-btn badge-g" data-action="badge-green" data-uid="${u.user_id}">🟢 Dev</div><div class="auc-btn badge-o" data-action="badge-orange" data-uid="${u.user_id}">🟠 Dev</div>`}
+                ?`<div class="auc-btn badge-rm" data-action="badge-rm" data-uid="${u.user_id}">✗ Снять Dev</div>`
+                :`<div class="auc-btn badge-g" data-action="badge-green" data-uid="${u.user_id}">&lt;/&gt; Dev</div>`}
             <div class="auc-btn del" data-action="delete" data-uid="${u.user_id}">🗑 Удалить</div>
         </div>`;
-    card.querySelectorAll('.auc-btn').forEach(btn => {
-        btn.addEventListener('click', () => handleAdminAction(btn.dataset.action, parseInt(btn.dataset.uid)));
+    card.querySelectorAll('.auc-btn').forEach(btn=>{
+        btn.addEventListener('click',()=>handleAdminAction(btn.dataset.action,parseInt(btn.dataset.uid)));
     });
     return card;
 }
 
 async function handleAdminAction(action, targetUid) {
-    const H = {'Content-Type':'application/json','ngrok-skip-browser-warning':'1'};
-    const post = (url, body) => fetch(`${API_BASE}${url}`, {method:'POST',cache:'no-store',headers:H,body:JSON.stringify(body)});
+    const H={'Content-Type':'application/json','ngrok-skip-browser-warning':'1'};
+    const post=(url,body)=>fetch(`${API_BASE}${url}`,{method:'POST',cache:'no-store',headers:H,body:JSON.stringify(body)});
     try {
-        if (action==='bl-add')       { await post('/admin/blacklist',{admin_id:TG_USER_ID,user_id:targetUid,action:'add'}); showToast('🚫 Заблокирован'); }
-        else if (action==='bl-rem')  { await post('/admin/blacklist',{admin_id:TG_USER_ID,user_id:targetUid,action:'remove'}); showToast('✅ Блок снят'); }
-        else if (action==='verify')  { await post('/admin/verify',{admin_id:TG_USER_ID,user_id:targetUid,verified:true}); showToast('✅ Верифицирован'); }
-        else if (action==='unverify'){ await post('/admin/verify',{admin_id:TG_USER_ID,user_id:targetUid,verified:false}); showToast('✗ Галочка снята'); }
-        else if (action==='badge-green')  { await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:'green'}); showToast('🟢 Зелёный значок выдан'); }
-        else if (action==='badge-orange') { await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:'orange'}); showToast('🟠 Оранжевый значок выдан'); }
-        else if (action==='badge-rm')     { await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:''}); showToast('✗ Значок снят'); }
-        else if (action==='delete')  { await post('/admin/delete',{admin_id:TG_USER_ID,user_id:targetUid}); showToast('🗑 Профиль удалён'); }
-        setTimeout(loadAdminUsers, 600);
-    } catch(e) { showToast('Ошибка соединения'); }
+        if(action==='bl-add')           {await post('/admin/blacklist',{admin_id:TG_USER_ID,user_id:targetUid,action:'add'});showToast('🚫 Заблокирован');}
+        else if(action==='bl-rem')      {await post('/admin/blacklist',{admin_id:TG_USER_ID,user_id:targetUid,action:'remove'});showToast('✅ Блок снят');}
+        else if(action==='verify')      {await post('/admin/verify',{admin_id:TG_USER_ID,user_id:targetUid,verified:true});showToast('✅ Верифицирован');}
+        else if(action==='unverify')    {await post('/admin/verify',{admin_id:TG_USER_ID,user_id:targetUid,verified:false});showToast('✗ Галочка снята');}
+        else if(action==='badge-green') {await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:'green'});showToast('</> Dev выдан');}
+        else if(action==='badge-rm')    {await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:''});showToast('✗ Dev снят');}
+        else if(action==='delete')      {await post('/admin/delete',{admin_id:TG_USER_ID,user_id:targetUid});showToast('🗑 Профиль удалён');}
+        setTimeout(loadAdminUsers,600);
+    } catch(e){showToast('Ошибка соединения');}
 }
 
-function mkImg(src, icon, imgCls, fbCls) {
-    const img = document.createElement('img');
-    img.src = src; img.className = imgCls;
-    img.onerror = function() {
-        const fb = document.createElement('div');
-        fb.className = fbCls; fb.textContent = icon;
-        this.replaceWith(fb);
-    };
+function mkImg(src,icon,imgCls,fbCls){
+    const img=document.createElement('img');
+    img.src=src;img.className=imgCls;
+    img.onerror=function(){const fb=document.createElement('div');fb.className=fbCls;fb.textContent=icon;this.replaceWith(fb);};
     return img;
 }
-function fmtTime(sec) {
-    if (sec <= 0) return null;
-    const h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60), s=Math.floor(sec%60);
-    if (h>0) return `${h}ч ${m}м`;
-    if (m>0) return `${m}м ${String(s).padStart(2,'0')}с`;
+function fmtTime(sec){
+    if(sec<=0)return null;
+    const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=Math.floor(sec%60);
+    if(h>0)return `${h}ч ${m}м`;
+    if(m>0)return `${m}м ${String(s).padStart(2,'0')}с`;
     return `${s}с`;
 }
-function getTL(ra) {
-    if (ra===null||ra===undefined) return -1;
-    return Math.max(0, Math.floor(ra - Date.now()/1000));
-}
-function setSyncState(state, label) {
-    document.getElementById('sync-dot').className = 'sync-dot '+state;
-    document.getElementById('sync-label').textContent = label;
-}
-function setSyncTime() {
-    const d = new Date();
-    document.getElementById('sync-time').textContent = [d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':');
-}
-let toastTimer = null;
-function showToast(msg) {
-    const el = document.getElementById('toast');
-    el.textContent = msg; el.classList.add('show');
-    clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
-}
+function getTL(ra){if(ra===null||ra===undefined)return -1;return Math.max(0,Math.floor(ra-Date.now()/1000));}
+function setSyncState(state,label){document.getElementById('sync-dot').className='sync-dot '+state;document.getElementById('sync-label').textContent=label;}
+function setSyncTime(){const d=new Date();document.getElementById('sync-time').textContent=[d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':');}
+let toastTimer=null;
+function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2200);}
 
-let audioCtx = null;
-function getACtx() { if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); return audioCtx; }
+let audioCtx=null;
+function getACtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
 
-let soundVolume = parseInt(localStorage.getItem(VOL_KEY)||'70') / 100;
+const defaultVol = 67;
+let soundVolume = parseInt(localStorage.getItem(VOL_KEY) ?? String(defaultVol)) / 100;
 let soundType   = localStorage.getItem(STYPE_KEY) || 'chime';
 
-const volSlider = document.getElementById('vol-slider');
-const volLabel  = document.getElementById('vol-label');
-const soundSel  = document.getElementById('sound-select');
-volSlider.value = Math.round(soundVolume * 100);
-volLabel.textContent = Math.round(soundVolume * 100);
-soundSel.value = soundType;
+const volSlider=document.getElementById('vol-slider');
+const volLabel =document.getElementById('vol-label');
+const soundSel =document.getElementById('sound-select');
+volSlider.value=Math.round(soundVolume*100);
+volLabel.textContent=Math.round(soundVolume*100);
+soundSel.value=soundType;
 
-volSlider.addEventListener('input', () => {
-    soundVolume = parseInt(volSlider.value) / 100;
-    volLabel.textContent = volSlider.value;
-    localStorage.setItem(VOL_KEY, volSlider.value);
+volSlider.addEventListener('input',()=>{
+    soundVolume=parseInt(volSlider.value)/100;
+    volLabel.textContent=volSlider.value;
+    localStorage.setItem(VOL_KEY,volSlider.value);
 });
-soundSel.addEventListener('change', () => {
-    soundType = soundSel.value;
-    localStorage.setItem(STYPE_KEY, soundType);
-    if (soundEnabled) playSound();
+soundSel.addEventListener('change',()=>{
+    soundType=soundSel.value;
+    localStorage.setItem(STYPE_KEY,soundType);
+    if(soundEnabled)playSound();
 });
 
-function playSound() {
-    try {
-        const ctx = getACtx();
-        const vol = soundVolume;
-        if (soundType === 'chime') {
-            [[523,0],[659,0.13],[784,0.26],[1047,0.39]].forEach(([freq,delay]) => {
-                const osc=ctx.createOscillator(), g=ctx.createGain();
-                osc.connect(g); g.connect(ctx.destination);
-                osc.type='sine'; osc.frequency.value=freq;
-                const t=ctx.currentTime+delay;
-                g.gain.setValueAtTime(0,t);
-                g.gain.linearRampToValueAtTime(vol*0.4,t+0.02);
-                g.gain.exponentialRampToValueAtTime(0.001,t+0.3);
-                osc.start(t); osc.stop(t+0.3);
+function playSound(){
+    try{
+        const ctx=getACtx(),vol=soundVolume;
+        if(soundType==='chime'){
+            [[523,0],[659,0.13],[784,0.26],[1047,0.39]].forEach(([freq,delay])=>{
+                const osc=ctx.createOscillator(),g=ctx.createGain();
+                osc.connect(g);g.connect(ctx.destination);osc.type='sine';osc.frequency.value=freq;
+                const t=ctx.currentTime+delay;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol*0.4,t+0.02);g.gain.exponentialRampToValueAtTime(0.001,t+0.3);osc.start(t);osc.stop(t+0.3);
             });
-        } else if (soundType === 'alert') {
-            [[880,0],[880,0.15],[1100,0.3],[880,0.45]].forEach(([freq,delay]) => {
-                const osc=ctx.createOscillator(), g=ctx.createGain();
-                osc.connect(g); g.connect(ctx.destination);
-                osc.type='square'; osc.frequency.value=freq;
-                const t=ctx.currentTime+delay;
-                g.gain.setValueAtTime(0,t);
-                g.gain.linearRampToValueAtTime(vol*0.15,t+0.01);
-                g.gain.exponentialRampToValueAtTime(0.001,t+0.12);
-                osc.start(t); osc.stop(t+0.12);
+        }else if(soundType==='alert'){
+            [[880,0],[880,0.15],[1100,0.3],[880,0.45]].forEach(([freq,delay])=>{
+                const osc=ctx.createOscillator(),g=ctx.createGain();
+                osc.connect(g);g.connect(ctx.destination);osc.type='square';osc.frequency.value=freq;
+                const t=ctx.currentTime+delay;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol*0.15,t+0.01);g.gain.exponentialRampToValueAtTime(0.001,t+0.12);osc.start(t);osc.stop(t+0.12);
             });
-        } else if (soundType === 'ping') {
-            const osc=ctx.createOscillator(), g=ctx.createGain();
-            osc.connect(g); g.connect(ctx.destination);
-            osc.type='sine'; osc.frequency.value=1200;
-            const t=ctx.currentTime;
-            g.gain.setValueAtTime(0,t);
-            g.gain.linearRampToValueAtTime(vol*0.5,t+0.005);
-            g.gain.exponentialRampToValueAtTime(0.001,t+0.4);
-            osc.start(t); osc.stop(t+0.4);
-        } else if (soundType === 'fanfare') {
-            [[392,0],[494,0.1],[587,0.2],[784,0.3],[784,0.5],[698,0.6],[784,0.75]].forEach(([freq,delay]) => {
-                const osc=ctx.createOscillator(), g=ctx.createGain();
-                osc.connect(g); g.connect(ctx.destination);
-                osc.type='triangle'; osc.frequency.value=freq;
-                const t=ctx.currentTime+delay;
-                g.gain.setValueAtTime(0,t);
-                g.gain.linearRampToValueAtTime(vol*0.3,t+0.02);
-                g.gain.exponentialRampToValueAtTime(0.001,t+0.2);
-                osc.start(t); osc.stop(t+0.2);
+        }else if(soundType==='ping'){
+            const osc=ctx.createOscillator(),g=ctx.createGain();
+            osc.connect(g);g.connect(ctx.destination);osc.type='sine';osc.frequency.value=1200;
+            const t=ctx.currentTime;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol*0.5,t+0.005);g.gain.exponentialRampToValueAtTime(0.001,t+0.4);osc.start(t);osc.stop(t+0.4);
+        }else if(soundType==='fanfare'){
+            [[392,0],[494,0.1],[587,0.2],[784,0.3],[784,0.5],[698,0.6],[784,0.75]].forEach(([freq,delay])=>{
+                const osc=ctx.createOscillator(),g=ctx.createGain();
+                osc.connect(g);g.connect(ctx.destination);osc.type='triangle';osc.frequency.value=freq;
+                const t=ctx.currentTime+delay;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol*0.3,t+0.02);g.gain.exponentialRampToValueAtTime(0.001,t+0.2);osc.start(t);osc.stop(t+0.2);
             });
         }
-    } catch(e) {}
+    }catch(e){}
 }
 
-let soundEnabled = localStorage.getItem(SOUND_KEY) !== 'false';
-const soundEl = document.getElementById('sound-toggle');
-function refreshSoundEl() { soundEl.classList.toggle('on', soundEnabled); }
+let soundEnabled=localStorage.getItem(SOUND_KEY)!=='false';
+const soundEl=document.getElementById('sound-toggle');
+function refreshSoundEl(){soundEl.classList.toggle('on',soundEnabled);}
 refreshSoundEl();
-soundEl.addEventListener('click', () => {
-    soundEnabled = !soundEnabled;
-    localStorage.setItem(SOUND_KEY, soundEnabled);
+soundEl.addEventListener('click',()=>{
+    soundEnabled=!soundEnabled;
+    localStorage.setItem(SOUND_KEY,soundEnabled);
     refreshSoundEl();
-    showToast(soundEnabled ? '🔊 Звук включён' : '🔇 Звук выключен');
-    if (soundEnabled) try { getACtx().resume().then(playSound); } catch(e) {}
+    showToast(soundEnabled?'🔊 Звук включён':'🔇 Звук выключен');
+    if(soundEnabled)try{getACtx().resume().then(playSound);}catch(e){}
 });
 
-function loadNotifLocal() {
-    const def={}; BOSSES.forEach(b => def[b.id]=true);
-    try { const s=localStorage.getItem(NOTIF_KEY); if(s) return {...def,...JSON.parse(s)}; } catch(e) {}
-    return def;
-}
-function saveNotifLocal() { try { localStorage.setItem(NOTIF_KEY, JSON.stringify(notifications)); } catch(e) {} }
-async function pushToggleToBot(bossId, enabled) {
-    if (!TG_USER_ID) return;
-    try {
-        await fetch(API_BASE+'/toggle', {
-            method:'POST', cache:'no-store',
-            headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},
-            body: JSON.stringify({user_id:TG_USER_ID,boss_id:bossId,enabled})
-        });
-    } catch(e) {}
+function loadNotifLocal(){const def={};BOSSES.forEach(b=>def[b.id]=true);try{const s=localStorage.getItem(NOTIF_KEY);if(s)return{...def,...JSON.parse(s)};}catch(e){}return def;}
+function saveNotifLocal(){try{localStorage.setItem(NOTIF_KEY,JSON.stringify(notifications));}catch(e){}}
+async function pushToggleToBot(bossId,enabled){
+    if(!TG_USER_ID)return;
+    try{await fetch(API_BASE+'/toggle',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},body:JSON.stringify({user_id:TG_USER_ID,boss_id:bossId,enabled})});}catch(e){}
 }
 
 let notifications  = loadNotifLocal();
@@ -900,53 +846,37 @@ let respawnData    = [];
 let alreadySounded = new Set();
 let tickInterval   = null;
 
-function updateNextBoss() {
-    const nb = document.getElementById('next-boss');
-    let best=null, bestTime=Infinity;
-    respawnData.forEach(d => {
-        const tl=getTL(d.respawn_at);
-        if (tl===0&&bestTime>0) {best=d;bestTime=0;}
-        else if (tl>0&&tl<bestTime) {best=d;bestTime=tl;}
-    });
-    if (!best) { nb.style.display='none'; return; }
-    const boss = BOSSES.find(b=>b.id===best.id);
+function updateNextBoss(){
+    const nb=document.getElementById('next-boss');
+    let best=null,bestTime=Infinity;
+    respawnData.forEach(d=>{const tl=getTL(d.respawn_at);if(tl===0&&bestTime>0){best=d;bestTime=0;}else if(tl>0&&tl<bestTime){best=d;bestTime=tl;}});
+    if(!best){nb.style.display='none';return;}
+    const boss=BOSSES.find(b=>b.id===best.id);
     nb.style.display='flex';
-    const wrap = document.getElementById('nb-img-wrap');
+    const wrap=document.getElementById('nb-img-wrap');
     wrap.innerHTML='';
-    if (boss) wrap.appendChild(mkImg(boss.img,boss.icon,'nb-img','nb-img-fb'));
-    document.getElementById('nb-name').textContent = boss?.full||'—';
+    if(boss)wrap.appendChild(mkImg(boss.img,boss.icon,'nb-img','nb-img-fb'));
+    document.getElementById('nb-name').textContent=boss?.full||'—';
     const tl=getTL(best.respawn_at);
-    if (tl===0) {
-        nb.classList.add('nb-ready');
-        document.getElementById('nb-status').textContent='Готов к бою';
-        document.getElementById('nb-countdown').textContent='✓';
-    } else {
-        nb.classList.remove('nb-ready');
-        document.getElementById('nb-status').textContent='Заспавнится через';
-        document.getElementById('nb-countdown').textContent=fmtTime(tl)||'';
-    }
+    if(tl===0){nb.classList.add('nb-ready');document.getElementById('nb-status').textContent='Готов к бою';document.getElementById('nb-countdown').textContent='✓';}
+    else{nb.classList.remove('nb-ready');document.getElementById('nb-status').textContent='Заспавнится через';document.getElementById('nb-countdown').textContent=fmtTime(tl)||'';}
 }
 
-function renderBosses() {
-    if (isBlacklisted) {
-        document.getElementById('boss-list').innerHTML = `<div class="placeholder"><div class="ph-icon">[ 🚫 ]</div><div class="ph-text" style="color:#ff4d6d">Доступ ограничен</div></div>`;
-        return;
-    }
-    const list = document.getElementById('boss-list');
+function renderBosses(){
+    if(isBlacklisted){document.getElementById('boss-list').innerHTML=`<div class="placeholder"><div class="ph-icon">[ 🚫 ]</div><div class="ph-text" style="color:#ff4d6d">Доступ ограничен</div></div>`;return;}
+    const list=document.getElementById('boss-list');
     list.innerHTML='';
-    let cntReady=0, cntActive=0, cntNotif=0;
-    BOSSES.forEach(boss => {
+    let cntReady=0,cntActive=0,cntNotif=0;
+    BOSSES.forEach(boss=>{
         const d=respawnData.find(b=>b.id===boss.id)||{id:boss.id,respawn_at:null};
         const tl=getTL(d.respawn_at);
-        const isReady=tl===0, isActive=tl>0;
-        if (isReady)  cntReady++;
-        if (isActive) cntActive++;
-        if (notifications[boss.id]) cntNotif++;
+        const isReady=tl===0,isActive=tl>0;
+        if(isReady)cntReady++;if(isActive)cntActive++;if(notifications[boss.id])cntNotif++;
         const state=isReady?'state-ready':isActive?'state-active':'state-unknown';
         let timerHTML;
-        if (isReady)       timerHTML=`<div class="boss-timer-wrap"><div class="timer-dot"></div><span class="boss-timer t-ready">ГОТОВ К БОЮ</span></div>`;
-        else if (isActive) timerHTML=`<div class="boss-timer t-active">${fmtTime(tl)}</div>`;
-        else               timerHTML=`<div class="boss-timer t-unknown">— неизвестно</div>`;
+        if(isReady)timerHTML=`<div class="boss-timer-wrap"><div class="timer-dot"></div><span class="boss-timer t-ready">ГОТОВ К БОЮ</span></div>`;
+        else if(isActive)timerHTML=`<div class="boss-timer t-active">${fmtTime(tl)}</div>`;
+        else timerHTML=`<div class="boss-timer t-unknown">— неизвестно</div>`;
         const card=document.createElement('div');
         card.className=`boss-card ${state}`;
         card.dataset.bossId=boss.id;
@@ -961,16 +891,15 @@ function renderBosses() {
         card.appendChild(toggle);
         list.appendChild(card);
     });
-    document.getElementById('cnt-ready').textContent  = cntReady;
-    document.getElementById('cnt-active').textContent = cntActive;
-    document.getElementById('cnt-notif').textContent  = cntNotif;
-    document.querySelectorAll('.notif-toggle').forEach(el => {
-        el.addEventListener('click', () => {
+    document.getElementById('cnt-ready').textContent=cntReady;
+    document.getElementById('cnt-active').textContent=cntActive;
+    document.getElementById('cnt-notif').textContent=cntNotif;
+    document.querySelectorAll('.notif-toggle').forEach(el=>{
+        el.addEventListener('click',()=>{
             const id=parseInt(el.dataset.id);
             notifications[id]=!notifications[id];
             el.classList.toggle('on',notifications[id]);
-            saveNotifLocal();
-            pushToggleToBot(id,notifications[id]);
+            saveNotifLocal();pushToggleToBot(id,notifications[id]);
             document.getElementById('cnt-notif').textContent=Object.values(notifications).filter(Boolean).length;
             showToast(notifications[id]?`🔔 Уведомления #${id} включены`:`🔕 Уведомления #${id} выключены`);
             tg?.HapticFeedback?.impactOccurred('light');
@@ -979,90 +908,69 @@ function renderBosses() {
     updateNextBoss();
 }
 
-function tick() {
-    if (!respawnData.length||isBlacklisted) return;
-    let cntReady=0, cntActive=0;
-    document.querySelectorAll('.boss-card').forEach(card => {
+function tick(){
+    if(!respawnData.length||isBlacklisted)return;
+    let cntReady=0,cntActive=0;
+    document.querySelectorAll('.boss-card').forEach(card=>{
         const id=parseInt(card.dataset.bossId);
         const d=respawnData.find(b=>b.id===id);
-        if (!d) return;
+        if(!d)return;
         const tl=getTL(d.respawn_at);
-        if (tl===0) {
+        if(tl===0){
             alreadySounded.delete(`s${id}`);
-            if (!card.classList.contains('state-ready')) {
-                card.classList.remove('state-active','state-unknown');
-                card.classList.add('state-ready');
+            if(!card.classList.contains('state-ready')){
+                card.classList.remove('state-active','state-unknown');card.classList.add('state-ready');
                 const old=card.querySelector('.boss-center .boss-timer,.boss-center .boss-timer-wrap');
-                if (old) old.outerHTML=`<div class="boss-timer-wrap"><div class="timer-dot"></div><span class="boss-timer t-ready">ГОТОВ К БОЮ</span></div>`;
+                if(old)old.outerHTML=`<div class="boss-timer-wrap"><div class="timer-dot"></div><span class="boss-timer t-ready">ГОТОВ К БОЮ</span></div>`;
             }
             cntReady++;
-        } else if (tl>0) {
-            if (tl<=60&&!alreadySounded.has(`s${id}`)) {
+        }else if(tl>0){
+            if(tl<=60&&!alreadySounded.has(`s${id}`)){
                 alreadySounded.add(`s${id}`);
-                if (soundEnabled&&notifications[id]) {
-                    try { getACtx().resume().then(playSound); } catch(e) {}
-                }
+                if(soundEnabled&&notifications[id])try{getACtx().resume().then(playSound);}catch(e){}
                 tg?.HapticFeedback?.notificationOccurred('warning');
             }
-            if (tl>65) alreadySounded.delete(`s${id}`);
-            if (!card.classList.contains('state-active')) {
-                card.classList.remove('state-ready','state-unknown');
-                card.classList.add('state-active');
-            }
+            if(tl>65)alreadySounded.delete(`s${id}`);
+            if(!card.classList.contains('state-active')){card.classList.remove('state-ready','state-unknown');card.classList.add('state-active');}
             const el=card.querySelector('.boss-timer.t-active');
-            if (el) el.textContent=fmtTime(tl);
+            if(el)el.textContent=fmtTime(tl);
             cntActive++;
-        } else {
-            alreadySounded.delete(`s${id}`);
-        }
+        }else{alreadySounded.delete(`s${id}`);}
     });
-    document.getElementById('cnt-ready').textContent  = cntReady;
-    document.getElementById('cnt-active').textContent = cntActive;
+    document.getElementById('cnt-ready').textContent=cntReady;
+    document.getElementById('cnt-active').textContent=cntActive;
     updateNextBoss();
 }
 
-async function loadData(silent) {
-    if (isBlacklisted) return;
-    if (!silent) {
-        document.getElementById('refresh-btn').classList.add('spinning');
-        setTimeout(()=>document.getElementById('refresh-btn').classList.remove('spinning'),600);
-    }
+async function loadData(silent){
+    if(isBlacklisted)return;
+    if(!silent){document.getElementById('refresh-btn').classList.add('spinning');setTimeout(()=>document.getElementById('refresh-btn').classList.remove('spinning'),600);}
     setSyncState('loading','Загрузка...');
-    try {
-        const res = await fetch(
-            `${API_BASE}/bosses${TG_USER_ID?'?uid='+TG_USER_ID:''}`,
-            {cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}}
-        );
-        if (res.status===403) { isBlacklisted=true; setSyncState('error','Доступ ограничен'); renderBosses(); return; }
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        if (!data.bosses) throw new Error('no data');
+    try{
+        const res=await fetch(`${API_BASE}/bosses${TG_USER_ID?'?uid='+TG_USER_ID:''}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
+        if(res.status===403){isBlacklisted=true;setSyncState('error','Доступ ограничен');renderBosses();return;}
+        if(!res.ok)throw new Error(`HTTP ${res.status}`);
+        const data=await res.json();
+        if(!data.bosses)throw new Error('no data');
         respawnData=data.bosses;
-        if (data.notifications&&Object.keys(data.notifications).length>0) {
-            Object.entries(data.notifications).forEach(([id,val])=>{ notifications[parseInt(id)]=val; });
+        if(data.notifications&&Object.keys(data.notifications).length>0){
+            Object.entries(data.notifications).forEach(([id,val])=>{notifications[parseInt(id)]=val;});
             saveNotifLocal();
         }
         renderBosses();
         setSyncState('synced','Синхронизировано');
         setSyncTime();
-        if (!tickInterval) tickInterval=setInterval(tick,1000);
-    } catch(e) {
+        if(!tickInterval)tickInterval=setInterval(tick,1000);
+    }catch(e){
         setSyncState('error','Бот выключен');
-        if (!respawnData.length) {
-            document.getElementById('boss-list').innerHTML=`
-                <div class="placeholder">
-                    <div class="ph-icon">[ ✕ ]</div>
-                    <div class="ph-text">Бот выключен</div>
-                    <div class="ph-sub">Ожидайте включения</div>
-                </div>`;
-        }
+        if(!respawnData.length){document.getElementById('boss-list').innerHTML=`<div class="placeholder"><div class="ph-icon">[ ✕ ]</div><div class="ph-text">Бот выключен</div><div class="ph-sub">Ожидайте включения</div></div>`;}
     }
 }
 
-document.getElementById('refresh-btn').addEventListener('click', ()=>loadData(false));
-document.addEventListener('click', ()=>{ try { getACtx().resume(); } catch(e) {} }, {once:true});
+document.getElementById('refresh-btn').addEventListener('click',()=>loadData(false));
+document.addEventListener('click',()=>{try{getACtx().resume();}catch(e){}},{once:true});
 
-if (TG_USER_ID===ADMIN_ID) document.getElementById('admin-link').style.display='block';
+if(TG_USER_ID===ADMIN_ID)document.getElementById('admin-link').style.display='block';
 
 loadProfile();
 loadData(false);
