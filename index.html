@@ -17,7 +17,6 @@
         body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(74,158,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.018) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
         .page{display:none;position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 14px 40px;}
         .page.active{display:block;}
-
         .header{padding:22px 0 18px;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);margin-bottom:20px;}
         .logo-title{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--white);letter-spacing:2px;line-height:1;}
         .logo-title em{color:var(--accent);font-style:normal;}
@@ -26,44 +25,28 @@
         .version-pill{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);border:1px solid var(--border2);padding:3px 8px;border-radius:2px;background:var(--surface);letter-spacing:1px;}
         .info-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);border:1px solid var(--accent);padding:3px 8px;border-radius:2px;background:rgba(74,158,255,0.06);letter-spacing:1px;cursor:pointer;transition:all 0.15s;}
         .info-btn:hover{background:rgba(74,158,255,0.12);}
-
         .profile-bar{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
         .profile-left{display:flex;align-items:center;gap:10px;min-width:0;flex:1;}
         .profile-avatar{width:32px;height:32px;border-radius:50%;background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:1px solid var(--border2);overflow:hidden;}
         .profile-avatar img{width:32px;height:32px;border-radius:50%;object-fit:cover;display:block;}
         .profile-name{font-size:13px;font-weight:600;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
         .profile-badge{font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;font-weight:700;flex-shrink:0;}
-
         .badge-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;margin-left:4px;vertical-align:middle;flex-shrink:0;}
-        .badge-wrap .badge-tooltip{
-            display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
-            background:var(--panel);border:1px solid var(--border2);border-radius:5px;
-            font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--white);
-            white-space:nowrap;padding:4px 8px;pointer-events:none;z-index:400;
-            box-shadow:0 2px 10px rgba(0,0,0,0.5);
-        }
+        .badge-wrap .badge-tooltip{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--border2);border-radius:5px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--white);white-space:nowrap;padding:4px 8px;pointer-events:none;z-index:400;box-shadow:0 2px 10px rgba(0,0,0,0.5);}
         .badge-wrap:hover .badge-tooltip{display:block;}
-
         .profile-verify{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#4a9eff;box-shadow:0 0 6px rgba(74,158,255,0.5);}
         .profile-verify svg{width:9px;height:9px;}
-        .badge-dev-icon{
-            display:inline-flex;align-items:center;justify-content:center;
-            width:16px;height:16px;border-radius:5px;
-            background:#23a55a;box-shadow:0 0 6px rgba(35,165,90,0.6);
-        }
+        .badge-dev-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:5px;background:#23a55a;box-shadow:0 0 6px rgba(35,165,90,0.6);}
         .badge-dev-icon svg{width:10px;height:10px;}
-
         .create-profile-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);border:1px solid var(--accent);padding:4px 10px;border-radius:3px;background:rgba(74,158,255,0.06);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s;}
         .create-profile-btn:hover{background:rgba(74,158,255,0.14);}
         .view-profiles-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);border:1px solid var(--border2);padding:4px 10px;border-radius:3px;background:transparent;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s;}
         .view-profiles-btn:hover{color:var(--muted);border-color:var(--muted);}
-
         .action-row{display:flex;gap:8px;margin-bottom:16px;}
         .action-btn{flex:1;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;transition:all 0.15s;}
         .action-btn:hover{border-color:var(--accent);background:rgba(74,158,255,0.04);}
         .action-btn-icon{font-size:18px;line-height:1;}
         .action-btn-label{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;text-align:center;}
-
         .next-boss{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;}
         .next-boss::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);}
         .next-boss.nb-ready::before{background:linear-gradient(90deg,var(--ready),transparent);}
@@ -76,7 +59,6 @@
         .next-boss.nb-ready .next-boss-status{color:var(--ready);}
         .next-boss-countdown{font-family:'Orbitron',monospace;font-size:18px;font-weight:700;color:var(--accent);flex-shrink:0;text-align:right;min-width:70px;}
         .next-boss.nb-ready .next-boss-countdown{color:var(--ready);}
-
         .sound-panel{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:16px;}
         .sound-row1{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;}
         .sound-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);letter-spacing:1px;}
@@ -91,7 +73,6 @@
         .toggle-btn::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;background:var(--muted);border-radius:50%;transition:all 0.2s;}
         .toggle-btn.on{background:rgba(74,158,255,0.12);border-color:var(--accent);}
         .toggle-btn.on::after{transform:translateX(18px);background:var(--accent);box-shadow:0 0 6px rgba(74,158,255,0.7);}
-
         .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;}
         .stat{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 10px 10px;text-align:center;position:relative;overflow:hidden;}
         .stat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;}
@@ -103,14 +84,12 @@
         .stat.s-active .stat-val{color:var(--accent);}
         .stat.s-notif .stat-val{color:var(--warn);}
         .stat-label{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;}
-
         .refresh-btn{width:100%;background:transparent;border:1px solid var(--border2);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:11px 20px;border-radius:6px;cursor:pointer;margin-bottom:14px;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:8px;}
         .refresh-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(74,158,255,0.04);}
         .refresh-btn:active{transform:scale(0.99);}
         .ri{display:inline-block;}
         .refresh-btn.spinning .ri{animation:spin 0.6s linear;}
         @keyframes spin{to{transform:rotate(360deg);}}
-
         .sync-bar{display:flex;align-items:center;gap:6px;margin-bottom:16px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;}
         .sync-dot{width:6px;height:6px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background 0.3s;}
         .sync-dot.synced{background:var(--ready);box-shadow:0 0 4px var(--ready);}
@@ -118,11 +97,9 @@
         .sync-dot.error{background:var(--warn);}
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
         .sync-time{margin-left:auto;color:var(--dim);}
-
         .section-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
         .section-line{flex:1;height:1px;background:var(--border);}
         .section-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;}
-
         .boss-list{display:flex;flex-direction:column;gap:4px;}
         .boss-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:11px 14px;display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:12px;position:relative;overflow:hidden;}
         .boss-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--border2);border-radius:8px 0 0 8px;transition:background 0.3s;}
@@ -145,12 +122,10 @@
         .notif-toggle::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;background:var(--muted);border-radius:50%;transition:all 0.2s;}
         .notif-toggle.on{background:rgba(243,156,18,0.12);border-color:var(--warn);}
         .notif-toggle.on::after{transform:translateX(18px);background:var(--warn);box-shadow:0 0 6px rgba(243,156,18,0.7);}
-
         .footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
         .footer-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px;}
         .admin-link{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px;cursor:pointer;border:1px solid var(--border);padding:3px 8px;border-radius:2px;background:transparent;transition:all 0.15s;}
         .admin-link:hover{border-color:var(--muted);color:var(--muted);}
-
         .placeholder{text-align:center;padding:50px 20px;}
         .ph-icon{font-family:'Orbitron',monospace;font-size:13px;color:var(--dim);letter-spacing:4px;margin-bottom:12px;}
         .ph-text{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px;margin-bottom:6px;}
@@ -158,7 +133,6 @@
         .loading-bar{width:120px;height:2px;background:var(--border);margin:14px auto 0;border-radius:1px;overflow:hidden;}
         .loading-bar::after{content:'';display:block;height:100%;width:40%;background:var(--accent);animation:ls 1.2s ease-in-out infinite;}
         @keyframes ls{0%{transform:translateX(-150%)}100%{transform:translateX(400%)}}
-
         .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
         .modal-overlay.open{display:flex;}
         .modal{background:var(--panel);border:1px solid var(--border2);border-radius:12px;padding:24px;max-width:340px;width:100%;position:relative;max-height:90vh;overflow-y:auto;}
@@ -172,22 +146,18 @@
         .modal-desc{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5;}
         .modal-desc strong{color:var(--white);}
         .modal-divider{height:1px;background:var(--border);margin:2px 0 14px;}
-
         .code-box{background:var(--bg);border:1px solid var(--border2);border-radius:6px;padding:16px;text-align:center;margin:10px 0 16px;}
         .code-val{font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:var(--accent);letter-spacing:8px;}
         .code-timer{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);margin-top:8px;}
         .code-hint{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.5;margin-top:10px;text-align:left;}
         .code-cmd{background:var(--surface);border:1px solid var(--border2);border-radius:4px;padding:6px 10px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);margin-top:8px;word-break:break-all;}
-
         .donate-desc{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.6;margin-bottom:12px;}
         .donate-step{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.6;margin-bottom:6px;}
         .donate-step span{color:var(--accent);}
         .donate-cmd{background:var(--bg);border:1px solid var(--border2);border-radius:4px;padding:6px 10px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--ready);margin:6px 0 12px;word-break:break-all;}
         .donate-note{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.5;margin-top:6px;}
-
         .profiles-entry{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
         .pe-scoins{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#a78bfa;flex-shrink:0;display:flex;align-items:center;gap:3px;}
-
         .admin-page-header{padding:22px 0 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);margin-bottom:20px;}
         .page-back{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);cursor:pointer;border:1px solid var(--border2);padding:4px 10px;border-radius:2px;background:transparent;flex-shrink:0;}
         .page-back:hover{color:var(--text);}
@@ -213,10 +183,11 @@
         .auc-btn.badge-rm:hover{color:var(--text);}
         .auc-btn.del{color:#ff4d6d;border-color:#ff4d6d;background:rgba(255,77,109,0.06);}
         .auc-btn.del:hover{background:rgba(255,77,109,0.14);}
-
         .top-title{font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--white);letter-spacing:2px;}
         .top-title em{color:var(--warn);font-style:normal;}
         .top-entry{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+        .top-entry.top-me{border-color:#a78bfa;background:rgba(167,139,250,0.07);}
+        .top-entry.top-me-divider{border:none;background:none;padding:4px 0;margin-bottom:2px;}
         .top-rank{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--dim);width:24px;text-align:center;flex-shrink:0;}
         .top-rank.r1{color:#ffd700;}
         .top-rank.r2{color:#c0c0c0;}
@@ -224,7 +195,7 @@
         .top-nick-wrap{flex:1;min-width:0;display:flex;align-items:center;gap:5px;overflow:hidden;}
         .top-nick{font-size:13px;font-weight:600;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
         .top-amount{font-family:'Orbitron',monospace;font-size:12px;font-weight:700;flex-shrink:0;color:var(--warn);}
-
+        .top-amount.sc{color:#a78bfa;}
         .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--border2);border-radius:8px;padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px;transition:transform 0.3s ease;z-index:999;white-space:nowrap;pointer-events:none;}
         .toast.show{transform:translateX(-50%) translateY(0);}
     </style>
@@ -234,7 +205,7 @@
 <div class="modal-overlay" id="modal-info">
     <div class="modal">
         <div class="modal-title">Что значат цвета?</div>
-        <div class="modal-close" id="close-info">✕</div>
+        <div class="modal-close" id="close-info">&#x2715;</div>
         <div class="modal-row"><div class="modal-dot d-active"></div><div class="modal-desc"><strong>Синий</strong> — босс убит, на перезарядке. Показывается таймер до респавна.</div></div>
         <div class="modal-divider"></div>
         <div class="modal-row"><div class="modal-dot d-ready"></div><div class="modal-desc"><strong>Зелёный</strong> — босс готов к бою, таймер истёк.</div></div>
@@ -246,28 +217,28 @@
 <div class="modal-overlay" id="modal-profile">
     <div class="modal">
         <div class="modal-title">СОЗДАТЬ ПРОФИЛЬ</div>
-        <div class="modal-close" id="close-profile">✕</div>
+        <div class="modal-close" id="close-profile">&#x2715;</div>
         <div id="profile-modal-body"></div>
     </div>
 </div>
 
 <div class="modal-overlay" id="modal-donate">
     <div class="modal">
-        <div class="modal-title">🪙 ПОДДЕРЖАТЬ БОТА</div>
-        <div class="modal-close" id="close-donate">✕</div>
+        <div class="modal-title">ПОДДЕРЖАТЬ БОТА</div>
+        <div class="modal-close" id="close-donate">&#x2715;</div>
         <div class="donate-desc">Поддержи работу трекера — попади в топ донатеров! Любой взнос помогает боту развиваться.</div>
-        <div class="donate-step">1. Зайди в игру на сервере <span>PrisonEvo</span></div>
+        <div class="donate-step">1. Зайди на режим <span>PrisonEvo</span></div>
         <div class="donate-step">2. Переведи монеты боту в чате:</div>
-        <div class="donate-cmd">/transfer PrisonEvoHelper [сумма]</div>
+        <div class="donate-cmd">/pay PrisonEvoHelper [сумма]</div>
         <div class="donate-step">3. Бот автоматически зачислит монеты в топ</div>
-        <div class="donate-note">⚠️ Ник перевода должен совпадать с ником твоего профиля в боте.</div>
+        <div class="donate-note">&#9888; Ник перевода должен совпадать с ником твоего профиля в боте.</div>
     </div>
 </div>
 
 <div class="modal-overlay" id="modal-profiles">
     <div class="modal">
         <div class="modal-title">ПРОФИЛИ</div>
-        <div class="modal-close" id="close-profiles">✕</div>
+        <div class="modal-close" id="close-profiles">&#x2715;</div>
         <div id="profiles-list-body">
             <div class="placeholder"><div class="ph-text">Загрузка...</div></div>
         </div>
@@ -290,11 +261,11 @@
 
     <div class="action-row">
         <div class="action-btn" id="btn-top-coins">
-            <div class="action-btn-icon">🏆</div>
+            <div class="action-btn-icon">&#x1F3C6;</div>
             <div class="action-btn-label">Топ донатов</div>
         </div>
         <div class="action-btn" id="btn-donate">
-            <div class="action-btn-icon">🪙</div>
+            <div class="action-btn-icon">&#x1F4B0;</div>
             <div class="action-btn-label">Поддержать</div>
         </div>
     </div>
@@ -311,7 +282,7 @@
 
     <div class="sound-panel">
         <div class="sound-row1">
-            <span class="sound-label">🔊 ЗВУК ЗА 1 МИН ДО БОССА</span>
+            <span class="sound-label">ЗВУК ЗА 1 МИН ДО БОССА</span>
             <div class="toggle-btn" id="sound-toggle"></div>
         </div>
         <div class="sound-row2">
@@ -329,13 +300,13 @@
     </div>
 
     <div class="stats">
-        <div class="stat s-ready"><div class="stat-val" id="cnt-ready">—</div><div class="stat-label">Готово</div></div>
-        <div class="stat s-active"><div class="stat-val" id="cnt-active">—</div><div class="stat-label">В таймере</div></div>
-        <div class="stat s-notif"><div class="stat-val" id="cnt-notif">—</div><div class="stat-label">Уведомл.</div></div>
+        <div class="stat s-ready"><div class="stat-val" id="cnt-ready">&#x2014;</div><div class="stat-label">Готово</div></div>
+        <div class="stat s-active"><div class="stat-val" id="cnt-active">&#x2014;</div><div class="stat-label">В таймере</div></div>
+        <div class="stat s-notif"><div class="stat-val" id="cnt-notif">&#x2014;</div><div class="stat-label">Уведомл.</div></div>
     </div>
 
     <button class="refresh-btn" id="refresh-btn">
-        <span class="ri">↻</span>
+        <span class="ri">&#x21BB;</span>
         <span>Обновить данные</span>
     </button>
 
@@ -393,18 +364,18 @@
 
 <script>
 const BOSSES = [
-    { id:1,  full:"Цып. Агрессивный пернатый",         icon:"🐔", img:"imgs/boss1.png"  },
-    { id:2,  full:"Аль-Каум. Владыка песков",           icon:"🏜️", img:"imgs/boss2.png"  },
-    { id:3,  full:"Азерус. Магматический лорд",         icon:"🌋", img:"imgs/boss3.png"  },
-    { id:4,  full:"Слаймяш. Мутированный слизень",      icon:"🫧", img:"imgs/boss4.png"  },
-    { id:5,  full:"Диаваль. Последний гладиатор",       icon:"⚔️", img:"imgs/boss5.png"  },
-    { id:6,  full:"Эгалмот. Хаос Гесиода",              icon:"🌀", img:"imgs/boss6.png"  },
-    { id:7,  full:"Шайн. Подводный владыка",            icon:"🌊", img:"imgs/boss7.png"  },
-    { id:8,  full:"Алевия. Верховная чародейка",        icon:"🔮", img:"imgs/boss8.png"  },
-    { id:9,  full:"Флоракс. Повелитель леса",           icon:"🌳", img:"imgs/boss9.png"  },
-    { id:10, full:"Хладорожденный Лич. Король мёртвых", icon:"💀", img:"imgs/boss10.png" },
-    { id:11, full:"Талениэль. Эльфийка-охотница",       icon:"🏹", img:"imgs/boss11.png" },
-    { id:12, full:"Мориэль. Падший ангел",              icon:"🖤", img:"imgs/boss12.png" },
+    { id:1,  full:"Цып. Агрессивный пернатый",         icon:"\u{1F414}", img:"imgs/boss1.png"  },
+    { id:2,  full:"Аль-Каум. Владыка песков",           icon:"\u{1F3DC}", img:"imgs/boss2.png"  },
+    { id:3,  full:"Азерус. Магматический лорд",         icon:"\u{1F30B}", img:"imgs/boss3.png"  },
+    { id:4,  full:"Слаймяш. Мутированный слизень",      icon:"\u{1FAE7}", img:"imgs/boss4.png"  },
+    { id:5,  full:"Диаваль. Последний гладиатор",       icon:"\u2694",    img:"imgs/boss5.png"  },
+    { id:6,  full:"Эгалмот. Хаос Гесиода",              icon:"\u{1F300}", img:"imgs/boss6.png"  },
+    { id:7,  full:"Шайн. Подводный владыка",            icon:"\u{1F30A}", img:"imgs/boss7.png"  },
+    { id:8,  full:"Алевия. Верховная чародейка",        icon:"\u{1F52E}", img:"imgs/boss8.png"  },
+    { id:9,  full:"Флоракс. Повелитель леса",           icon:"\u{1F333}", img:"imgs/boss9.png"  },
+    { id:10, full:"Хладорожденный Лич. Король мёртвых", icon:"\u{1F480}", img:"imgs/boss10.png" },
+    { id:11, full:"Талениэль. Эльфийка-охотница",       icon:"\u{1F3F9}", img:"imgs/boss11.png" },
+    { id:12, full:"Мориэль. Падший ангел",              icon:"\u{1F5A4}", img:"imgs/boss12.png" },
 ];
 
 const DONATE_STYLES = {
@@ -438,9 +409,9 @@ let userProfile   = null;
 let codeCountdown = null;
 let isBlacklisted = false;
 
-let scoinSeconds      = parseInt(localStorage.getItem('bt_scoins_sec') || '0');
-let scoinSentMinutes  = parseInt(localStorage.getItem('bt_scoins_sent') || '0');
-let scoinInterval     = null;
+let scoinSeconds     = parseInt(localStorage.getItem('bt_scoins_sec') || '0');
+let scoinSentMinutes = parseInt(localStorage.getItem('bt_scoins_sent') || '0');
+let scoinInterval    = null;
 
 function startScoinTimer() {
     if (scoinInterval) return;
@@ -471,22 +442,15 @@ async function syncScoins(minutes) {
 
 const CHECK_SVG = `<svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5.2L4 7.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const CODE_SVG  = `<svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 2.5L1.5 6L4.5 9.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 2.5L10.5 6L7.5 9.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-const SCOIN_SVG = `<svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="6,1 7.8,4.2 11.5,4.8 8.9,7.4 9.5,11 6,9.2 2.5,11 3.1,7.4 0.5,4.8 4.2,4.2" fill="#a78bfa" opacity="0.9"/></svg>`;
 
 function verifyBadge(small) {
     const sz = small ? 'width:14px;height:14px;' : '';
-    return `<span class="badge-wrap">
-        <span class="profile-verify" style="${sz}">${CHECK_SVG}</span>
-        <span class="badge-tooltip">Официальный пользователь</span>
-    </span>`;
+    return `<span class="badge-wrap"><span class="profile-verify" style="${sz}">${CHECK_SVG}</span><span class="badge-tooltip">Официальный пользователь</span></span>`;
 }
 
 function devBadge(small) {
     const sz = small ? 'width:14px;height:14px;' : '';
-    return `<span class="badge-wrap">
-        <span class="badge-dev-icon" style="${sz}">${CODE_SVG}</span>
-        <span class="badge-tooltip">Разработчик</span>
-    </span>`;
+    return `<span class="badge-wrap"><span class="badge-dev-icon" style="${sz}">${CODE_SVG}</span><span class="badge-tooltip">Разработчик</span></span>`;
 }
 
 function badgesHtml(verified, badge, small) {
@@ -513,10 +477,21 @@ function scoinDisplay(amount) {
     return `<span class="pe-scoins"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="6,1 7.8,4.2 11.5,4.8 8.9,7.4 9.5,11 6,9.2 2.5,11 3.1,7.4 0.5,4.8 4.2,4.2" fill="#a78bfa"/></svg>${(amount||0).toLocaleString('ru')}</span>`;
 }
 
+function fmtCoins(raw) {
+    const n = Number(raw) || 0;
+    const Q = 1e15, T = 1e12, B = 1e9, M = 1e6, K = 1e3;
+    if (n >= Q)  return (n/Q).toFixed(n%Q===0?0:2).replace(/\.?0+$/,'') + 'Q';
+    if (n >= T)  return (n/T).toFixed(n%T===0?0:2).replace(/\.?0+$/,'') + 'T';
+    if (n >= B)  return (n/B).toFixed(n%B===0?0:2).replace(/\.?0+$/,'') + 'B';
+    if (n >= M)  return (n/M).toFixed(n%M===0?0:2).replace(/\.?0+$/,'') + 'M';
+    if (n >= K)  return (n/K).toFixed(n%K===0?0:1).replace(/\.?0+$/,'') + 'K';
+    return n.toLocaleString('ru');
+}
+
 function getTgAvatar() {
     const photo = tg?.initDataUnsafe?.user?.photo_url;
-    if (photo) return `<img src="${photo}" onerror="this.parentElement.textContent='👤'">`;
-    return '👤';
+    if (photo) return `<img src="${photo}" onerror="this.parentElement.textContent='?'">`;
+    return '?';
 }
 
 function showPage(id) {
@@ -556,13 +531,13 @@ async function loadProfile() {
 function renderProfileBar(profile) {
     const bar = document.getElementById('profile-bar');
     if (profile === 'blacklisted') {
-        bar.innerHTML = `<div class="profile-left"><div class="profile-avatar">🚫</div><div class="profile-name" style="color:#ff4d6d">Вы в чёрном списке</div></div>`;
+        bar.innerHTML = `<div class="profile-left"><div class="profile-avatar">X</div><div class="profile-name" style="color:#ff4d6d">Вы в чёрном списке</div></div>`;
         return;
     }
     if (!profile || !profile.nick) {
         bar.innerHTML = `
             <div class="profile-left">
-                <div class="profile-avatar">👤</div>
+                <div class="profile-avatar">?</div>
                 <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">Профиль не создан</div>
             </div>
             <div class="create-profile-btn" id="create-profile-btn">+ Создать профиль</div>`;
@@ -572,7 +547,7 @@ function renderProfileBar(profile) {
     const badge  = profile.donate ? donateBadge(profile.donate) : '';
     const badges = badgesHtml(profile.verified, profile.badge||'', false);
     const avatar = profile.avatar_url
-        ? `<img src="${profile.avatar_url}" onerror="this.parentElement.textContent='👤'">`
+        ? `<img src="${profile.avatar_url}" onerror="this.parentElement.textContent='?'">`
         : getTgAvatar();
     bar.innerHTML = `
         <div class="profile-left">
@@ -601,11 +576,7 @@ async function openProfilesList() {
             const badges = badgesHtml(p.verified, p.badge||'', true);
             const el = document.createElement('div');
             el.className = 'profiles-entry';
-            el.innerHTML = `
-                ${badge}
-                <span style="font-size:13px;font-weight:600;color:var(--white);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.nick}</span>
-                ${badges}
-                ${scoinDisplay(p.scoins)}`;
+            el.innerHTML = `${badge}<span style="font-size:13px;font-weight:600;color:var(--white);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.nick}</span>${badges}${scoinDisplay(p.scoins)}`;
             body.appendChild(el);
         });
     } catch(e) {
@@ -641,7 +612,7 @@ async function startProfileCreation() {
         clearCodeCountdown();
         codeCountdown = setInterval(() => {
             remaining--;
-            if (remaining<=0) { clearCodeCountdown(); closeModal('modal-profile'); showToast('⌛ Код истёк'); return; }
+            if (remaining<=0) { clearCodeCountdown(); closeModal('modal-profile'); showToast('Код истёк'); return; }
             const m=Math.floor(remaining/60), s=remaining%60;
             const el=document.getElementById('code-timer');
             if (el) el.textContent=`Действует: ${m}:${String(s).padStart(2,'0')}`;
@@ -660,33 +631,48 @@ function pollVerification(code) {
         try {
             const res=await fetch(`${API_BASE}/profile?uid=${TG_USER_ID}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
             const data=await res.json();
-            if(data.nick){clearInterval(iv);clearCodeCountdown();closeModal('modal-profile');userProfile=data;renderProfileBar(data);showToast(`✅ Профиль создан: ${data.nick}`);}
+            if(data.nick){clearInterval(iv);clearCodeCountdown();closeModal('modal-profile');userProfile=data;renderProfileBar(data);showToast(`Профиль создан: ${data.nick}`);}
         } catch(e){}
     },5000);
+}
+
+function buildTopEntry(rank, entry, isMe, amtStr) {
+    const rankCls = rank===1?'r1':rank===2?'r2':rank===3?'r3':'';
+    const badge  = entry.donate ? donateBadge(entry.donate,'profile-badge') : '';
+    const badges = badgesHtml(entry.verified, entry.badge||'', true);
+    const el = document.createElement('div');
+    el.className = 'top-entry' + (isMe ? ' top-me' : '');
+    el.innerHTML = `
+        <div class="top-rank ${rankCls}">${rank}</div>
+        <div class="top-nick-wrap">${badge}<span class="top-nick">${entry.nick}</span>${badges}</div>
+        <div class="top-amount">${amtStr}</div>`;
+    return el;
 }
 
 async function loadTopCoins() {
     const list=document.getElementById('top-list');
     list.innerHTML=`<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка...</div></div>`;
     try {
-        const res=await fetch(`${API_BASE}/leaderboard?kind=coins`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
+        const res=await fetch(`${API_BASE}/leaderboard?kind=coins&limit=150`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
         if(!res.ok) throw new Error('err');
         const data=await res.json();
         const rows=data.leaderboard;
         if(!rows||!rows.length){list.innerHTML=`<div class="placeholder"><div class="ph-text">Пусто</div><div class="ph-sub">Будь первым!</div></div>`;return;}
         list.innerHTML='';
+        const myNick = userProfile?.nick || null;
+        const myIdx  = myNick ? rows.findIndex(r=>r.nick===myNick) : -1;
+        if (myIdx > 0) {
+            const meEl = buildTopEntry(myIdx+1, rows[myIdx], true, `${fmtCoins(rows[myIdx].amount)} монет`);
+            list.appendChild(meEl);
+            const div = document.createElement('div');
+            div.className='top-entry top-me-divider';
+            div.innerHTML=`<div style="width:100%;height:1px;background:var(--border2)"></div>`;
+            list.appendChild(div);
+        }
         rows.forEach((entry,i)=>{
             const rank=i+1;
-            const rankCls=rank===1?'r1':rank===2?'r2':rank===3?'r3':'';
-            const badge =entry.donate?donateBadge(entry.donate,'profile-badge'):'';
-            const badges=badgesHtml(entry.verified,entry.badge||'',true);
-            const el=document.createElement('div');
-            el.className='top-entry';
-            el.innerHTML=`
-                <div class="top-rank ${rankCls}">${rank}</div>
-                <div class="top-nick-wrap">${badge}<span class="top-nick">${entry.nick}</span>${badges}</div>
-                <div class="top-amount">🪙 ${(entry.amount||0).toLocaleString('ru')}</div>`;
-            list.appendChild(el);
+            const isMe=(myNick&&entry.nick===myNick);
+            list.appendChild(buildTopEntry(rank, entry, isMe, `${fmtCoins(entry.amount)} монет`));
         });
     } catch(e) {
         list.innerHTML=`<div class="placeholder"><div class="ph-text">Ошибка загрузки</div></div>`;
@@ -718,15 +704,15 @@ function buildAdminCard(u) {
         <div class="auc-uid">ID: ${u.user_id}</div>
         <div class="auc-actions">
             ${u.blacklisted
-                ?`<div class="auc-btn bl-rem" data-action="bl-rem" data-uid="${u.user_id}">✓ Снять блок</div>`
-                :`<div class="auc-btn bl-add" data-action="bl-add" data-uid="${u.user_id}">✗ Заблокировать</div>`}
+                ?`<div class="auc-btn bl-rem" data-action="bl-rem" data-uid="${u.user_id}">Снять блок</div>`
+                :`<div class="auc-btn bl-add" data-action="bl-add" data-uid="${u.user_id}">Заблокировать</div>`}
             ${u.verified
-                ?`<div class="auc-btn ver" data-action="unverify" data-uid="${u.user_id}">✗ Снять галочку</div>`
-                :`<div class="auc-btn ver" data-action="verify" data-uid="${u.user_id}">✓ Верифицировать</div>`}
+                ?`<div class="auc-btn ver" data-action="unverify" data-uid="${u.user_id}">Снять галочку</div>`
+                :`<div class="auc-btn ver" data-action="verify" data-uid="${u.user_id}">Верифицировать</div>`}
             ${hasBadge
-                ?`<div class="auc-btn badge-rm" data-action="badge-rm" data-uid="${u.user_id}">✗ Снять Dev</div>`
+                ?`<div class="auc-btn badge-rm" data-action="badge-rm" data-uid="${u.user_id}">Снять Dev</div>`
                 :`<div class="auc-btn badge-g" data-action="badge-green" data-uid="${u.user_id}">&lt;/&gt; Dev</div>`}
-            <div class="auc-btn del" data-action="delete" data-uid="${u.user_id}">🗑 Удалить</div>
+            <div class="auc-btn del" data-action="delete" data-uid="${u.user_id}">Удалить</div>
         </div>`;
     card.querySelectorAll('.auc-btn').forEach(btn=>{
         btn.addEventListener('click',()=>handleAdminAction(btn.dataset.action,parseInt(btn.dataset.uid)));
@@ -738,13 +724,13 @@ async function handleAdminAction(action, targetUid) {
     const H={'Content-Type':'application/json','ngrok-skip-browser-warning':'1'};
     const post=(url,body)=>fetch(`${API_BASE}${url}`,{method:'POST',cache:'no-store',headers:H,body:JSON.stringify(body)});
     try {
-        if(action==='bl-add')           {await post('/admin/blacklist',{admin_id:TG_USER_ID,user_id:targetUid,action:'add'});showToast('🚫 Заблокирован');}
-        else if(action==='bl-rem')      {await post('/admin/blacklist',{admin_id:TG_USER_ID,user_id:targetUid,action:'remove'});showToast('✅ Блок снят');}
-        else if(action==='verify')      {await post('/admin/verify',{admin_id:TG_USER_ID,user_id:targetUid,verified:true});showToast('✅ Верифицирован');}
-        else if(action==='unverify')    {await post('/admin/verify',{admin_id:TG_USER_ID,user_id:targetUid,verified:false});showToast('✗ Галочка снята');}
-        else if(action==='badge-green') {await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:'green'});showToast('</> Dev выдан');}
-        else if(action==='badge-rm')    {await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:''});showToast('✗ Dev снят');}
-        else if(action==='delete')      {await post('/admin/delete',{admin_id:TG_USER_ID,user_id:targetUid});showToast('🗑 Профиль удалён');}
+        if(action==='bl-add')           {await post('/admin/blacklist',{admin_id:TG_USER_ID,user_id:targetUid,action:'add'});showToast('Заблокирован');}
+        else if(action==='bl-rem')      {await post('/admin/blacklist',{admin_id:TG_USER_ID,user_id:targetUid,action:'remove'});showToast('Блок снят');}
+        else if(action==='verify')      {await post('/admin/verify',{admin_id:TG_USER_ID,user_id:targetUid,verified:true});showToast('Верифицирован');}
+        else if(action==='unverify')    {await post('/admin/verify',{admin_id:TG_USER_ID,user_id:targetUid,verified:false});showToast('Галочка снята');}
+        else if(action==='badge-green') {await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:'green'});showToast('Dev выдан');}
+        else if(action==='badge-rm')    {await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:''});showToast('Dev снят');}
+        else if(action==='delete')      {await post('/admin/delete',{admin_id:TG_USER_ID,user_id:targetUid});showToast('Профиль удалён');}
         setTimeout(loadAdminUsers,600);
     } catch(e){showToast('Ошибка соединения');}
 }
@@ -771,8 +757,7 @@ function showToast(msg){const el=document.getElementById('toast');el.textContent
 let audioCtx=null;
 function getACtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
 
-const defaultVol = 67;
-let soundVolume = parseInt(localStorage.getItem(VOL_KEY) ?? String(defaultVol)) / 100;
+let soundVolume = parseInt(localStorage.getItem(VOL_KEY) ?? '67') / 100;
 let soundType   = localStorage.getItem(STYPE_KEY) || 'chime';
 
 const volSlider=document.getElementById('vol-slider');
@@ -830,7 +815,7 @@ soundEl.addEventListener('click',()=>{
     soundEnabled=!soundEnabled;
     localStorage.setItem(SOUND_KEY,soundEnabled);
     refreshSoundEl();
-    showToast(soundEnabled?'🔊 Звук включён':'🔇 Звук выключен');
+    showToast(soundEnabled?'Звук включён':'Звук выключен');
     if(soundEnabled)try{getACtx().resume().then(playSound);}catch(e){}
 });
 
@@ -858,12 +843,12 @@ function updateNextBoss(){
     if(boss)wrap.appendChild(mkImg(boss.img,boss.icon,'nb-img','nb-img-fb'));
     document.getElementById('nb-name').textContent=boss?.full||'—';
     const tl=getTL(best.respawn_at);
-    if(tl===0){nb.classList.add('nb-ready');document.getElementById('nb-status').textContent='Готов к бою';document.getElementById('nb-countdown').textContent='✓';}
+    if(tl===0){nb.classList.add('nb-ready');document.getElementById('nb-status').textContent='Готов к бою';document.getElementById('nb-countdown').textContent='+';}
     else{nb.classList.remove('nb-ready');document.getElementById('nb-status').textContent='Заспавнится через';document.getElementById('nb-countdown').textContent=fmtTime(tl)||'';}
 }
 
 function renderBosses(){
-    if(isBlacklisted){document.getElementById('boss-list').innerHTML=`<div class="placeholder"><div class="ph-icon">[ 🚫 ]</div><div class="ph-text" style="color:#ff4d6d">Доступ ограничен</div></div>`;return;}
+    if(isBlacklisted){document.getElementById('boss-list').innerHTML=`<div class="placeholder"><div class="ph-icon">[ X ]</div><div class="ph-text" style="color:#ff4d6d">Доступ ограничен</div></div>`;return;}
     const list=document.getElementById('boss-list');
     list.innerHTML='';
     let cntReady=0,cntActive=0,cntNotif=0;
@@ -901,7 +886,7 @@ function renderBosses(){
             el.classList.toggle('on',notifications[id]);
             saveNotifLocal();pushToggleToBot(id,notifications[id]);
             document.getElementById('cnt-notif').textContent=Object.values(notifications).filter(Boolean).length;
-            showToast(notifications[id]?`🔔 Уведомления #${id} включены`:`🔕 Уведомления #${id} выключены`);
+            showToast(notifications[id]?`Уведомления #${id} включены`:`Уведомления #${id} выключены`);
             tg?.HapticFeedback?.impactOccurred('light');
         });
     });
@@ -963,7 +948,7 @@ async function loadData(silent){
         if(!tickInterval)tickInterval=setInterval(tick,1000);
     }catch(e){
         setSyncState('error','Бот выключен');
-        if(!respawnData.length){document.getElementById('boss-list').innerHTML=`<div class="placeholder"><div class="ph-icon">[ ✕ ]</div><div class="ph-text">Бот выключен</div><div class="ph-sub">Ожидайте включения</div></div>`;}
+        if(!respawnData.length){document.getElementById('boss-list').innerHTML=`<div class="placeholder"><div class="ph-icon">[ X ]</div><div class="ph-text">Бот выключен</div><div class="ph-sub">Ожидайте включения</div></div>`;}
     }
 }
 
