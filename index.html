@@ -43,6 +43,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .action-btn:hover{border-color:var(--accent);background:rgba(74,158,255,0.04);}
 .action-btn-icon{font-size:18px;line-height:1;}
 .action-btn-label{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;text-align:center;}
+.action-new-badge{position:absolute;top:5px;right:5px;background:#e53935;color:#fff;font-family:'Orbitron',monospace;font-size:6px;font-weight:700;padding:2px 4px;border-radius:3px;letter-spacing:0.5px;line-height:1;box-shadow:0 0 6px rgba(229,57,53,0.7);}
 .next-boss{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;}
 .next-boss::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);}
 .next-boss.nb-ready::before{background:linear-gradient(90deg,var(--ready),transparent);}
@@ -322,20 +323,21 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 <div class="action-row">
 <div class="action-btn" id="btn-top-coins">
-<div class="action-btn-icon">&#x1F3C6;</div>
+<div class="action-btn-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2L13.5 7.5L19.5 8.3L15.3 12.3L16.4 18.3L11 15.5L5.6 18.3L6.7 12.3L2.5 8.3L8.5 7.5Z" fill="#4a9eff" opacity="0.9"/></svg></div>
 <div class="action-btn-label">Топ донатов</div>
 </div>
 <div class="action-btn" id="btn-donate">
-<div class="action-btn-icon">&#x1F4B0;</div>
+<div class="action-btn-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><ellipse cx="11" cy="12" rx="8" ry="5.5" stroke="#4a9eff" stroke-width="1.5"/><ellipse cx="11" cy="9.5" rx="8" ry="5.5" stroke="#4a9eff" stroke-width="1.5" fill="#0c0d10"/><ellipse cx="11" cy="9.5" rx="8" ry="5.5" stroke="#4a9eff" stroke-width="1.5"/><ellipse cx="11" cy="7" rx="8" ry="5.5" stroke="#4a9eff" stroke-width="1.5" fill="#0c0d10"/><ellipse cx="11" cy="7" rx="8" ry="5.5" fill="#0c0d10" stroke="#4a9eff" stroke-width="1.5"/><text x="11" y="10.5" text-anchor="middle" font-size="6" fill="#4a9eff" font-family="monospace" font-weight="bold">$</text></svg></div>
 <div class="action-btn-label">Поддержать</div>
 </div>
 <div class="action-btn" id="btn-ideas">
-<div class="action-btn-icon">&#x1F4A1;</div>
+<div class="action-btn-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3C7.7 3 5 5.7 5 9C5 11.4 6.4 13.5 8.5 14.5V16.5C8.5 17 8.9 17.5 9.5 17.5H12.5C13.1 17.5 13.5 17 13.5 16.5V14.5C15.6 13.5 17 11.4 17 9C17 5.7 14.3 3 11 3Z" stroke="#4a9eff" stroke-width="1.4" fill="rgba(74,158,255,0.1)"/><line x1="9" y1="19.5" x2="13" y2="19.5" stroke="#4a9eff" stroke-width="1.4" stroke-linecap="round"/></svg></div>
 <div class="action-btn-label">Идеи</div>
 </div>
-<div class="action-btn" id="btn-calc">
-<div class="action-btn-icon">&#x2696;</div>
+<div class="action-btn" id="btn-calc" style="position:relative">
+<div class="action-btn-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="5" width="16" height="13" rx="2" stroke="#4a9eff" stroke-width="1.4" fill="rgba(74,158,255,0.07)"/><line x1="3" y1="9.5" x2="19" y2="9.5" stroke="#4a9eff" stroke-width="1.2"/><line x1="11" y1="9.5" x2="11" y2="18" stroke="#4a9eff" stroke-width="1.2"/><line x1="6" y1="7.2" x2="8.5" y2="7.2" stroke="#4a9eff" stroke-width="1.3" stroke-linecap="round"/><rect x="13" y="11.5" width="3.5" height="3.5" rx="0.5" fill="#4a9eff" opacity="0.7"/></svg></div>
 <div class="action-btn-label">Калькулятор</div>
+<div class="action-new-badge">NEW</div>
 </div>
 </div>
 
@@ -351,15 +353,17 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 <div class="sound-panel">
 <div class="sound-row1">
-<span class="sound-label">ЗВУК ЗА 1 МИН ДО БОССА</span>
+<span class="sound-label">&#x1F50A; ЗВУК ЗА 1 МИН ДО БОССА</span>
 <div class="toggle-btn" id="sound-toggle"></div>
 </div>
 <div class="sound-row2">
 <select class="sound-select" id="sound-select">
-<option value="chime">Мелодия (chime)</option>
-<option value="alert">Тревога (alert)</option>
-<option value="ping">Пинг (ping)</option>
-<option value="fanfare">Фанфара (fanfare)</option>
+<option value="chime">Хрустальный звон</option>
+<option value="harp">Арфа</option>
+<option value="bell">Колокол</option>
+<option value="epic">Эпический сигнал</option>
+<option value="soft">Мягкий зов</option>
+<option value="pulse">Пульс тревоги</option>
 </select>
 <div class="sound-vol-wrap">
 <span class="sound-vol-label" id="vol-label">67</span>
@@ -986,11 +990,31 @@ soundSel.value=soundType;
 volSlider.addEventListener('input',()=>{soundVolume=parseInt(volSlider.value)/100;volLabel.textContent=volSlider.value;localStorage.setItem(VOL_KEY,volSlider.value);});
 soundSel.addEventListener('change',()=>{soundType=soundSel.value;localStorage.setItem(STYPE_KEY,soundType);if(soundEnabled)playSound();});
 function playSound(){
-try{const ctx=getACtx(),vol=soundVolume;
-if(soundType==='chime'){[[523,0],[659,0.13],[784,0.26],[1047,0.39]].forEach(([freq,delay])=>{const osc=ctx.createOscillator(),g=ctx.createGain();osc.connect(g);g.connect(ctx.destination);osc.type='sine';osc.frequency.value=freq;const t=ctx.currentTime+delay;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol*0.4,t+0.02);g.gain.exponentialRampToValueAtTime(0.001,t+0.3);osc.start(t);osc.stop(t+0.3);});}
-else if(soundType==='alert'){[[880,0],[880,0.15],[1100,0.3],[880,0.45]].forEach(([freq,delay])=>{const osc=ctx.createOscillator(),g=ctx.createGain();osc.connect(g);g.connect(ctx.destination);osc.type='square';osc.frequency.value=freq;const t=ctx.currentTime+delay;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol*0.15,t+0.01);g.gain.exponentialRampToValueAtTime(0.001,t+0.12);osc.start(t);osc.stop(t+0.12);});}
-else if(soundType==='ping'){const osc=ctx.createOscillator(),g=ctx.createGain();osc.connect(g);g.connect(ctx.destination);osc.type='sine';osc.frequency.value=1200;const t=ctx.currentTime;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol*0.5,t+0.005);g.gain.exponentialRampToValueAtTime(0.001,t+0.4);osc.start(t);osc.stop(t+0.4);}
-else if(soundType==='fanfare'){[[392,0],[494,0.1],[587,0.2],[784,0.3],[784,0.5],[698,0.6],[784,0.75]].forEach(([freq,delay])=>{const osc=ctx.createOscillator(),g=ctx.createGain();osc.connect(g);g.connect(ctx.destination);osc.type='triangle';osc.frequency.value=freq;const t=ctx.currentTime+delay;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol*0.3,t+0.02);g.gain.exponentialRampToValueAtTime(0.001,t+0.2);osc.start(t);osc.stop(t+0.2);});}
+try{const ctx=getACtx(),vol=soundVolume,now=ctx.currentTime;
+function note(type,freq,start,dur,peak,fade){const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(0,now+start);g.gain.linearRampToValueAtTime(peak*vol,now+start+0.03);g.gain.setValueAtTime(peak*vol,now+start+dur-fade);g.gain.exponentialRampToValueAtTime(0.0001,now+start+dur);o.start(now+start);o.stop(now+start+dur);}
+function noteV(type,freq,start,dur,peak,fade,vib){const o=ctx.createOscillator(),lfo=ctx.createOscillator(),lfog=ctx.createGain(),g=ctx.createGain();lfo.frequency.value=vib||5;lfog.gain.value=vib?freq*0.015:0;lfo.connect(lfog);lfog.connect(o.frequency);o.connect(g);g.connect(ctx.destination);o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(0,now+start);g.gain.linearRampToValueAtTime(peak*vol,now+start+0.05);g.gain.setValueAtTime(peak*vol,now+start+dur-fade);g.gain.exponentialRampToValueAtTime(0.0001,now+start+dur);lfo.start(now+start);lfo.stop(now+start+dur);o.start(now+start);o.stop(now+start+dur);}
+if(soundType==='chime'){
+const seq=[[523,0],[659,0.55],[784,1.1],[988,1.65],[1047,2.2],[988,2.75],[1175,3.3],[1319,3.85],[1568,4.4]];
+seq.forEach(([f,t])=>{note('sine',f,t,0.9,0.35,0.6);note('sine',f*2,t,0.5,0.06,0.4);});
+}
+else if(soundType==='harp'){
+const seq=[[392,0],[494,0.3],[587,0.6],[740,0.9],[880,1.2],[1047,1.5],[1319,1.8],[1047,2.2],[880,2.6],[740,3.0],[587,3.4],[494,3.8]];
+seq.forEach(([f,t])=>{note('sine',f,t,1.0,0.3,0.7);note('triangle',f*1.5,t,0.6,0.05,0.4);});
+}
+else if(soundType==='bell'){
+const strikes=[[0,440],[1.0,554],[2.0,659],[3.2,880],[4.2,1108]];
+strikes.forEach(([t,f])=>{note('sine',f,t,1.8,0.4,1.5);note('sine',f*2.756,t,1.2,0.1,1.0);note('sine',f*5.404,t,0.6,0.04,0.5);});
+}
+else if(soundType==='epic'){
+[[196,0,'sawtooth',0.15],[392,0,'square',0.08],[294,0.6,'sawtooth',0.15],[587,0.6,'square',0.08],[349,1.2,'sawtooth',0.18],[698,1.2,'square',0.09],[440,1.9,'sawtooth',0.2],[880,1.9,'square',0.1],[523,2.7,'sawtooth',0.25],[1047,2.7,'square',0.12],[659,3.5,'sawtooth',0.28],[523,4.0,'sawtooth',0.3],[392,4.5,'sawtooth',0.15]].forEach(([f,t,tp,p])=>note(tp,f,t,0.7,p,0.4));
+}
+else if(soundType==='soft'){
+const seq=[[329,0],[415,0.5],[493,1.0],[554,1.5],[659,2.0],[554,2.6],[493,3.2],[415,3.8],[329,4.4]];
+seq.forEach(([f,t])=>{noteV('sine',f,t,1.1,0.22,0.8,5);note('sine',f*1.007,t,1.1,0.1,0.8);});
+}
+else if(soundType==='pulse'){
+for(let i=0;i<10;i++){const t=i*0.5,amp=i<5?0.1+i*0.04:0.3-(i-5)*0.03;note('square',110+i*15,t,0.18,amp*0.5,0.12);note('sine',220+i*30,t,0.18,amp,0.12);note('sine',440+i*60,t,0.15,amp*0.4,0.1);}
+}
 }catch(e){}}
 let soundEnabled=localStorage.getItem(SOUND_KEY)!=='false';
 const soundEl=document.getElementById('sound-toggle');
