@@ -667,6 +667,10 @@ const wrap=document.getElementById('ideas-wrap');
 wrap.innerHTML='';
 if(isBlacklisted){wrap.innerHTML=`<div class="placeholder"><div class="ph-text" style="color:#ff4d6d">Доступ ограничен</div></div>`;return;}
 if(!TG_USER_ID){wrap.innerHTML=`<div class="placeholder"><div class="ph-text">Войдите через Telegram</div></div>`;return;}
+if(!userProfile||!userProfile.nick){
+wrap.innerHTML=`<div class="idea-input-box" style="text-align:center"><div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);line-height:1.7">Чтобы оставить идею, нужен профиль.<br><span style="color:var(--accent)">Создай профиль</span> — и ты сможешь делиться<br>своими идеями по улучшению бота.</div></div>`;
+return;
+}
 try{
 const res=await fetch(`${API_BASE}/ideas/my?uid=${TG_USER_ID}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
 const data=await res.json();
@@ -688,6 +692,7 @@ else if(lastIdea)statusHtml=`<div class="idea-status pending">Идея отпр�
 const now=Date.now();
 const serverCd=data.cd_until?data.cd_until*1000:0;
 const localCd=parseInt(localStorage.getItem(IDEA_CD_KEY)||'0');
+if(serverCd===0&&localCd>0){localStorage.removeItem(IDEA_CD_KEY);}
 const cdUntil=Math.max(serverCd,localCd);
 const cdLeft=Math.max(0,Math.floor((cdUntil-now)/1000));
 const disabled=cdLeft>0?'disabled':'';
