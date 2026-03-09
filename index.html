@@ -237,6 +237,27 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .aic-status-tag.st-rejected{color:#ff9800;border:1px solid rgba(255,152,0,0.5);}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--border2);border-radius:8px;padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px;transition:transform 0.3s ease;z-index:999;white-space:nowrap;pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
+.calc-soon-banner{background:linear-gradient(135deg,rgba(74,158,255,0.06),rgba(167,139,250,0.06));border:1px solid rgba(74,158,255,0.2);border-radius:10px;padding:18px 16px;margin-bottom:16px;text-align:center;}
+.calc-soon-icon{font-size:28px;margin-bottom:8px;}
+.calc-soon-title{font-family:'Orbitron',monospace;font-size:13px;font-weight:900;color:var(--accent);letter-spacing:4px;margin-bottom:8px;}
+.calc-soon-text{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);line-height:1.6;letter-spacing:0.5px;}
+.calc-card{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:16px;margin-bottom:12px;}
+.calc-section-label{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;}
+.calc-input-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px;}
+.calc-lvl-btn{width:36px;height:36px;border-radius:8px;background:var(--panel);border:1px solid var(--border2);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;line-height:1;}
+.calc-lvl-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(74,158,255,0.07);}
+.calc-lvl-btn:active{transform:scale(0.93);}
+.calc-lvl-display{font-family:'Orbitron',monospace;font-size:32px;font-weight:900;color:var(--white);min-width:72px;text-align:center;}
+.calc-slider{-webkit-appearance:none;appearance:none;width:100%;height:3px;border-radius:2px;background:var(--border2);outline:none;cursor:pointer;}
+.calc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 6px rgba(74,158,255,0.5);}
+.calc-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;}
+.calc-result-card{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:16px;margin-bottom:12px;}
+.calc-result-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;}
+.calc-result-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;}
+.calc-result-val{font-family:'Orbitron',monospace;font-size:16px;font-weight:700;color:var(--accent);}
+.calc-result-val.calc-locked{color:var(--border2);font-size:18px;}
+.calc-divider{height:1px;background:var(--border);margin:6px 0;}
+.calc-locked-note{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);text-align:center;margin-top:10px;letter-spacing:1px;}
 </style>
 </head>
 <body>
@@ -311,6 +332,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="action-btn" id="btn-ideas">
 <div class="action-btn-icon">&#x1F4A1;</div>
 <div class="action-btn-label">Идеи</div>
+</div>
+<div class="action-btn" id="btn-calc">
+<div class="action-btn-icon">&#x2696;</div>
+<div class="action-btn-label">Калькулятор</div>
 </div>
 </div>
 
@@ -415,6 +440,56 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 </div>
 <div id="admin-ideas-list" style="display:none">
 <div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка</div></div>
+</div>
+</div>
+
+<div class="page" id="page-calc">
+<div class="admin-page-header">
+<div class="page-back" id="calc-back">&#x2190; Назад</div>
+<div class="top-title">КАЛЬКУЛЯТОР <em style="font-size:12px;color:var(--muted);font-family:'Share Tech Mono',monospace;letter-spacing:1px">уровней</em></div>
+</div>
+
+<div class="calc-soon-banner">
+<div class="calc-soon-icon">&#x231B;</div>
+<div class="calc-soon-title">СКОРО</div>
+<div class="calc-soon-text">Калькулятор уровней появится в течение первой недели после вайпа — как только будут известны все требования.</div>
+</div>
+
+<div class="calc-card">
+<div class="calc-section-label">Текущий уровень</div>
+<div class="calc-input-row">
+<button class="calc-lvl-btn" id="calc-cur-minus">&#x2212;</button>
+<div class="calc-lvl-display" id="calc-cur-val">1</div>
+<button class="calc-lvl-btn" id="calc-cur-plus">&#x2B;</button>
+</div>
+<input type="range" class="calc-slider" id="calc-cur-slider" min="1" max="199" value="1">
+</div>
+
+<div class="calc-card">
+<div class="calc-section-label">Целевой уровень</div>
+<div class="calc-input-row">
+<button class="calc-lvl-btn" id="calc-tgt-minus">&#x2212;</button>
+<div class="calc-lvl-display" id="calc-tgt-val">200</div>
+<button class="calc-lvl-btn" id="calc-tgt-plus">&#x2B;</button>
+</div>
+<input type="range" class="calc-slider" id="calc-tgt-slider" min="2" max="200" value="200">
+</div>
+
+<div class="calc-result-card" id="calc-result">
+<div class="calc-result-row">
+<span class="calc-result-label">Уровней до цели</span>
+<span class="calc-result-val" id="calc-diff">199</span>
+</div>
+<div class="calc-divider"></div>
+<div class="calc-result-row">
+<span class="calc-result-label">Монет</span>
+<span class="calc-result-val calc-locked" id="calc-coins">&#x2014;</span>
+</div>
+<div class="calc-result-row">
+<span class="calc-result-label">Блоков</span>
+<span class="calc-result-val calc-locked" id="calc-blocks">&#x2014;</span>
+</div>
+<div class="calc-locked-note">Данные появятся после вайпа</div>
 </div>
 </div>
 
@@ -1033,7 +1108,33 @@ setSyncState('error','Бот выключен');
 if(!respawnData.length){document.getElementById('boss-list').innerHTML=`<div class="placeholder"><div class="ph-icon">[ X ]</div><div class="ph-text">Бот выключен</div><div class="ph-sub">Ожидайте включения</div></div>`;}
 }
 }
-document.getElementById('refresh-btn').addEventListener('click',()=>loadData(false));
+document.getElementById('btn-calc').addEventListener('click',()=>{showPage('page-calc');});
+document.getElementById('calc-back').addEventListener('click',()=>showPage('page-main'));
+
+(function(){
+let cur=1,tgt=200;
+const curVal=document.getElementById('calc-cur-val');
+const tgtVal=document.getElementById('calc-tgt-val');
+const curSlider=document.getElementById('calc-cur-slider');
+const tgtSlider=document.getElementById('calc-tgt-slider');
+const diffEl=document.getElementById('calc-diff');
+function update(){
+if(cur>=tgt)tgt=Math.min(cur+1,200);
+if(tgt<=cur)cur=Math.max(tgt-1,1);
+curVal.textContent=cur;
+tgtVal.textContent=tgt;
+curSlider.value=cur;
+tgtSlider.value=tgt;
+diffEl.textContent=tgt-cur;
+}
+document.getElementById('calc-cur-minus').addEventListener('click',()=>{if(cur>1){cur--;update();}});
+document.getElementById('calc-cur-plus').addEventListener('click',()=>{if(cur<199){cur++;update();}});
+document.getElementById('calc-tgt-minus').addEventListener('click',()=>{if(tgt>2){tgt--;update();}});
+document.getElementById('calc-tgt-plus').addEventListener('click',()=>{if(tgt<200){tgt++;update();}});
+curSlider.addEventListener('input',()=>{cur=parseInt(curSlider.value);update();});
+tgtSlider.addEventListener('input',()=>{tgt=parseInt(tgtSlider.value);update();});
+update();
+})();
 document.addEventListener('click',()=>{try{getACtx().resume();}catch(e){}},{once:true});
 if(TG_USER_ID===ADMIN_ID)document.getElementById('admin-link').style.display='block';
 
@@ -1055,6 +1156,7 @@ tip.style.top=top+'px';
 });
 btn.addEventListener('mouseleave',()=>{tip.style.display='none';});
 })();
+document.getElementById('refresh-btn').addEventListener('click',()=>loadData(false));
 loadProfile();
 loadData(false);
 setInterval(()=>loadData(true),5000);
