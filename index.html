@@ -233,8 +233,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .aic-status-tag.st-pending{color:var(--warn);border:1px solid rgba(243,156,18,0.5);}
 .aic-status-tag.st-accepted{color:var(--ready);border:1px solid rgba(46,204,113,0.5);}
 .aic-status-tag.st-rejected{color:#ff9800;border:1px solid rgba(255,152,0,0.5);}
-.badge-channel-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#4a9eff,#7b61ff);box-shadow:0 0 6px rgba(74,158,255,0.5);}
-.badge-channel-icon svg{width:9px;height:9px;}
+.badge-channel-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:#4a5568;box-shadow:0 0 4px rgba(74,85,104,0.5);}
+.badge-channel-icon svg{width:10px;height:10px;}
+.tgk-link{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;cursor:pointer;border:1px solid var(--border);padding:3px 8px;border-radius:2px;background:transparent;transition:all 0.15s;}
+.tgk-link:hover{border-color:var(--accent);color:var(--accent);}
 .top-del-btn{font-size:10px;color:var(--dim);cursor:pointer;padding:2px 5px;border-radius:3px;border:1px solid var(--border);flex-shrink:0;transition:all 0.15s;}
 .top-del-btn:hover{color:#ff4d6d;border-color:#ff4d6d;}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--border2);border-radius:8px;padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px;transition:transform 0.3s ease;z-index:999;white-space:nowrap;pointer-events:none;}
@@ -276,25 +278,29 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="modal">
 <div class="modal-title">ТЕЛЕГРАМ КАНАЛ</div>
 <div class="modal-close" id="close-tgk">&#x2715;</div>
-<div style="text-align:center;margin-bottom:18px">
-<div style="font-size:36px;margin-bottom:10px">📣</div>
-<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:2px;margin-bottom:6px">@PrisonEvoAssist</div>
+<div style="text-align:center;margin-bottom:16px">
+<div style="font-size:30px;margin-bottom:8px">📣</div>
+<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:2px">@PrisonEvoAssist</div>
 </div>
-<div style="background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:14px;margin-bottom:16px">
-<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-<span class="badge-wrap" style="margin-left:0"><span class="badge-channel-icon"><svg viewBox="0 0 12 12" fill="none" width="10" height="10"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+<div style="background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:14px;margin-bottom:12px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+<span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:5px;background:#4a5568;flex-shrink:0"><svg viewBox="0 0 12 12" fill="none" width="12" height="12"><circle cx="6" cy="4" r="2.2" fill="white"/><path d="M1.5 10.5C1.5 8.3 3.5 6.5 6 6.5C8.5 6.5 10.5 8.3 10.5 10.5" stroke="white" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg></span>
 <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--white)">Уникальный значок подписчика</span>
 </div>
-<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.6">За подписку на канал выдаётся значок<br>подписчика ТГК — виден в топе и профилях.</div>
+<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.6">За подписку выдаётся значок со значком человека —<br>виден рядом с ником в топе и профилях.</div>
 </div>
-<div style="background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:14px;margin-bottom:18px">
-<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-<span style="font-size:16px">📰</span>
+<div style="background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:14px;margin-bottom:16px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+<span style="font-size:14px">📰</span>
 <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--white)">Новости бота</span>
 </div>
-<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.6">Все обновления, изменения и анонсы<br>публикуются в канале первыми.</div>
+<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.6">Все обновления и анонсы публикуются в канале первыми.</div>
 </div>
-<a href="https://t.me/PrisonEvoAssist" target="_blank" style="display:block;text-align:center;background:rgba(74,158,255,0.1);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:10px;padding:10px;border-radius:6px;text-decoration:none;letter-spacing:2px">ПОДПИСАТЬСЯ →</a>
+<div style="display:flex;gap:8px">
+<a href="https://t.me/PrisonEvoAssist" target="_blank" style="flex:1;display:block;text-align:center;background:rgba(74,158,255,0.08);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 6px;border-radius:4px;text-decoration:none;letter-spacing:1px">ПОДПИСАТЬСЯ →</a>
+<div id="tgk-check-btn" style="display:flex;align-items:center;justify-content:center;background:rgba(46,204,113,0.08);border:1px solid var(--ready);color:var(--ready);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 12px;border-radius:4px;cursor:pointer;letter-spacing:1px;white-space:nowrap;transition:all 0.15s">✓ ПРОВЕРИТЬ</div>
+</div>
+<div id="tgk-check-result" style="margin-top:10px;font-family:'Share Tech Mono',monospace;font-size:10px;text-align:center;display:none"></div>
 </div>
 </div>
 
@@ -369,10 +375,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="action-btn-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3C7.7 3 5 5.7 5 9C5 11.4 6.4 13.5 8.5 14.5V16.5C8.5 17 8.9 17.5 9.5 17.5H12.5C13.1 17.5 13.5 17 13.5 16.5V14.5C15.6 13.5 17 11.4 17 9C17 5.7 14.3 3 11 3Z" stroke="#4a9eff" stroke-width="1.4" fill="rgba(74,158,255,0.1)"/><line x1="9" y1="19.5" x2="13" y2="19.5" stroke="#4a9eff" stroke-width="1.4" stroke-linecap="round"/></svg></div>
 <div class="action-btn-label">Идеи</div>
 </div>
-<div class="action-btn" id="btn-tgk">
-<div class="action-btn-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M18.5 3.5L2 9.5L8.5 12L14.5 7L10 13.5L14.5 16L18.5 3.5Z" stroke="#4a9eff" stroke-width="1.4" fill="rgba(74,158,255,0.1)" stroke-linejoin="round"/><line x1="8.5" y1="12" x2="10" y2="18" stroke="#4a9eff" stroke-width="1.4" stroke-linecap="round"/></svg></div>
-<div class="action-btn-label">ТГК</div>
-</div>
 <div class="action-btn" id="btn-calc" style="position:relative">
 <div class="action-btn-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="5" width="16" height="13" rx="2" stroke="#4a9eff" stroke-width="1.4" fill="rgba(74,158,255,0.07)"/><line x1="3" y1="9.5" x2="19" y2="9.5" stroke="#4a9eff" stroke-width="1.2"/><line x1="11" y1="9.5" x2="11" y2="18" stroke="#4a9eff" stroke-width="1.2"/><line x1="6" y1="7.2" x2="8.5" y2="7.2" stroke="#4a9eff" stroke-width="1.3" stroke-linecap="round"/><rect x="13" y="11.5" width="3.5" height="3.5" rx="0.5" fill="#4a9eff" opacity="0.7"/></svg></div>
 <div class="action-btn-label">Калькулятор</div>
@@ -445,6 +447,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="footer">
 <div class="footer-text">PrisonEvo</div>
 <div class="footer-text">Cristalix 2026</div>
+<div class="tgk-link" id="btn-tgk">📣 ТГК</div>
 <div class="admin-link" id="admin-link" style="display:none">Админ панель</div>
 </div>
 </div>
@@ -598,7 +601,7 @@ try{await fetch(`${API_BASE}/scoins/add`,{method:'POST',cache:'no-store',headers
 }
 const CHECK_SVG=`<svg viewBox="0 0 10 10" fill="none"><path d="M2 5.2L4 7.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const CODE_SVG=`<svg viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5L1.5 6L4.5 9.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 2.5L10.5 6L7.5 9.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-const CHANNEL_SVG=`<svg viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const CHANNEL_SVG=`<svg viewBox="0 0 12 12" fill="none"><circle cx="6" cy="4" r="2.2" fill="white"/><path d="M1.5 10.5C1.5 8.3 3.5 6.5 6 6.5C8.5 6.5 10.5 8.3 10.5 10.5" stroke="white" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>`;
 function verifyBadge(small){const sz=small?'width:14px;height:14px;':'';return `<span class="badge-wrap"><span class="profile-verify" style="${sz}">${CHECK_SVG}</span><span class="badge-tooltip">Подтверждённый пользователь</span></span>`;}
 function devBadge(small){const sz=small?'width:14px;height:14px;':'';return `<span class="badge-wrap"><span class="badge-dev-icon" style="${sz}">${CODE_SVG}</span><span class="badge-tooltip">Разработчик</span></span>`;}
 function channelBadge(small){const sz=small?'width:14px;height:14px;':'';return `<span class="badge-wrap"><span class="badge-channel-icon" style="${sz}">${CHANNEL_SVG}</span><span class="badge-tooltip">Подписчик ТГК</span></span>`;}
@@ -630,7 +633,45 @@ function clearCodeCountdown(){if(codeCountdown){clearInterval(codeCountdown);cod
 function setProfileWall(show){const wall=document.getElementById('profile-wall');wall.style.display=show?'flex':'none';}
 document.getElementById('close-tgk').addEventListener('click',()=>closeModal('modal-tgk'));
 document.getElementById('modal-tgk').addEventListener('click',e=>{if(e.target.id==='modal-tgk')closeModal('modal-tgk');});
-document.getElementById('btn-tgk').addEventListener('click',()=>openModal('modal-tgk'));
+document.getElementById('btn-tgk').addEventListener('click',()=>{
+document.getElementById('tgk-check-result').style.display='none';
+openModal('modal-tgk');
+});
+document.getElementById('tgk-check-btn').addEventListener('click',async()=>{
+if(!TG_USER_ID){showToast('Войдите через Telegram');return;}
+if(!userProfile||!userProfile.nick){showToast('Сначала создай профиль');return;}
+const btn=document.getElementById('tgk-check-btn');
+const result=document.getElementById('tgk-check-result');
+btn.textContent='...';
+btn.style.opacity='0.6';
+try{
+const res=await fetch(`${API_BASE}/check-channel?uid=${TG_USER_ID}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
+const data=await res.json();
+btn.textContent='✓ ПРОВЕРИТЬ';
+btn.style.opacity='1';
+result.style.display='block';
+if(data.subscribed){
+if(data.already){
+result.style.color='var(--ready)';
+result.textContent='Значок уже выдан!';
+}else{
+result.style.color='var(--ready)';
+result.textContent='Подписка подтверждена! Значок выдан.';
+userProfile.badge='tgk';
+renderProfileBar(userProfile);
+}
+}else{
+result.style.color='#ff4d6d';
+result.textContent='Сначала подпишись на канал!';
+}
+}catch(e){
+btn.textContent='✓ ПРОВЕРИТЬ';
+btn.style.opacity='1';
+result.style.display='block';
+result.style.color='var(--warn)';
+result.textContent='Ошибка проверки. Попробуй позже.';
+}
+});
 document.getElementById('info-btn').addEventListener('click',()=>openModal('modal-info'));
 document.getElementById('close-info').addEventListener('click',()=>closeModal('modal-info'));
 document.getElementById('close-profile').addEventListener('click',()=>{closeModal('modal-profile');clearCodeCountdown();});
