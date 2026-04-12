@@ -94,6 +94,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .sync-dot.error{background:var(--warn);}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
 .sync-time{margin-left:auto;color:var(--dim);}
+.sync-info-btn{margin-left:auto;color:var(--accent);cursor:pointer;border:1px solid rgba(74,158,255,0.3);padding:2px 7px;border-radius:2px;font-size:9px;letter-spacing:1px;transition:all 0.15s;background:rgba(74,158,255,0.04);}
+.sync-info-btn:hover{background:rgba(74,158,255,0.12);}
 .section-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .section-line{flex:1;height:1px;background:var(--border);}
 .section-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;}
@@ -269,7 +271,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div id="profile-wall" style="display:none;position:fixed;inset:0;z-index:150;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;max-width:480px;margin:0 auto;">
 <div style="font-family:'Orbitron',monospace;font-size:11px;color:var(--dim);letter-spacing:4px;margin-bottom:20px">[ ! ]</div>
 <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--white);letter-spacing:3px;margin-bottom:10px">НУЖЕН ПРОФИЛЬ</div>
-<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);line-height:1.8;margin-bottom:28px;letter-spacing:0.5px">Чтобы пользоваться трекером,<br>создай профиль на сервере.<br>Это займёт меньше минуты.</div>
+<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);line-height:1.8;margin-bottom:28px;letter-spacing:0.5px">Чтобы пользоваться ботом,<br>создай профиль на сервере.<br>Это займёт меньше минуты.</div>
 <div id="wall-create-btn" style="background:rgba(74,158,255,0.08);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:10px;padding:12px 28px;border-radius:4px;cursor:pointer;letter-spacing:2px;transition:all 0.15s;margin-bottom:14px;width:100%;max-width:260px">+ СОЗДАТЬ ПРОФИЛЬ</div>
 <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);line-height:1.7;letter-spacing:0.5px">После создания профиля все функции<br>станут доступны автоматически</div>
 </div>
@@ -297,7 +299,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.6">Все обновления и анонсы публикуются в канале первыми.</div>
 </div>
 <div style="display:flex;gap:8px">
-<a href="https://t.me/PrisonEvoAssist" target="_blank" style="flex:1;display:block;text-align:center;background:rgba(74,158,255,0.08);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 6px;border-radius:4px;text-decoration:none;letter-spacing:1px">ПОДПИСАТЬСЯ →</a>
+<div id="tgk-subscribe-btn" style="flex:1;display:flex;align-items:center;justify-content:center;text-align:center;background:rgba(74,158,255,0.08);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 6px;border-radius:4px;cursor:pointer;letter-spacing:1px;transition:all 0.15s">ПОДПИСАТЬСЯ →</div>
 <div id="tgk-check-btn" style="display:flex;align-items:center;justify-content:center;background:rgba(46,204,113,0.08);border:1px solid var(--ready);color:var(--ready);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 12px;border-radius:4px;cursor:pointer;letter-spacing:1px;white-space:nowrap;transition:all 0.15s">✓ ПРОВЕРИТЬ</div>
 </div>
 <div id="tgk-check-result" style="margin-top:10px;font-family:'Share Tech Mono',monospace;font-size:10px;text-align:center;display:none"></div>
@@ -328,7 +330,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="modal">
 <div class="modal-title">ПОДДЕРЖАТЬ БОТА</div>
 <div class="modal-close" id="close-donate">&#x2715;</div>
-<div class="donate-desc">Поддержи работу трекера — попади в топ донатеров! Любой взнос помогает боту развиваться.</div>
+<div class="donate-desc">Поддержи работу бота — попади в топ донатеров! Любой взнос помогает боту развиваться.</div>
 <div class="donate-step">1. Зайди на режим <span>PrisonEvo</span></div>
 <div class="donate-step">2. Переведи монеты боту в чате:</div>
 <div class="donate-cmd">/pay PrisonEvoAssist [сумма]</div>
@@ -356,7 +358,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 </div>
 <div class="header-right">
 <div class="version-pill">v1.0</div>
-<div class="info-btn" id="info-btn">Узнать больше</div>
+<div class="info-btn" id="btn-tgk">📣 ТГК</div>
 </div>
 </div>
 
@@ -427,7 +429,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="sync-bar">
 <div class="sync-dot" id="sync-dot"></div>
 <span id="sync-label">Ожидание</span>
-<span class="sync-time" id="sync-time"></span>
+<span class="sync-info-btn" id="info-btn">Узнать больше</span>
 </div>
 
 <div class="section-head">
@@ -447,7 +449,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="footer">
 <div class="footer-text">PrisonEvo</div>
 <div class="footer-text">Cristalix 2026</div>
-<div class="tgk-link" id="btn-tgk">📣 ТГК</div>
 <div class="admin-link" id="admin-link" style="display:none">Админ панель</div>
 </div>
 </div>
@@ -637,6 +638,10 @@ document.getElementById('btn-tgk').addEventListener('click',()=>{
 document.getElementById('tgk-check-result').style.display='none';
 openModal('modal-tgk');
 });
+document.getElementById('tgk-subscribe-btn').addEventListener('click',()=>{
+if(tg&&tg.openLink){tg.openLink('https://t.me/PrisonEvoAssist',{try_instant_view:false});}
+else{window.open('https://t.me/PrisonEvoAssist','_blank');}
+});
 document.getElementById('tgk-check-btn').addEventListener('click',async()=>{
 if(!TG_USER_ID){showToast('Войдите через Telegram');return;}
 if(!userProfile||!userProfile.nick){showToast('Сначала создай профиль');return;}
@@ -645,7 +650,7 @@ const result=document.getElementById('tgk-check-result');
 btn.textContent='...';
 btn.style.opacity='0.6';
 try{
-const res=await fetch(`${API_BASE}/check-channel?uid=${TG_USER_ID}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
+const res=await fetch(`${API_BASE}/check-channel?uid=${TG_USER_ID}&t=${Date.now()}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
 const data=await res.json();
 btn.textContent='✓ ПРОВЕРИТЬ';
 btn.style.opacity='1';
@@ -1035,7 +1040,7 @@ function mkImg(src,icon,imgCls,fbCls){const img=document.createElement('img');im
 function fmtTime(sec){if(sec<=0)return null;const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=Math.floor(sec%60);if(h>0)return `${h}ч ${m}м`;if(m>0)return `${m}м ${String(s).padStart(2,'0')}с`;return `${s}с`;}
 function getTL(ra){if(ra===null||ra===undefined)return -1;return Math.max(0,Math.floor(ra-Date.now()/1000));}
 function setSyncState(state,label){document.getElementById('sync-dot').className='sync-dot '+state;document.getElementById('sync-label').textContent=label;}
-function setSyncTime(){const d=new Date();document.getElementById('sync-time').textContent=[d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':');}
+function setSyncTime(){}
 let toastTimer=null;
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2200);}
 let audioCtx=null;
