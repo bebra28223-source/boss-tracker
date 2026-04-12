@@ -375,8 +375,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 </div>
 <div class="header-right">
 <div class="version-pill">v1.0</div>
+<div style="display:flex;gap:5px;align-items:center">
 <div class="info-btn" id="btn-bug" style="background:rgba(255,77,109,0.08);border-color:#ff4d6d;color:#ff4d6d">🐛</div>
 <div class="info-btn" id="btn-tgk">📣</div>
+</div>
 </div>
 </div>
 
@@ -572,19 +574,40 @@ const BOSSES=[
 {id:12,full:"Мориэль. Падший ангел",icon:"\u{1F5A4}",img:"imgs/boss12.png"},
 ];
 const DONATE_STYLES={
+" ":{color:"#9e9e9e",bg:"rgba(158,158,158,0.08)"},
 "I":{color:"#9e9e9e",bg:"rgba(158,158,158,0.1)"},
 "V":{color:"#ffd600",bg:"rgba(255,214,0,0.1)"},
 "V+":{color:"#ffd600",bg:"rgba(255,214,0,0.1)",plus:"#e53935"},
-"P":{color:"#43a047",bg:"rgba(67,160,71,0.1)"},
-"P+":{color:"#43a047",bg:"rgba(67,160,71,0.1)",plus:"#e53935"},
+"G":{color:"#ffd600",bg:"rgba(255,214,0,0.1)"},
+"P":{color:"#8bc34a",bg:"rgba(139,195,74,0.1)"},
+"P+":{color:"#8bc34a",bg:"rgba(139,195,74,0.1)",plus:"#e53935"},
 "D":{color:"#29b6f6",bg:"rgba(41,182,246,0.1)"},
+"H":{color:"#29b6f6",bg:"rgba(41,182,246,0.1)"},
 "MVP":{color:"#29b6f6",bg:"rgba(41,182,246,0.1)"},
 "MVP+":{color:"#29b6f6",bg:"rgba(41,182,246,0.1)",plus:"#e53935"},
-"E":{color:"#43a047",bg:"rgba(67,160,71,0.1)"},
+"E":{color:"#66bb6a",bg:"rgba(102,187,106,0.1)"},
 "S":{color:"#ff7043",bg:"rgba(255,112,67,0.1)"},
 "HE":{color:"#ff7043",bg:"rgba(255,112,67,0.1)"},
-"God":{color:"#ff7043",bg:"rgba(255,112,67,0.1)"},
+"GOD":{color:"#ff7043",bg:"rgba(255,112,67,0.1)"},
 "Paradox":{color:"#f48fb1",bg:"rgba(244,143,177,0.1)"},
+"M":{color:"#f48fb1",bg:"rgba(244,143,177,0.1)"},
+"Cur":{color:"#f06292",bg:"rgba(240,98,146,0.1)"},
+"Sr.M":{color:"#c2185b",bg:"rgba(194,24,91,0.1)"},
+"MEDIA":{color:"#ba68c8",bg:"rgba(186,104,200,0.1)"},
+"Jr.Dev":{color:"#42a5f5",bg:"rgba(66,165,245,0.1)"},
+"Dev":{color:"#42a5f5",bg:"rgba(66,165,245,0.1)"},
+"Sr.Dev":{color:"#42a5f5",bg:"rgba(66,165,245,0.1)"},
+"Designer":{color:"#42a5f5",bg:"rgba(66,165,245,0.1)"},
+"GD":{color:"#42a5f5",bg:"rgba(66,165,245,0.1)"},
+"ADM":{color:"#ef9a9a",bg:"rgba(239,154,154,0.1)"},
+"OWN":{color:"#f44336",bg:"rgba(244,67,54,0.1)"},
+"SR.OWN":{color:"#f44336",bg:"rgba(244,67,54,0.1)"},
+"B":{color:"#26c6da",bg:"rgba(38,198,218,0.1)"},
+"Sr.B":{color:"#26c6da",bg:"rgba(38,198,218,0.1)"},
+"Cur.B":{color:"#26c6da",bg:"rgba(38,198,218,0.1)"},
+"T":{color:"#00838f",bg:"rgba(0,131,143,0.1)"},
+"Sr.T":{color:"#00838f",bg:"rgba(0,131,143,0.1)"},
+"Cur.T":{color:"#00838f",bg:"rgba(0,131,143,0.1)"},
 };
 const API_BASE="https://mnemonically-unfallen-jeanett.ngrok-free.dev";
 const ADMIN_ID=7147977803;
