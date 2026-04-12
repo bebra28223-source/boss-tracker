@@ -271,7 +271,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div id="profile-wall" style="display:none;position:fixed;inset:0;z-index:150;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;max-width:480px;margin:0 auto;">
 <div style="font-family:'Orbitron',monospace;font-size:11px;color:var(--dim);letter-spacing:4px;margin-bottom:20px">[ ! ]</div>
 <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--white);letter-spacing:3px;margin-bottom:10px">НУЖЕН ПРОФИЛЬ</div>
-<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);line-height:1.8;margin-bottom:28px;letter-spacing:0.5px">Чтобы пользоваться ботом,<br>создай профиль на сервере.<br>Это займёт меньше минуты.</div>
+<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);line-height:1.8;margin-bottom:28px;letter-spacing:0.5px">Чтобы пользоваться трекером,<br>создай профиль на сервере.<br>Это займёт меньше минуты.</div>
 <div id="wall-create-btn" style="background:rgba(74,158,255,0.08);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:10px;padding:12px 28px;border-radius:4px;cursor:pointer;letter-spacing:2px;transition:all 0.15s;margin-bottom:14px;width:100%;max-width:260px">+ СОЗДАТЬ ПРОФИЛЬ</div>
 <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);line-height:1.7;letter-spacing:0.5px">После создания профиля все функции<br>станут доступны автоматически</div>
 </div>
@@ -306,6 +306,23 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 </div>
 </div>
 
+<div class="modal-overlay" id="modal-bug">
+<div class="modal">
+<div class="modal-title">НАШЁЛ БАГ?</div>
+<div class="modal-close" id="close-bug">&#x2715;</div>
+<div style="text-align:center;font-size:32px;margin-bottom:14px">🐛</div>
+<div style="background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:14px;margin-bottom:14px">
+<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.7;margin-bottom:12px">Если ты нашёл баг или что-то работает не так — напиши разработчику напрямую.</div>
+<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:10px">Разработчик бота:</div>
+<div style="display:flex;gap:8px;align-items:center">
+<div id="bug-tg-btn" style="flex:1;text-align:center;background:rgba(74,158,255,0.08);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 6px;border-radius:4px;cursor:pointer;letter-spacing:1px">📣 Написать</div>
+<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--white);font-weight:600">@whatafukk</div>
+</div>
+</div>
+<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);line-height:1.6;text-align:center">Опиши баг подробно — что произошло,<br>при каких условиях, скриншот приветствуется.</div>
+</div>
+</div>
+
 <div class="modal-overlay" id="modal-info">
 <div class="modal">
 <div class="modal-title">Что значат цвета?</div>
@@ -330,7 +347,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="modal">
 <div class="modal-title">ПОДДЕРЖАТЬ БОТА</div>
 <div class="modal-close" id="close-donate">&#x2715;</div>
-<div class="donate-desc">Поддержи работу бота — попади в топ донатеров! Любой взнос помогает боту развиваться.</div>
+<div class="donate-desc">Поддержи работу трекера — попади в топ донатеров! Любой взнос помогает боту развиваться.</div>
 <div class="donate-step">1. Зайди на режим <span>PrisonEvo</span></div>
 <div class="donate-step">2. Переведи монеты боту в чате:</div>
 <div class="donate-cmd">/pay PrisonEvoAssist [сумма]</div>
@@ -358,7 +375,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 </div>
 <div class="header-right">
 <div class="version-pill">v1.0</div>
-<div class="info-btn" id="btn-tgk">📣 ТГК</div>
+<div class="info-btn" id="btn-bug" style="background:rgba(255,77,109,0.08);border-color:#ff4d6d;color:#ff4d6d">🐛</div>
+<div class="info-btn" id="btn-tgk">📣</div>
 </div>
 </div>
 
@@ -606,7 +624,14 @@ const CHANNEL_SVG=`<svg viewBox="0 0 12 12" fill="none"><circle cx="6" cy="4" r=
 function verifyBadge(small){const sz=small?'width:14px;height:14px;':'';return `<span class="badge-wrap"><span class="profile-verify" style="${sz}">${CHECK_SVG}</span><span class="badge-tooltip">Подтверждённый пользователь</span></span>`;}
 function devBadge(small){const sz=small?'width:14px;height:14px;':'';return `<span class="badge-wrap"><span class="badge-dev-icon" style="${sz}">${CODE_SVG}</span><span class="badge-tooltip">Разработчик</span></span>`;}
 function channelBadge(small){const sz=small?'width:14px;height:14px;':'';return `<span class="badge-wrap"><span class="badge-channel-icon" style="${sz}">${CHANNEL_SVG}</span><span class="badge-tooltip">Подписчик ТГК</span></span>`;}
-function badgesHtml(verified,badge,small){let out='';if(badge==='green')out+=devBadge(small);if(badge==='channel'||badge==='tgk')out+=channelBadge(small);if(verified)out+=verifyBadge(small);return out;}
+function badgesHtml(verified,badge,small){
+let out='';
+const badges=Array.isArray(badge)?badge:(badge?[badge]:[]);
+if(badges.includes('green'))out+=devBadge(small);
+if(badges.includes('tgk')||badges.includes('channel'))out+=channelBadge(small);
+if(verified)out+=verifyBadge(small);
+return out;
+}
 function donateBadge(donate,cls){
 cls=cls||'profile-badge';
 const s=DONATE_STYLES[donate]||{color:'#9e9e9e',bg:'rgba(158,158,158,0.1)'};
@@ -632,6 +657,13 @@ function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 function clearCodeCountdown(){if(codeCountdown){clearInterval(codeCountdown);codeCountdown=null;}}
 function setProfileWall(show){const wall=document.getElementById('profile-wall');wall.style.display=show?'flex':'none';}
+document.getElementById('close-bug').addEventListener('click',()=>closeModal('modal-bug'));
+document.getElementById('modal-bug').addEventListener('click',e=>{if(e.target.id==='modal-bug')closeModal('modal-bug');});
+document.getElementById('btn-bug').addEventListener('click',()=>openModal('modal-bug'));
+document.getElementById('bug-tg-btn').addEventListener('click',()=>{
+if(tg&&tg.openLink){tg.openLink('https://t.me/whatafukk',{try_instant_view:false});}
+else{window.open('https://t.me/whatafukk','_blank');}
+});
 document.getElementById('close-tgk').addEventListener('click',()=>closeModal('modal-tgk'));
 document.getElementById('modal-tgk').addEventListener('click',e=>{if(e.target.id==='modal-tgk')closeModal('modal-tgk');});
 document.getElementById('btn-tgk').addEventListener('click',()=>{
@@ -639,7 +671,8 @@ document.getElementById('tgk-check-result').style.display='none';
 openModal('modal-tgk');
 });
 document.getElementById('tgk-subscribe-btn').addEventListener('click',()=>{
-if(tg&&tg.openLink){tg.openLink('https://t.me/PrisonEvoAssist',{try_instant_view:false});}
+if(tg&&tg.openTelegramLink){tg.openTelegramLink('https://t.me/PrisonEvoAssist');}
+else if(tg&&tg.openLink){tg.openLink('https://t.me/PrisonEvoAssist',{try_instant_view:false});}
 else{window.open('https://t.me/PrisonEvoAssist','_blank');}
 });
 document.getElementById('tgk-check-btn').addEventListener('click',async()=>{
@@ -662,7 +695,11 @@ result.textContent='Значок уже выдан!';
 }else{
 result.style.color='var(--ready)';
 result.textContent='Подписка подтверждена! Значок выдан.';
-userProfile.badge='tgk';
+const cur=userProfile.badges||[];
+if(!cur.includes('tgk'))cur.push('tgk');
+userProfile.badges=cur;
+if(!Array.isArray(userProfile.badge))userProfile.badge=userProfile.badge?[userProfile.badge]:[];
+if(!userProfile.badge.includes('tgk'))userProfile.badge.push('tgk');
 renderProfileBar(userProfile);
 }
 }else{
@@ -1002,7 +1039,7 @@ card.className='admin-user-card';
 const badge=u.donate?donateBadge(u.donate,'auc-badge'):'';
 const badges=badgesHtml(u.verified,u.badge||'',true);
 const blTag=u.blacklisted?'<span class="auc-bl">БЛОК</span>':'';
-const hasBadge=u.badge==='green';
+const hasBadge=Array.isArray(u.badge)?u.badge.includes('green'):u.badge==='green';
 const ideaBannedBtn=u.idea_banned?`<div class="auc-btn ideaunbl" data-action="idea-unban" data-uid="${u.user_id}">Разблок.идеи</div>`:'';
 const ideaCdBtn=u.idea_cd_left>0?`<div class="auc-btn idea-cd-rm" data-action="idea-cd-reset" data-uid="${u.user_id}">Снять КД идей</div>`:'';
 card.innerHTML=`
