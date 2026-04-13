@@ -189,6 +189,15 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .auc-btn.badge-g:hover{background:rgba(35,165,90,0.14);}
 .auc-btn.badge-rm{color:var(--muted);border-color:var(--muted);background:transparent;}
 .auc-btn.badge-rm:hover{color:var(--text);}
+.auc-btn.tgk-rm{color:#4a5568;border-color:#4a5568;background:rgba(74,85,104,0.06);}
+.auc-btn.tgk-rm:hover{background:rgba(74,85,104,0.16);}
+/* Модальное окно истории пользователя */
+.modal-overlay.hist-open{display:flex;}
+.hist-user-entry{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.hist-user-nick{font-size:13px;font-weight:600;color:var(--white);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hist-user-ts{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);flex-shrink:0;}
+.hist-user-del{font-size:11px;color:var(--dim);cursor:pointer;padding:2px 6px;border-radius:3px;border:1px solid var(--border);flex-shrink:0;transition:all 0.15s;}
+.hist-user-del:hover{color:#ff4d6d;border-color:#ff4d6d;}
 .auc-btn.del{color:#ff4d6d;border-color:#ff4d6d;background:rgba(255,77,109,0.06);}
 .auc-btn.del:hover{background:rgba(255,77,109,0.14);}
 .auc-btn.ideaunbl{color:#a78bfa;border-color:#a78bfa;background:rgba(167,139,250,0.06);}
@@ -379,6 +388,14 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 </div>
 </div>
 
+<div class="modal-overlay" id="modal-user-history">
+<div class="modal">
+<div class="modal-title" id="modal-user-history-title">ИСТОРИЯ НИКА</div>
+<div class="modal-close" id="close-user-history">&#x2715;</div>
+<div id="user-history-body"><div class="placeholder"><div class="ph-text">Загрузка...</div></div></div>
+</div>
+</div>
+
 <div class="page active" id="page-main">
 <div class="header">
 <div>
@@ -506,7 +523,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="page-back" id="admin-back">&#x2190; Назад</div>
 <div class="admin-title">АДМИН<em>.</em>ПАНЕЛЬ</div>
 </div>
-<!-- 4 вкладки: Пользователи, Идеи, История -->
+<!-- 2 вкладки: Пользователи, Идеи -->
 <div class="action-row" style="margin-bottom:20px">
 <div class="action-btn" id="admin-tab-users" onclick="switchAdminTab('users')">
 <div class="action-btn-label" style="font-size:10px">Пользователи</div>
@@ -514,17 +531,11 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="action-btn" id="admin-tab-ideas" onclick="switchAdminTab('ideas')">
 <div class="action-btn-label" style="font-size:10px">Идеи</div>
 </div>
-<div class="action-btn" id="admin-tab-history" onclick="switchAdminTab('history')">
-<div class="action-btn-label" style="font-size:10px">История</div>
-</div>
 </div>
 <div id="admin-user-list">
 <div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка</div></div>
 </div>
 <div id="admin-ideas-list" style="display:none">
-<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка</div></div>
-</div>
-<div id="admin-history-list" style="display:none">
 <div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка</div></div>
 </div>
 </div>
@@ -851,7 +862,7 @@ const code=data.code;
 let remaining=300;
 body.innerHTML=`
 <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:10px;line-height:1.6">
-Введи новый ник и донат на сервере — они обновятся в профиле автоматически.
+Если вы обновили свой ник или донат, вы можете обновить свой профиль. Следуйте инструкциям ниже.
 </div>
 <div class="code-box"><div class="code-val">${code}</div><div class="code-timer" id="code-timer">Действует: 5:00</div></div>
 <div class="code-hint">Напиши в личку боту PrisonEvoAssist на сервере:</div>
@@ -1085,14 +1096,12 @@ function switchAdminTab(tab){
 adminTab=tab;
 document.getElementById('admin-user-list').style.display=tab==='users'?'block':'none';
 document.getElementById('admin-ideas-list').style.display=tab==='ideas'?'block':'none';
-document.getElementById('admin-history-list').style.display=tab==='history'?'block':'none';
-['users','ideas','history'].forEach(t=>{
+['users','ideas'].forEach(t=>{
 const el=document.getElementById('admin-tab-'+t);
 if(el)el.style.borderColor=t===tab?'var(--accent)':'var(--border2)';
 });
 if(tab==='users')loadAdminUsers();
 else if(tab==='ideas')loadAdminIdeas();
-else if(tab==='history')loadAdminHistory();
 }
 
 async function loadAdminUsers(){
@@ -1108,47 +1117,55 @@ data.users.forEach(u=>list.appendChild(buildAdminCard(u)));
 }catch(e){list.innerHTML=`<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;}
 }
 
-// ── История профилей (только для админа) ──
-async function loadAdminHistory(){
-const list=document.getElementById('admin-history-list');
-list.innerHTML=`<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка...</div></div>`;
+// ── История конкретного пользователя (модальное окно) ──
+let histModalUid=0;
+document.getElementById('close-user-history').addEventListener('click',()=>closeModal('modal-user-history'));
+document.getElementById('modal-user-history').addEventListener('click',e=>{if(e.target.id==='modal-user-history')closeModal('modal-user-history');});
+
+async function openUserHistory(uid,nick){
+histModalUid=uid;
+document.getElementById('modal-user-history-title').textContent=`ИСТОРИЯ: ${nick}`;
+document.getElementById('user-history-body').innerHTML=`<div class="placeholder"><div class="ph-text">Загрузка...</div></div>`;
+openModal('modal-user-history');
+await loadUserHistory(uid);
+}
+
+async function loadUserHistory(uid){
+const body=document.getElementById('user-history-body');
 try{
-const res=await fetch(`${API_BASE}/admin/history?uid=${TG_USER_ID}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
-if(!res.ok){list.innerHTML=`<div class="placeholder"><div class="ph-text">Нет доступа</div></div>`;return;}
+const res=await fetch(`${API_BASE}/admin/history?uid=${TG_USER_ID}&target=${uid}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
 const data=await res.json();
 const entries=data.history||[];
 if(!entries.length){
-list.innerHTML=`<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Список пуст</div><div class="ph-sub">Изменений профилей ещё не было</div></div>`;
+body.innerHTML=`<div class="placeholder" style="padding:30px 0"><div class="ph-icon">[ · ]</div><div class="ph-text">История пуста</div><div class="ph-sub">Пользователь не менял ник</div></div>`;
 return;
 }
-list.innerHTML='';
-// Заголовок с количеством
-const header=document.createElement('div');
-header.style.cssText='font-family:"Share Tech Mono",monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:10px;text-align:right';
-header.textContent=`ЗАПИСЕЙ: ${entries.length}`;
-list.appendChild(header);
-entries.forEach(entry=>{
-const card=document.createElement('div');
-card.className='hist-entry';
+body.innerHTML='';
+const note=document.createElement('div');
+note.style.cssText='font-family:"Share Tech Mono",monospace;font-size:8px;color:var(--dim);letter-spacing:1px;margin-bottom:10px';
+note.textContent=`${entries.length} запис${entries.length===1?'ь':entries.length<5?'и':'ей'} — старые ники до смены`;
+body.appendChild(note);
+entries.forEach((entry,idx)=>{
+const row=document.createElement('div');
+row.className='hist-user-entry';
 const dt=new Date(entry.ts*1000).toLocaleString('ru',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'});
-const donBadge=entry.donate?donateBadge(entry.donate,'auc-badge'):'<span style="font-family:\'Share Tech Mono\',monospace;font-size:9px;color:var(--dim)">—</span>';
-// Показываем текущий ник если он изменился
-const currentNote=entry.current_nick&&entry.current_nick!==entry.nick
-  ?`<span style="font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim)"> → сейчас: <span style="color:var(--muted)">${entry.current_nick}</span></span>`
-  :'';
-card.innerHTML=`
-<div class="hist-meta">
-  <span>${dt}</span>
-  <span class="hist-uid">ID: ${entry.user_id}</span>
-</div>
-<div class="hist-vals">
-  ${donBadge}
-  <span style="font-size:13px;font-weight:600;color:var(--white)">${entry.nick||'—'}</span>
-  ${currentNote}
-</div>`;
-list.appendChild(card);
+const donBadge=entry.donate&&entry.donate.trim()?donateBadge(entry.donate,'auc-badge'):'';
+row.innerHTML=`
+${donBadge}
+<span class="hist-user-nick">${entry.nick||'—'}</span>
+<span class="hist-user-ts">${dt}</span>
+<span class="hist-user-del" data-idx="${idx}" title="Удалить запись">✕</span>`;
+row.querySelector('.hist-user-del').addEventListener('click',async(e)=>{
+const i=parseInt(e.target.dataset.idx);
+try{
+await fetch(`${API_BASE}/admin/history-delete`,{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},body:JSON.stringify({admin_id:TG_USER_ID,user_id:uid,index:i})});
+showToast('Запись удалена');
+await loadUserHistory(uid);
+}catch(err){showToast('Ошибка');}
 });
-}catch(e){list.innerHTML=`<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;}
+body.appendChild(row);
+});
+}catch(e){body.innerHTML=`<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;}
 }
 
 let adminIdeasFilter='all';
@@ -1218,12 +1235,14 @@ setTimeout(loadAdminIdeas,400);
 function buildAdminCard(u){
 const card=document.createElement('div');
 card.className='admin-user-card';
-const badge=u.donate?donateBadge(u.donate,'auc-badge'):'';
+const badge=u.donate&&u.donate.trim()?donateBadge(u.donate,'auc-badge'):'';
 const badges=badgesHtml(u.verified,u.badge||'',true);
 const blTag=u.blacklisted?'<span class="auc-bl">БЛОК</span>':'';
 const hasBadge=Array.isArray(u.badge)?u.badge.includes('green'):u.badge==='green';
+const hasTgk=Array.isArray(u.badge)?u.badge.includes('tgk')||u.badge.includes('channel'):u.badge==='tgk'||u.badge==='channel';
 const ideaBannedBtn=u.idea_banned?`<div class="auc-btn ideaunbl" data-action="idea-unban" data-uid="${u.user_id}">Разблок.идеи</div>`:'';
 const ideaCdBtn=u.idea_cd_left>0?`<div class="auc-btn idea-cd-rm" data-action="idea-cd-reset" data-uid="${u.user_id}">Снять КД идей</div>`:'';
+const tgkBtn=hasTgk?`<div class="auc-btn tgk-rm" data-action="tgk-rm" data-uid="${u.user_id}">Снять ТГК</div>`:'';
 card.innerHTML=`
 <div class="auc-top">${badge}<span class="auc-nick">${u.nick||'—'}</span>${badges}${blTag}</div>
 <div class="auc-uid">ID: ${u.user_id}</div>
@@ -1231,11 +1250,19 @@ card.innerHTML=`
 ${u.blacklisted?`<div class="auc-btn bl-rem" data-action="bl-rem" data-uid="${u.user_id}">Снять блок</div>`:`<div class="auc-btn bl-add" data-action="bl-add" data-uid="${u.user_id}">Заблокировать</div>`}
 ${u.verified?`<div class="auc-btn ver" data-action="unverify" data-uid="${u.user_id}">Снять галочку</div>`:`<div class="auc-btn ver" data-action="verify" data-uid="${u.user_id}">Верифицировать</div>`}
 ${hasBadge?`<div class="auc-btn badge-rm" data-action="badge-rm" data-uid="${u.user_id}">Снять Dev</div>`:`<div class="auc-btn badge-g" data-action="badge-green" data-uid="${u.user_id}">&lt;/&gt; Dev</div>`}
+${tgkBtn}
 ${ideaBannedBtn}${ideaCdBtn}
+<div class="auc-btn" style="color:#a78bfa;border-color:#a78bfa;background:rgba(167,139,250,0.06)" data-action="history" data-uid="${u.user_id}" data-nick="${u.nick||'—'}">История</div>
 <div class="auc-btn del" data-action="delete" data-uid="${u.user_id}">Удалить</div>
 </div>`;
 card.querySelectorAll('.auc-btn').forEach(btn=>{
-btn.addEventListener('click',()=>handleAdminAction(btn.dataset.action,parseInt(btn.dataset.uid)));
+btn.addEventListener('click',()=>{
+if(btn.dataset.action==='history'){
+openUserHistory(parseInt(btn.dataset.uid),btn.dataset.nick);
+}else{
+handleAdminAction(btn.dataset.action,parseInt(btn.dataset.uid));
+}
+});
 });
 return card;
 }
@@ -1248,7 +1275,8 @@ else if(action==='bl-rem'){await post('/admin/blacklist',{admin_id:TG_USER_ID,us
 else if(action==='verify'){await post('/admin/verify',{admin_id:TG_USER_ID,user_id:targetUid,verified:true});showToast('Верифицирован');}
 else if(action==='unverify'){await post('/admin/verify',{admin_id:TG_USER_ID,user_id:targetUid,verified:false});showToast('Галочка снята');}
 else if(action==='badge-green'){await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:'green'});showToast('Dev выдан');}
-else if(action==='badge-rm'){await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:''});showToast('Dev снят');}
+else if(action==='badge-rm'){await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:'green-rm'});showToast('Dev снят');}
+else if(action==='tgk-rm'){await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:'tgk-rm'});showToast('ТГК значок снят');}
 else if(action==='idea-unban'){await post('/admin/idea-unban',{admin_id:TG_USER_ID,user_id:targetUid});showToast('Идеи разблокированы');}
 else if(action==='idea-cd-reset'){await post('/admin/idea-cd-reset',{admin_id:TG_USER_ID,user_id:targetUid});showToast('КД идей снято');}
 else if(action==='delete'){await post('/admin/delete',{admin_id:TG_USER_ID,user_id:targetUid});showToast('Профиль удалён');}
