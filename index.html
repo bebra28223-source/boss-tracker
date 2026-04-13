@@ -34,6 +34,11 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .profile-verify svg{width:9px;height:9px;}
 .badge-dev-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:5px;background:#23a55a;box-shadow:0 0 6px rgba(35,165,90,0.6);}
 .badge-dev-icon svg{width:10px;height:10px;}
+/* Кнопка обновления профиля */
+.profile-update-btn{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:5px;background:rgba(46,204,113,0.12);border:1px solid var(--ready);color:var(--ready);font-size:12px;cursor:pointer;transition:all 0.2s;flex-shrink:0;margin-left:2px;}
+.profile-update-btn:hover{background:rgba(46,204,113,0.25);}
+.profile-update-btn.spinning-upd{animation:spin 0.7s linear infinite;}
+.profile-right-btns{display:flex;align-items:center;gap:6px;flex-shrink:0;}
 .create-profile-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);border:1px solid var(--accent);padding:4px 10px;border-radius:3px;background:rgba(74,158,255,0.06);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s;}
 .create-profile-btn:hover{background:rgba(74,158,255,0.14);}
 .view-profiles-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);border:1px solid var(--border2);padding:4px 10px;border-radius:3px;background:transparent;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s;}
@@ -243,6 +248,12 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .top-del-btn:hover{color:#ff4d6d;border-color:#ff4d6d;}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--border2);border-radius:8px;padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px;transition:transform 0.3s ease;z-index:999;white-space:nowrap;pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
+/* История */
+.hist-entry{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:6px;}
+.hist-meta{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);margin-bottom:5px;display:flex;align-items:center;justify-content:space-between;}
+.hist-uid{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted);}
+.hist-vals{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.hist-arrow{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);}
 .calc-soon-banner{background:linear-gradient(135deg,rgba(74,158,255,0.06),rgba(167,139,250,0.06));border:1px solid rgba(74,158,255,0.2);border-radius:10px;padding:18px 16px;margin-bottom:16px;text-align:center;}
 .calc-soon-icon{font-size:28px;margin-bottom:8px;}
 .calc-soon-title{font-family:'Orbitron',monospace;font-size:13px;font-weight:900;color:var(--accent);letter-spacing:4px;margin-bottom:8px;}
@@ -315,6 +326,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.7;margin-bottom:12px">Если ты нашёл баг или что-то работает не так — напиши разработчику напрямую.</div>
 <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:10px">Разработчик бота:</div>
 <div style="display:flex;gap:8px;align-items:center">
+<!-- Используем openTelegramLink чтобы не закрывать приложение -->
 <div id="bug-tg-btn" style="flex:1;text-align:center;background:rgba(74,158,255,0.08);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 6px;border-radius:4px;cursor:pointer;letter-spacing:1px">📣 Написать</div>
 <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--white);font-weight:600">@whatafukk</div>
 </div>
@@ -337,7 +349,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 <div class="modal-overlay" id="modal-profile">
 <div class="modal">
-<div class="modal-title">СОЗДАТЬ ПРОФИЛЬ</div>
+<div class="modal-title" id="modal-profile-title">СОЗДАТЬ ПРОФИЛЬ</div>
 <div class="modal-close" id="close-profile">&#x2715;</div>
 <div id="profile-modal-body"></div>
 </div>
@@ -494,6 +506,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="page-back" id="admin-back">&#x2190; Назад</div>
 <div class="admin-title">АДМИН<em>.</em>ПАНЕЛЬ</div>
 </div>
+<!-- 4 вкладки: Пользователи, Идеи, История -->
 <div class="action-row" style="margin-bottom:20px">
 <div class="action-btn" id="admin-tab-users" onclick="switchAdminTab('users')">
 <div class="action-btn-label" style="font-size:10px">Пользователи</div>
@@ -501,11 +514,17 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="action-btn" id="admin-tab-ideas" onclick="switchAdminTab('ideas')">
 <div class="action-btn-label" style="font-size:10px">Идеи</div>
 </div>
+<div class="action-btn" id="admin-tab-history" onclick="switchAdminTab('history')">
+<div class="action-btn-label" style="font-size:10px">История</div>
+</div>
 </div>
 <div id="admin-user-list">
 <div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка</div></div>
 </div>
 <div id="admin-ideas-list" style="display:none">
+<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка</div></div>
+</div>
+<div id="admin-history-list" style="display:none">
 <div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка</div></div>
 </div>
 </div>
@@ -680,13 +699,28 @@ function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 function clearCodeCountdown(){if(codeCountdown){clearInterval(codeCountdown);codeCountdown=null;}}
 function setProfileWall(show){const wall=document.getElementById('profile-wall');wall.style.display=show?'flex':'none';}
+
+// ── Утилита для открытия Telegram-ссылки БЕЗ закрытия приложения ──
+function openTgLink(url){
+  // openTelegramLink открывает внутри Telegram, не закрывая WebApp
+  if(tg&&tg.openTelegramLink){
+    tg.openTelegramLink(url);
+  } else if(tg&&tg.openLink){
+    tg.openLink(url,{try_instant_view:false});
+  } else {
+    window.open(url,'_blank');
+  }
+}
+
 document.getElementById('close-bug').addEventListener('click',()=>closeModal('modal-bug'));
 document.getElementById('modal-bug').addEventListener('click',e=>{if(e.target.id==='modal-bug')closeModal('modal-bug');});
 document.getElementById('btn-bug').addEventListener('click',()=>openModal('modal-bug'));
+
+// ── Кнопка "Написать" в баг-репорте — открывает профиль в Telegram, НЕ в браузере ──
 document.getElementById('bug-tg-btn').addEventListener('click',()=>{
-if(tg&&tg.openLink){tg.openLink('https://t.me/whatafukk',{try_instant_view:false});}
-else{window.open('https://t.me/whatafukk','_blank');}
+  openTgLink('https://t.me/whatafukk');
 });
+
 document.getElementById('close-tgk').addEventListener('click',()=>closeModal('modal-tgk'));
 document.getElementById('modal-tgk').addEventListener('click',e=>{if(e.target.id==='modal-tgk')closeModal('modal-tgk');});
 document.getElementById('btn-tgk').addEventListener('click',()=>{
@@ -694,9 +728,7 @@ document.getElementById('tgk-check-result').style.display='none';
 openModal('modal-tgk');
 });
 document.getElementById('tgk-subscribe-btn').addEventListener('click',()=>{
-if(tg&&tg.openTelegramLink){tg.openTelegramLink('https://t.me/PrisonEvoAssist');}
-else if(tg&&tg.openLink){tg.openLink('https://t.me/PrisonEvoAssist',{try_instant_view:false});}
-else{window.open('https://t.me/PrisonEvoAssist','_blank');}
+  openTgLink('https://t.me/PrisonEvoAssist');
 });
 document.getElementById('tgk-check-btn').addEventListener('click',async()=>{
 if(!TG_USER_ID){showToast('Войдите через Telegram');return;}
@@ -754,6 +786,7 @@ document.getElementById('ideas-back').addEventListener('click',()=>showPage('pag
 document.getElementById('admin-back').addEventListener('click',()=>showPage('page-main'));
 document.getElementById('admin-link').addEventListener('click',()=>{switchAdminTab('users');showPage('page-admin');});
 document.getElementById('wall-create-btn').addEventListener('click',startProfileCreation);
+
 async function loadProfile(){
 if(!TG_USER_ID){renderProfileBar(null);setProfileWall(true);return;}
 try{
@@ -765,6 +798,7 @@ renderProfileBar(userProfile);
 setProfileWall(!userProfile);
 }catch(e){renderProfileBar(null);}
 }
+
 function renderProfileBar(profile){
 const bar=document.getElementById('profile-bar');
 if(profile==='blacklisted'){
@@ -779,9 +813,79 @@ return;
 const badge=profile.donate?donateBadge(profile.donate):'';
 const badges=badgesHtml(profile.verified,profile.badge||'',false);
 const avatar=profile.avatar_url?`<img src="${profile.avatar_url}" onerror="this.parentElement.textContent='?'">`:getTgAvatar();
-bar.innerHTML=`<div class="profile-left"><div class="profile-avatar">${avatar}</div><div style="display:flex;align-items:center;gap:4px;min-width:0;overflow:hidden">${badge?badge+'&nbsp;':''}<span class="profile-name">${profile.nick}</span>${badges}</div></div><div class="view-profiles-btn" id="view-profiles-btn">Профили</div>`;
+// Кнопки справа: "Профили" + кнопка обновления (зелёная ⟳)
+bar.innerHTML=`
+<div class="profile-left">
+  <div class="profile-avatar">${avatar}</div>
+  <div style="display:flex;align-items:center;gap:4px;min-width:0;overflow:hidden">
+    ${badge?badge+'&nbsp;':''}
+    <span class="profile-name">${profile.nick}</span>
+    ${badges}
+  </div>
+</div>
+<div class="profile-right-btns">
+  <div class="view-profiles-btn" id="view-profiles-btn">Профили</div>
+  <div class="profile-update-btn" id="profile-update-btn" title="Обновить донат / ник">&#x21BB;</div>
+</div>`;
 document.getElementById('view-profiles-btn').addEventListener('click',openProfilesList);
+document.getElementById('profile-update-btn').addEventListener('click',startProfileUpdate);
 }
+
+// ── Обновление профиля ──
+async function startProfileUpdate(){
+if(!TG_USER_ID||!userProfile||!userProfile.nick){showToast('Сначала создай профиль');return;}
+const btn=document.getElementById('profile-update-btn');
+if(btn){btn.classList.add('spinning-upd');btn.style.pointerEvents='none';}
+document.getElementById('modal-profile-title').textContent='ОБНОВИТЬ ПРОФИЛЬ';
+const body=document.getElementById('profile-modal-body');
+body.innerHTML=`<div class="ph-text" style="text-align:center">Генерация кода...</div>`;
+openModal('modal-profile');
+if(btn){setTimeout(()=>{btn.classList.remove('spinning-upd');btn.style.pointerEvents='';},600);}
+const tgAvatarUrl=tg?.initDataUnsafe?.user?.photo_url||null;
+try{
+const res=await fetch(`${API_BASE}/profile/update`,{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},body:JSON.stringify({user_id:TG_USER_ID,avatar_url:tgAvatarUrl})});
+if(res.status===403){body.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:#ff4d6d;text-align:center">Вы в чёрном списке</div>`;return;}
+const data=await res.json();
+if(data.error){body.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--warn);text-align:center">${data.error}</div>`;return;}
+const code=data.code;
+let remaining=300;
+body.innerHTML=`
+<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:10px;line-height:1.6">
+Введи новый ник и донат на сервере — они обновятся в профиле автоматически.
+</div>
+<div class="code-box"><div class="code-val">${code}</div><div class="code-timer" id="code-timer">Действует: 5:00</div></div>
+<div class="code-hint">Напиши в личку боту PrisonEvoAssist на сервере:</div>
+<div class="code-cmd">/m PrisonEvoAssist verify ${code}</div>`;
+clearCodeCountdown();
+codeCountdown=setInterval(()=>{
+remaining--;
+if(remaining<=0){clearCodeCountdown();closeModal('modal-profile');showToast('Код истёк');return;}
+const m=Math.floor(remaining/60),s=remaining%60;
+const el=document.getElementById('code-timer');
+if(el)el.textContent=`Действует: ${m}:${String(s).padStart(2,'0')}`;
+},1000);
+pollProfileUpdate(code);
+}catch(e){body.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--warn);text-align:center">Бот выключен</div>`;}
+}
+
+function pollProfileUpdate(code){
+let attempts=0;
+const iv=setInterval(async()=>{
+attempts++;
+if(attempts>60){clearInterval(iv);return;}
+try{
+const res=await fetch(`${API_BASE}/profile?uid=${TG_USER_ID}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
+const data=await res.json();
+// Если ник изменился или донат изменился — обновление прошло
+if(data.nick&&(data.nick!==userProfile.nick||data.donate!==userProfile.donate)){
+clearInterval(iv);clearCodeCountdown();closeModal('modal-profile');
+userProfile=data;renderProfileBar(data);
+showToast(`Профиль обновлён: ${data.nick}`);
+}
+}catch(e){}
+},5000);
+}
+
 async function openProfilesList(){
 openModal('modal-profiles');
 const body=document.getElementById('profiles-list-body');
@@ -802,7 +906,9 @@ body.appendChild(el);
 });
 }catch(e){body.innerHTML=`<div class="placeholder"><div class="ph-text">Ошибка загрузки</div></div>`;}
 }
+
 async function startProfileCreation(){
+document.getElementById('modal-profile-title').textContent='СОЗДАТЬ ПРОФИЛЬ';
 const body=document.getElementById('profile-modal-body');
 body.innerHTML=`<div class="ph-text" style="text-align:center">Генерация кода...</div>`;
 openModal('modal-profile');
@@ -825,6 +931,7 @@ if(el)el.textContent=`Действует: ${m}:${String(s).padStart(2,'0')}`;
 pollVerification(code);
 }catch(e){body.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--warn);text-align:center">Бот выключен</div>`;}
 }
+
 function pollVerification(code){
 let attempts=0;
 const iv=setInterval(async()=>{
@@ -833,6 +940,7 @@ if(attempts>60){clearInterval(iv);return;}
 try{const res=await fetch(`${API_BASE}/profile?uid=${TG_USER_ID}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});const data=await res.json();if(data.nick){clearInterval(iv);clearCodeCountdown();closeModal('modal-profile');userProfile=data;renderProfileBar(data);setProfileWall(false);showToast(`Профиль создан: ${data.nick}`);}}catch(e){}
 },5000);
 }
+
 function buildTopEntry(rank,entry,isMe,amtStr){
 const rankCls=rank===1?'r1':rank===2?'r2':rank===3?'r3':'';
 const badge=entry.donate?donateBadge(entry.donate,'profile-badge'):'';
@@ -970,16 +1078,23 @@ loadIdeasPage();
 }else{showToast('Ошибка отправки');}
 }catch(e){showToast('Бот выключен');if(btn)btn.disabled=false;}
 }
+
+// ── Админ-панель ──
 let adminTab='users';
 function switchAdminTab(tab){
 adminTab=tab;
 document.getElementById('admin-user-list').style.display=tab==='users'?'block':'none';
 document.getElementById('admin-ideas-list').style.display=tab==='ideas'?'block':'none';
-document.getElementById('admin-tab-users').style.borderColor=tab==='users'?'var(--accent)':'var(--border2)';
-document.getElementById('admin-tab-ideas').style.borderColor=tab==='ideas'?'var(--accent)':'var(--border2)';
+document.getElementById('admin-history-list').style.display=tab==='history'?'block':'none';
+['users','ideas','history'].forEach(t=>{
+const el=document.getElementById('admin-tab-'+t);
+if(el)el.style.borderColor=t===tab?'var(--accent)':'var(--border2)';
+});
 if(tab==='users')loadAdminUsers();
-else loadAdminIdeas();
+else if(tab==='ideas')loadAdminIdeas();
+else if(tab==='history')loadAdminHistory();
 }
+
 async function loadAdminUsers(){
 const list=document.getElementById('admin-user-list');
 list.innerHTML=`<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка...</div></div>`;
@@ -992,6 +1107,50 @@ list.innerHTML='';
 data.users.forEach(u=>list.appendChild(buildAdminCard(u)));
 }catch(e){list.innerHTML=`<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;}
 }
+
+// ── История профилей (только для админа) ──
+async function loadAdminHistory(){
+const list=document.getElementById('admin-history-list');
+list.innerHTML=`<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка...</div></div>`;
+try{
+const res=await fetch(`${API_BASE}/admin/history?uid=${TG_USER_ID}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
+if(!res.ok){list.innerHTML=`<div class="placeholder"><div class="ph-text">Нет доступа</div></div>`;return;}
+const data=await res.json();
+const entries=data.history||[];
+if(!entries.length){
+list.innerHTML=`<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Список пуст</div><div class="ph-sub">Изменений профилей ещё не было</div></div>`;
+return;
+}
+list.innerHTML='';
+// Заголовок с количеством
+const header=document.createElement('div');
+header.style.cssText='font-family:"Share Tech Mono",monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:10px;text-align:right';
+header.textContent=`ЗАПИСЕЙ: ${entries.length}`;
+list.appendChild(header);
+entries.forEach(entry=>{
+const card=document.createElement('div');
+card.className='hist-entry';
+const dt=new Date(entry.ts*1000).toLocaleString('ru',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'});
+const donBadge=entry.donate?donateBadge(entry.donate,'auc-badge'):'<span style="font-family:\'Share Tech Mono\',monospace;font-size:9px;color:var(--dim)">—</span>';
+// Показываем текущий ник если он изменился
+const currentNote=entry.current_nick&&entry.current_nick!==entry.nick
+  ?`<span style="font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim)"> → сейчас: <span style="color:var(--muted)">${entry.current_nick}</span></span>`
+  :'';
+card.innerHTML=`
+<div class="hist-meta">
+  <span>${dt}</span>
+  <span class="hist-uid">ID: ${entry.user_id}</span>
+</div>
+<div class="hist-vals">
+  ${donBadge}
+  <span style="font-size:13px;font-weight:600;color:var(--white)">${entry.nick||'—'}</span>
+  ${currentNote}
+</div>`;
+list.appendChild(card);
+});
+}catch(e){list.innerHTML=`<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;}
+}
+
 let adminIdeasFilter='all';
 let adminIdeasCache=[];
 async function loadAdminIdeas(){
