@@ -284,6 +284,58 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .calc-result-val.calc-locked{color:var(--border2);font-size:18px;}
 .calc-divider{height:1px;background:var(--border);margin:6px 0;}
 .calc-locked-note{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);text-align:center;margin-top:10px;letter-spacing:1px;}
+
+/* ══ GUIDE PAGE ══ */
+.guide-page-wrap{padding:0 0 60px;}
+.guide-hero{padding:28px 0 20px;text-align:center;border-bottom:1px solid var(--border);margin-bottom:28px;}
+.guide-hero-badge{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:4px;text-transform:uppercase;margin-bottom:10px;}
+.guide-hero-title{font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:var(--white);letter-spacing:2px;line-height:1.1;margin-bottom:6px;}
+.guide-hero-title em{color:var(--accent);font-style:normal;}
+.guide-hero-sub{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:14px;}
+.guide-hero-desc{font-size:13px;color:var(--muted);line-height:1.7;}
+.guide-toc{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:18px 20px;margin-bottom:28px;}
+.guide-toc-title{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;}
+.guide-toc-list{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.guide-toc-list a{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text);font-size:13px;font-weight:600;transition:color 0.15s;padding:2px 0;}
+.guide-toc-list a:hover{color:var(--accent);}
+.guide-toc-num{font-family:'Orbitron',monospace;font-size:9px;font-weight:700;color:var(--accent);min-width:20px;}
+.guide-section{margin-bottom:40px;scroll-margin-top:20px;}
+.guide-section-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.guide-section-num{font-family:'Orbitron',monospace;font-size:10px;font-weight:900;color:var(--accent);background:rgba(74,158,255,0.08);border:1px solid rgba(74,158,255,0.25);border-radius:5px;padding:3px 8px;flex-shrink:0;}
+.guide-section-title{font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--white);letter-spacing:1px;}
+.guide-body{font-size:14px;color:var(--text);line-height:1.75;margin-bottom:14px;}
+.guide-body b{color:var(--white);}
+.guide-body em{color:var(--accent);font-style:normal;}
+.guide-steps{display:flex;flex-direction:column;gap:8px;margin:12px 0;}
+.guide-step{display:flex;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:12px 14px;align-items:flex-start;}
+.guide-step-num{font-family:'Orbitron',monospace;font-size:12px;font-weight:900;color:var(--accent);min-width:20px;line-height:1.6;flex-shrink:0;}
+.guide-step-text{font-size:13px;color:var(--text);line-height:1.65;}
+.guide-step-text b{color:var(--white);}
+.guide-step-text em{color:var(--accent);font-style:normal;}
+.guide-step-text code{background:var(--bg);border:1px solid var(--border2);border-radius:3px;padding:1px 5px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--ready);}
+.guide-infobox{border-radius:7px;padding:12px 14px;margin:12px 0;display:flex;gap:10px;align-items:flex-start;}
+.guide-infobox.accent{background:rgba(74,158,255,0.06);border:1px solid rgba(74,158,255,0.25);}
+.guide-infobox.ready{background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.25);}
+.guide-infobox.warn{background:rgba(243,156,18,0.06);border:1px solid rgba(243,156,18,0.25);}
+.guide-infobox-icon{font-size:16px;flex-shrink:0;line-height:1.5;}
+.guide-infobox-text{font-size:13px;line-height:1.6;color:var(--text);}
+.guide-infobox-text b{color:var(--white);}
+.guide-infobox-text em{color:var(--accent);font-style:normal;}
+.guide-color-legend{display:flex;flex-direction:column;gap:8px;margin:12px 0;}
+.guide-color-item{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:10px 14px;}
+.guide-color-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.guide-color-dot.blue{background:var(--accent);box-shadow:0 0 6px rgba(74,158,255,0.6);}
+.guide-color-dot.green{background:var(--ready);box-shadow:0 0 6px rgba(46,204,113,0.6);}
+.guide-color-dot.grey{background:var(--border2);}
+.guide-color-label{font-weight:700;font-size:13px;color:var(--white);min-width:80px;flex-shrink:0;}
+.guide-color-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+.guide-divider{height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:32px 0;}
+.guide-img-placeholder{background:var(--surface);border:1px dashed var(--border2);border-radius:8px;padding:22px 16px;text-align:center;margin:14px 0;}
+.guide-img-placeholder-label{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.guide-img-placeholder-desc{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);letter-spacing:0.5px;line-height:1.6;}
+.guide-footer-inner{text-align:center;padding-top:28px;border-top:1px solid var(--border);}
+.guide-footer-inner-title{font-family:'Orbitron',monospace;font-size:11px;font-weight:900;color:var(--white);letter-spacing:3px;margin-bottom:6px;}
+.guide-footer-inner-sub{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);letter-spacing:2px;}
 </style>
 </head>
 <body>
@@ -497,7 +549,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 <div class="footer">
 <div class="footer-text">PrisonEvo</div>
-<div class="footer-text">Cristalix 2026</div>
+<div class="footer-text" id="guide-link" style="cursor:pointer;color:var(--accent);border:1px solid rgba(74,158,255,0.3);padding:3px 10px;border-radius:2px;background:rgba(74,158,255,0.04);transition:all 0.15s">📖 Гайд</div>
 <div class="admin-link" id="admin-link" style="display:none">Админ панель</div>
 </div>
 </div>
@@ -583,6 +635,206 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <span class="calc-result-val calc-locked" id="calc-blocks">&#x2014;</span>
 </div>
 <div class="calc-locked-note">Данные появятся после вайпа</div>
+</div>
+</div>
+
+
+<div class="page" id="page-guide">
+<div class="admin-page-header" style="position:relative">
+<div class="page-back" id="guide-back">&#x2190; Назад</div>
+<div class="top-title" style="font-size:15px;letter-spacing:1px">ГАЙД<em style="color:var(--accent)">.</em>ПО БОТУ</div>
+</div>
+<div class="guide-page-wrap">
+
+<!-- HERO -->
+<div class="guide-hero">
+<div class="guide-hero-badge">Официальное руководство</div>
+<div class="guide-hero-title">ТРЕКЕР<em>.</em>БОССОВ</div>
+<div class="guide-hero-sub">by whyousolonely · PrisonEvo · Cristalix 2026</div>
+<div class="guide-hero-desc">Всё о боте — от создания профиля до отслеживания боссов.</div>
+</div>
+
+<!-- TOC -->
+<div class="guide-toc">
+<div class="guide-toc-title">Содержание</div>
+<ul class="guide-toc-list">
+<li><a href="#gs1"><span class="guide-toc-num">01</span> Создание профиля</a></li>
+<li><a href="#gs2"><span class="guide-toc-num">02</span> Обновление профиля</a></li>
+<li><a href="#gs3"><span class="guide-toc-num">03</span> Список профилей и S‑монеты</a></li>
+<li><a href="#gs4"><span class="guide-toc-num">04</span> Значок подписчика ТГК</a></li>
+<li><a href="#gs5"><span class="guide-toc-num">05</span> Боссы и цвета</a></li>
+<li><a href="#gs6"><span class="guide-toc-num">06</span> Уведомления в Telegram</a></li>
+<li><a href="#gs7"><span class="guide-toc-num">07</span> Звук за 1 минуту до босса</a></li>
+<li><a href="#gs8"><span class="guide-toc-num">08</span> Калькулятор уровней</a></li>
+<li><a href="#gs9"><span class="guide-toc-num">09</span> Идеи для бота</a></li>
+<li><a href="#gs10"><span class="guide-toc-num">10</span> Поддержка монетами и Топ донатов</a></li>
+<li><a href="#gs11"><span class="guide-toc-num">11</span> Нашёл баг?</a></li>
+</ul>
+</div>
+
+<!-- 01 СОЗДАНИЕ ПРОФИЛЯ -->
+<div class="guide-section" id="gs1">
+<div class="guide-section-header"><span class="guide-section-num">01</span><span class="guide-section-title">Создание профиля</span></div>
+<p class="guide-body">Чтобы пользоваться ботом, нужен профиль — без него уведомления не приходят и часть функций недоступна. Создать его просто.</p>
+<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 1</div><div class="guide-img-placeholder-desc">Главный экран при первом открытии — плашка «Профиль не создан» и кнопка «+ Создать профиль»</div></div>
+<div class="guide-steps">
+<div class="guide-step"><span class="guide-step-num">1</span><span class="guide-step-text">Открой бота в Telegram и нажми <b>«Открыть приложение»</b>.</span></div>
+<div class="guide-step"><span class="guide-step-num">2</span><span class="guide-step-text">На главном экране нажми <b>«+ Создать профиль»</b>.</span></div>
+<div class="guide-step"><span class="guide-step-num">3</span><span class="guide-step-text">Появится <b>пятизначный код</b>, например <em>AB3X7</em>. Действует 5 минут.</span></div>
+<div class="guide-step"><span class="guide-step-num">4</span><span class="guide-step-text">Зайди на <b>PrisonEvo</b> и напиши боту в личку:<br><br><code>/m PrisonEvoAssist verify AB3X7</code><br><br>Вместо <em>AB3X7</em> — твой код.</span></div>
+<div class="guide-step"><span class="guide-step-num">5</span><span class="guide-step-text">Бот считает ник и донат из игры и создаст профиль. В Telegram придёт сообщение <b>«Профиль создан!»</b></span></div>
+</div>
+<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 2</div><div class="guide-img-placeholder-desc">Экран с кодом верификации — большой код, таймер и команда для вставки</div></div>
+<div class="guide-infobox warn"><span class="guide-infobox-icon">⚠️</span><span class="guide-infobox-text">Ник берётся из игры автоматически. Пиши команду тем аккаунтом, который хочешь привязать.</span></div>
+</div>
+
+<div class="guide-divider"></div>
+
+<!-- 02 ОБНОВЛЕНИЕ ПРОФИЛЯ -->
+<div class="guide-section" id="gs2">
+<div class="guide-section-header"><span class="guide-section-num">02</span><span class="guide-section-title">Обновление профиля</span></div>
+<p class="guide-body">Сменил ник или купил новый донат? Обнови профиль — маленькой <b>зелёной кнопкой ⟳</b> рядом с кнопкой «Профили» в своей плашке.</p>
+<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 3</div><div class="guide-img-placeholder-desc">Плашка профиля — зелёная кнопка ⟳ справа от кнопки «Профили»</div></div>
+<div class="guide-steps">
+<div class="guide-step"><span class="guide-step-num">1</span><span class="guide-step-text">Нажми <b>зелёную кнопку ⟳</b> в плашке профиля.</span></div>
+<div class="guide-step"><span class="guide-step-num">2</span><span class="guide-step-text">Появится новый код. Напиши в игре: <code>/m PrisonEvoAssist verify КОД</code></span></div>
+<div class="guide-step"><span class="guide-step-num">3</span><span class="guide-step-text">Бот считает актуальный ник и донат — профиль обновится.</span></div>
+</div>
+<div class="guide-infobox accent"><span class="guide-infobox-icon">💡</span><span class="guide-infobox-text">Если ник уже занят другим игроком — бот сообщит в Telegram и профиль не обновится.</span></div>
+</div>
+
+<div class="guide-divider"></div>
+
+<!-- 03 СПИСОК ПРОФИЛЕЙ -->
+<div class="guide-section" id="gs3">
+<div class="guide-section-header"><span class="guide-section-num">03</span><span class="guide-section-title">Список профилей и S‑монеты</span></div>
+<p class="guide-body">Нажми <b>«Профили»</b> в своей плашке — откроется список всех зарегистрированных игроков с никами, значками и <b>S‑монетами ★</b>.</p>
+<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 4</div><div class="guide-img-placeholder-desc">Список профилей — ники, значки, доноты и S-монеты у каждого</div></div>
+<div class="guide-infobox ready"><span class="guide-infobox-icon">⭐</span><span class="guide-infobox-text"><b>Как получить S‑монеты?</b> Автоматически — пока у тебя открыто приложение. <b>1 минута = 1 S‑монета.</b> Чем их больше, тем выше ты в списке. Никаких доп. действий не нужно.</span></div>
+</div>
+
+<div class="guide-divider"></div>
+
+<!-- 04 ТГК ЗНАЧОК -->
+<div class="guide-section" id="gs4">
+<div class="guide-section-header"><span class="guide-section-num">04</span><span class="guide-section-title">Значок подписчика ТГК</span></div>
+<p class="guide-body">Подпишись на канал <b>@PrisonEvoAssist</b> — получи значок 👤 рядом с ником. Виден в списке профилей и в топе донатов.</p>
+<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 5</div><div class="guide-img-placeholder-desc">Модальное окно «Телеграм канал» — кнопки «Подписаться» и «Проверить»</div></div>
+<div class="guide-steps">
+<div class="guide-step"><span class="guide-step-num">1</span><span class="guide-step-text">Нажми кнопку <b>📣</b> в правом верхнем углу приложения.</span></div>
+<div class="guide-step"><span class="guide-step-num">2</span><span class="guide-step-text">Нажми <b>«ПОДПИСАТЬСЯ →»</b> — откроется канал в Telegram.</span></div>
+<div class="guide-step"><span class="guide-step-num">3</span><span class="guide-step-text">Вернись в приложение и нажми <b>«✓ ПРОВЕРИТЬ»</b> — значок выдастся автоматически.</span></div>
+</div>
+<div class="guide-infobox accent"><span class="guide-infobox-icon">📰</span><span class="guide-infobox-text">В канале публикуются все новости и обновления бота первыми.</span></div>
+</div>
+
+<div class="guide-divider"></div>
+
+<!-- 05 БОССЫ И ЦВЕТА -->
+<div class="guide-section" id="gs5">
+<div class="guide-section-header"><span class="guide-section-num">05</span><span class="guide-section-title">Боссы и цвета</span></div>
+<p class="guide-body">Главная функция — список 12 боссов с таймерами. Бот считывает убийства из логов и рассчитывает время возрождения.</p>
+<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 6</div><div class="guide-img-placeholder-desc">Список боссов — карточки с таймерами и цветными полосками слева</div></div>
+<p class="guide-body">Цветная полоска слева у каждой карточки показывает состояние:</p>
+<div class="guide-color-legend">
+<div class="guide-color-item"><div class="guide-color-dot green"></div><span class="guide-color-label">🟢 Зелёный</span><span class="guide-color-desc">Босс <b>готов к бою</b> — таймер истёк, можно идти.</span></div>
+<div class="guide-color-item"><div class="guide-color-dot blue"></div><span class="guide-color-label">🔵 Синий</span><span class="guide-color-desc">Босс <b>убит, на перезарядке</b> — показывается время до респавна.</span></div>
+<div class="guide-color-item"><div class="guide-color-dot grey"></div><span class="guide-color-label">⚫ Серый</span><span class="guide-color-desc"><b>Нет данных</b> — босса не убивали с запуска бота.</span></div>
+</div>
+<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 7</div><div class="guide-img-placeholder-desc">Блок «Следующий босс» — ближайший по времени босс с обратным отсчётом</div></div>
+<p class="guide-body">Над списком — блок <b>«Следующий босс»</b>: показывает того, кто заспавнится раньше всех. Обновление каждые 5 сек, или вручную кнопкой <b>«Обновить данные»</b>.</p>
+</div>
+
+<div class="guide-divider"></div>
+
+<!-- 06 УВЕДОМЛЕНИЯ -->
+<div class="guide-section" id="gs6">
+<div class="guide-section-header"><span class="guide-section-num">06</span><span class="guide-section-title">Уведомления в Telegram</span></div>
+<p class="guide-body">Бот присылает сообщения прямо в чат — приложение можно не держать открытым:</p>
+<div class="guide-steps">
+<div class="guide-step"><span class="guide-step-num">💀</span><span class="guide-step-text"><b>Босс убит</b> — моментально сообщает о гибели и времени респавна.</span></div>
+<div class="guide-step"><span class="guide-step-num">⏱️</span><span class="guide-step-text"><b>За 1 минуту</b> — предупреждает заранее. Успей занять позицию!</span></div>
+</div>
+<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 8</div><div class="guide-img-placeholder-desc">Карточка босса с оранжевым переключателем уведомлений справа — вкл. и выкл.</div></div>
+<p class="guide-body">У каждого босса есть <b>оранжевый переключатель</b> — выключи уведомления по конкретному боссу, остальные продолжат приходить.</p>
+<div class="guide-infobox warn"><span class="guide-infobox-icon">💡</span><span class="guide-infobox-text">Настройки <b>индивидуальны</b> — твои переключатели не влияют на других игроков.</span></div>
+</div>
+
+<div class="guide-divider"></div>
+
+<!-- 07 ЗВУК -->
+<div class="guide-section" id="gs7">
+<div class="guide-section-header"><span class="guide-section-num">07</span><span class="guide-section-title">Звук за 1 минуту до босса</span></div>
+<p class="guide-body">Когда приложение открыто, за минуту до босса прозвучит оповещение. Можно выбрать звук и настроить громкость.</p>
+<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 9</div><div class="guide-img-placeholder-desc">Панель звука — переключатель вкл/выкл, список звуков, слайдер громкости</div></div>
+<div class="guide-steps">
+<div class="guide-step"><span class="guide-step-num">🔊</span><span class="guide-step-text">Синий переключатель — включить/выключить звук.</span></div>
+<div class="guide-step"><span class="guide-step-num">🎵</span><span class="guide-step-text">Выпадающий список — 6 вариантов звука. При выборе сразу проигрывается.</span></div>
+<div class="guide-step"><span class="guide-step-num">🔉</span><span class="guide-step-text">Слайдер — громкость от 1 до 100.</span></div>
+</div>
+<div class="guide-infobox accent"><span class="guide-infobox-icon">📱</span><span class="guide-infobox-text">Звук работает только когда приложение открыто. Для фоновых оповещений — используй <b>уведомления в Telegram</b>.</span></div>
+</div>
+
+<div class="guide-divider"></div>
+
+<!-- 08 КАЛЬКУЛЯТОР -->
+<div class="guide-section" id="gs8">
+<div class="guide-section-header"><span class="guide-section-num">08</span><span class="guide-section-title">Калькулятор уровней</span></div>
+<p class="guide-body">Кнопка <b>«Калькулятор»</b> открывает инструмент для расчёта ресурсов между уровнями. Укажи текущий и целевой уровень — калькулятор покажет разницу.</p>
+<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 10</div><div class="guide-img-placeholder-desc">Страница калькулятора — ползунки уровней и блок результатов</div></div>
+<div class="guide-infobox warn"><span class="guide-infobox-icon">⏳</span><span class="guide-infobox-text"><b>Скоро.</b> Данные по монетам и блокам появятся после вайпа — как только будут известны все требования прокачки.</span></div>
+</div>
+
+<div class="guide-divider"></div>
+
+<!-- 09 ИДЕИ -->
+<div class="guide-section" id="gs9">
+<div class="guide-section-header"><span class="guide-section-num">09</span><span class="guide-section-title">Идеи для бота</span></div>
+<p class="guide-body">Есть идея как улучшить бота? Кнопка <b>«Идеи»</b> — предложи её. Каждая идея рассматривается разработчиком.</p>
+<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 11</div><div class="guide-img-placeholder-desc">Страница идей — поле ввода и кнопка «Отправить идею»</div></div>
+<div class="guide-steps">
+<div class="guide-step"><span class="guide-step-num">1</span><span class="guide-step-text">Нажми <b>«Идеи»</b> на главном экране.</span></div>
+<div class="guide-step"><span class="guide-step-num">2</span><span class="guide-step-text">Напиши идею в поле — до <b>500 символов</b>.</span></div>
+<div class="guide-step"><span class="guide-step-num">3</span><span class="guide-step-text">Нажми <b>«Отправить»</b>. Бот уведомит в Telegram о результате рассмотрения.</span></div>
+</div>
+<div class="guide-infobox accent"><span class="guide-infobox-icon">⏰</span><span class="guide-infobox-text">После отправки идеи — <b>кулдаун 1 час</b>. Формулируй мысль чётко с первого раза!</span></div>
+</div>
+
+<div class="guide-divider"></div>
+
+<!-- 10 ПОДДЕРЖКА -->
+<div class="guide-section" id="gs10">
+<div class="guide-section-header"><span class="guide-section-num">10</span><span class="guide-section-title">Поддержка монетами и Топ донатов</span></div>
+<p class="guide-body">Кнопка <b>«Поддержать»</b> — задонатить монеты на развитие бота и попасть в публичный <b>Топ донатов</b>.</p>
+<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 12</div><div class="guide-img-placeholder-desc">Топ донатов — список с никами, значками и суммами. Золото/серебро/бронза у топ-3</div></div>
+<div class="guide-steps">
+<div class="guide-step"><span class="guide-step-num">1</span><span class="guide-step-text">Зайди на <b>PrisonEvo</b>.</span></div>
+<div class="guide-step"><span class="guide-step-num">2</span><span class="guide-step-text">Переведи монеты боту: <code>/pay PrisonEvoAssist [сумма]</code></span></div>
+<div class="guide-step"><span class="guide-step-num">3</span><span class="guide-step-text">Бот зачислит монеты автоматически — ник появится в топе.</span></div>
+</div>
+<div class="guide-infobox warn"><span class="guide-infobox-icon">⚠️</span><span class="guide-infobox-text">Ник перевода должен совпадать с ником профиля в боте, иначе монеты не зачислятся.</span></div>
+</div>
+
+<div class="guide-divider"></div>
+
+<!-- 11 БАГ -->
+<div class="guide-section" id="gs11">
+<div class="guide-section-header"><span class="guide-section-num">11</span><span class="guide-section-title">Нашёл баг? Пиши сюда</span></div>
+<p class="guide-body">Что-то сломалось? Нажми <b>🐛</b> в правом верхнем углу — откроется окно с контактом разработчика.</p>
+<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 13</div><div class="guide-img-placeholder-desc">Модальное окно «Нашёл баг?» — кнопка «Написать» и ник разработчика @whatafukk</div></div>
+<div class="guide-steps">
+<div class="guide-step"><span class="guide-step-num">1</span><span class="guide-step-text">Нажми <b>🐛</b> в правом верхнем углу.</span></div>
+<div class="guide-step"><span class="guide-step-num">2</span><span class="guide-step-text">Нажми <b>«📣 Написать»</b> — откроется чат с <b>@whatafukk</b> в Telegram.</span></div>
+<div class="guide-step"><span class="guide-step-num">3</span><span class="guide-step-text">Опиши что случилось и при каких условиях. Скриншот приветствуется.</span></div>
+</div>
+<div class="guide-infobox ready"><span class="guide-infobox-icon">🙏</span><span class="guide-infobox-text">Любой репорт очень помогает. Разработчик читает все сообщения.</span></div>
+</div>
+
+<div class="guide-footer-inner">
+<div class="guide-footer-inner-title">ТРЕКЕР БОССОВ</div>
+<div class="guide-footer-inner-sub">by whyousolonely · @PrisonEvoAssist · Cristalix 2026</div>
+</div>
+
 </div>
 </div>
 
@@ -1475,6 +1727,32 @@ document.getElementById('refresh-btn').addEventListener('click',()=>loadData(fal
 loadProfile();
 loadData(false);
 setInterval(()=>loadData(true),5000);
+
+// ── GUIDE PAGE LOGIC ──
+function openGuide(){showPage('page-guide');window.scrollTo(0,0);}
+function closeGuide(){
+  // Если профиля нет — при закрытии показываем стену
+  if(!userProfile||!userProfile.nick){
+    showPage('page-main');
+    setProfileWall(true);
+  } else {
+    showPage('page-main');
+  }
+}
+document.getElementById('guide-back').addEventListener('click',closeGuide);
+document.getElementById('guide-link').addEventListener('click',openGuide);
+
+// Открыть гайд если в URL есть ?page=guide (кнопка из Telegram)
+(function(){
+  try{
+    const params=new URLSearchParams(window.location.search);
+    if(params.get('page')==='guide'){
+      // Небольшая задержка чтобы страница успела прогрузиться
+      setTimeout(openGuide, 100);
+    }
+  }catch(e){}
+})();
+
 </script>
 </body>
 </html>
