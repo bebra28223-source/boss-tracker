@@ -922,20 +922,16 @@ function openTgLink(url){
   else{window.open(url,'_blank');}
 }
 
-// ── GUIDE PAGE LOGIC ──
-// Хелпер: активна ли сейчас страница гайда
 function isGuidePage(){return document.getElementById('page-guide')?.classList.contains('active');}
 
 function openGuide(){
   showPage('page-guide');
-  // Скрываем стену — в гайде она не нужна
   setProfileWall(false);
   window.scrollTo(0,0);
 }
 
 function closeGuide(){
   showPage('page-main');
-  // Показываем стену только если нет профиля
   if(!userProfile||!userProfile.nick){
     setProfileWall(true);
   }
@@ -988,11 +984,9 @@ document.getElementById('admin-back').addEventListener('click',()=>showPage('pag
 document.getElementById('admin-link').addEventListener('click',()=>{switchAdminTab('users');showPage('page-admin');});
 document.getElementById('wall-create-btn').addEventListener('click',startProfileCreation);
 
-// ── loadProfile: не показываем стену если открыт гайд ──
 async function loadProfile(){
 if(!TG_USER_ID){
   renderProfileBar(null);
-  // Показываем стену только если НЕ на странице гайда
   if(!isGuidePage()) setProfileWall(true);
   return;
 }
@@ -1002,7 +996,6 @@ if(res.status===403){isBlacklisted=true;renderProfileBar('blacklisted');setProfi
 const data=await res.json();
 userProfile=Object.keys(data).length&&data.nick?data:null;
 renderProfileBar(userProfile);
-// Показываем стену только если нет профиля И мы не на странице гайда
 if(!isGuidePage()) setProfileWall(!userProfile);
 }catch(e){renderProfileBar(null);}
 }
@@ -1391,12 +1384,10 @@ btn.addEventListener('mouseleave',()=>{tip.style.display='none';});
 })();
 document.getElementById('refresh-btn').addEventListener('click',()=>loadData(false));
 
-// Открыть гайд если в URL есть ?page=guide, иначе обычный старт
 (function(){
 try{
 const params=new URLSearchParams(window.location.search);
 if(params.get('page')==='guide'){
-  // Сначала открываем гайд (скрывает стену), потом загружаем профиль
   setTimeout(()=>{openGuide();loadProfile();loadData(false);},150);
   setInterval(()=>loadData(true),5000);
   return;
