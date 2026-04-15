@@ -34,15 +34,13 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .profile-verify svg{width:9px;height:9px;}
 .badge-dev-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:5px;background:#23a55a;box-shadow:0 0 6px rgba(35,165,90,0.6);}
 .badge-dev-icon svg{width:10px;height:10px;}
-/* Кнопка обновления профиля */
-.profile-update-btn{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:5px;background:rgba(46,204,113,0.12);border:1px solid var(--ready);color:var(--ready);font-size:12px;cursor:pointer;transition:all 0.2s;flex-shrink:0;margin-left:2px;}
-.profile-update-btn:hover{background:rgba(46,204,113,0.25);}
-.profile-update-btn.spinning-upd{animation:spin 0.7s linear infinite;}
-.profile-right-btns{display:flex;align-items:center;gap:6px;flex-shrink:0;}
 .create-profile-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);border:1px solid var(--accent);padding:4px 10px;border-radius:3px;background:rgba(74,158,255,0.06);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s;}
 .create-profile-btn:hover{background:rgba(74,158,255,0.14);}
 .view-profiles-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);border:1px solid var(--border2);padding:4px 10px;border-radius:3px;background:transparent;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s;}
 .view-profiles-btn:hover{color:var(--muted);border-color:var(--muted);}
+.profile-refresh-btn{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--ready);border:1px solid rgba(46,204,113,0.5);padding:3px 8px;border-radius:3px;background:rgba(46,204,113,0.06);cursor:pointer;flex-shrink:0;transition:all 0.2s;line-height:1;}
+.profile-refresh-btn:hover{background:rgba(46,204,113,0.14);border-color:var(--ready);}
+.profile-refresh-btn:active{transform:rotate(180deg);}
 .action-row{display:flex;gap:8px;margin-bottom:16px;}
 .action-btn{flex:1;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;transition:all 0.15s;}
 .action-btn:hover{border-color:var(--accent);background:rgba(74,158,255,0.04);}
@@ -189,15 +187,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .auc-btn.badge-g:hover{background:rgba(35,165,90,0.14);}
 .auc-btn.badge-rm{color:var(--muted);border-color:var(--muted);background:transparent;}
 .auc-btn.badge-rm:hover{color:var(--text);}
-.auc-btn.tgk-rm{color:#4a5568;border-color:#4a5568;background:rgba(74,85,104,0.06);}
-.auc-btn.tgk-rm:hover{background:rgba(74,85,104,0.16);}
-/* Модальное окно истории пользователя */
-.modal-overlay.hist-open{display:flex;}
-.hist-user-entry{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
-.hist-user-nick{font-size:13px;font-weight:600;color:var(--white);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.hist-user-ts{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);flex-shrink:0;}
-.hist-user-del{font-size:11px;color:var(--dim);cursor:pointer;padding:2px 6px;border-radius:3px;border:1px solid var(--border);flex-shrink:0;transition:all 0.15s;}
-.hist-user-del:hover{color:#ff4d6d;border-color:#ff4d6d;}
 .auc-btn.del{color:#ff4d6d;border-color:#ff4d6d;background:rgba(255,77,109,0.06);}
 .auc-btn.del:hover{background:rgba(255,77,109,0.14);}
 .auc-btn.ideaunbl{color:#a78bfa;border-color:#a78bfa;background:rgba(167,139,250,0.06);}
@@ -257,12 +246,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .top-del-btn:hover{color:#ff4d6d;border-color:#ff4d6d;}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--border2);border-radius:8px;padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px;transition:transform 0.3s ease;z-index:999;white-space:nowrap;pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
-/* История */
-.hist-entry{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:6px;}
-.hist-meta{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);margin-bottom:5px;display:flex;align-items:center;justify-content:space-between;}
-.hist-uid{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted);}
-.hist-vals{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.hist-arrow{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);}
 .calc-soon-banner{background:linear-gradient(135deg,rgba(74,158,255,0.06),rgba(167,139,250,0.06));border:1px solid rgba(74,158,255,0.2);border-radius:10px;padding:18px 16px;margin-bottom:16px;text-align:center;}
 .calc-soon-icon{font-size:28px;margin-bottom:8px;}
 .calc-soon-title{font-family:'Orbitron',monospace;font-size:13px;font-weight:900;color:var(--accent);letter-spacing:4px;margin-bottom:8px;}
@@ -284,58 +267,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .calc-result-val.calc-locked{color:var(--border2);font-size:18px;}
 .calc-divider{height:1px;background:var(--border);margin:6px 0;}
 .calc-locked-note{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);text-align:center;margin-top:10px;letter-spacing:1px;}
-
-/* ══ GUIDE PAGE ══ */
-.guide-page-wrap{padding:0 0 60px;}
-.guide-hero{padding:28px 0 20px;text-align:center;border-bottom:1px solid var(--border);margin-bottom:28px;}
-.guide-hero-badge{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:4px;text-transform:uppercase;margin-bottom:10px;}
-.guide-hero-title{font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:var(--white);letter-spacing:2px;line-height:1.1;margin-bottom:6px;}
-.guide-hero-title em{color:var(--accent);font-style:normal;}
-.guide-hero-sub{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:14px;}
-.guide-hero-desc{font-size:13px;color:var(--muted);line-height:1.7;}
-.guide-toc{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:18px 20px;margin-bottom:28px;}
-.guide-toc-title{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;}
-.guide-toc-list{list-style:none;display:flex;flex-direction:column;gap:6px;}
-.guide-toc-list a{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text);font-size:13px;font-weight:600;transition:color 0.15s;padding:2px 0;}
-.guide-toc-list a:hover{color:var(--accent);}
-.guide-toc-num{font-family:'Orbitron',monospace;font-size:9px;font-weight:700;color:var(--accent);min-width:20px;}
-.guide-section{margin-bottom:40px;scroll-margin-top:20px;}
-.guide-section-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);}
-.guide-section-num{font-family:'Orbitron',monospace;font-size:10px;font-weight:900;color:var(--accent);background:rgba(74,158,255,0.08);border:1px solid rgba(74,158,255,0.25);border-radius:5px;padding:3px 8px;flex-shrink:0;}
-.guide-section-title{font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--white);letter-spacing:1px;}
-.guide-body{font-size:14px;color:var(--text);line-height:1.75;margin-bottom:14px;}
-.guide-body b{color:var(--white);}
-.guide-body em{color:var(--accent);font-style:normal;}
-.guide-steps{display:flex;flex-direction:column;gap:8px;margin:12px 0;}
-.guide-step{display:flex;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:12px 14px;align-items:flex-start;}
-.guide-step-num{font-family:'Orbitron',monospace;font-size:12px;font-weight:900;color:var(--accent);min-width:20px;line-height:1.6;flex-shrink:0;}
-.guide-step-text{font-size:13px;color:var(--text);line-height:1.65;}
-.guide-step-text b{color:var(--white);}
-.guide-step-text em{color:var(--accent);font-style:normal;}
-.guide-step-text code{background:var(--bg);border:1px solid var(--border2);border-radius:3px;padding:1px 5px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--ready);}
-.guide-infobox{border-radius:7px;padding:12px 14px;margin:12px 0;display:flex;gap:10px;align-items:flex-start;}
-.guide-infobox.accent{background:rgba(74,158,255,0.06);border:1px solid rgba(74,158,255,0.25);}
-.guide-infobox.ready{background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.25);}
-.guide-infobox.warn{background:rgba(243,156,18,0.06);border:1px solid rgba(243,156,18,0.25);}
-.guide-infobox-icon{font-size:16px;flex-shrink:0;line-height:1.5;}
-.guide-infobox-text{font-size:13px;line-height:1.6;color:var(--text);}
-.guide-infobox-text b{color:var(--white);}
-.guide-infobox-text em{color:var(--accent);font-style:normal;}
-.guide-color-legend{display:flex;flex-direction:column;gap:8px;margin:12px 0;}
-.guide-color-item{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:10px 14px;}
-.guide-color-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
-.guide-color-dot.blue{background:var(--accent);box-shadow:0 0 6px rgba(74,158,255,0.6);}
-.guide-color-dot.green{background:var(--ready);box-shadow:0 0 6px rgba(46,204,113,0.6);}
-.guide-color-dot.grey{background:var(--border2);}
-.guide-color-label{font-weight:700;font-size:13px;color:var(--white);min-width:80px;flex-shrink:0;}
-.guide-color-desc{font-size:12px;color:var(--muted);line-height:1.5;}
-.guide-divider{height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:32px 0;}
-.guide-img-placeholder{background:var(--surface);border:1px dashed var(--border2);border-radius:8px;padding:22px 16px;text-align:center;margin:14px 0;}
-.guide-img-placeholder-label{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
-.guide-img-placeholder-desc{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);letter-spacing:0.5px;line-height:1.6;}
-.guide-footer-inner{text-align:center;padding-top:28px;border-top:1px solid var(--border);}
-.guide-footer-inner-title{font-family:'Orbitron',monospace;font-size:11px;font-weight:900;color:var(--white);letter-spacing:3px;margin-bottom:6px;}
-.guide-footer-inner-sub{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);letter-spacing:2px;}
 </style>
 </head>
 <body>
@@ -387,7 +318,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.7;margin-bottom:12px">Если ты нашёл баг или что-то работает не так — напиши разработчику напрямую.</div>
 <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:10px">Разработчик бота:</div>
 <div style="display:flex;gap:8px;align-items:center">
-<!-- Используем openTelegramLink чтобы не закрывать приложение -->
 <div id="bug-tg-btn" style="flex:1;text-align:center;background:rgba(74,158,255,0.08);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 6px;border-radius:4px;cursor:pointer;letter-spacing:1px">📣 Написать</div>
 <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--white);font-weight:600">@whatafukk</div>
 </div>
@@ -410,7 +340,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 <div class="modal-overlay" id="modal-profile">
 <div class="modal">
-<div class="modal-title" id="modal-profile-title">СОЗДАТЬ ПРОФИЛЬ</div>
+<div class="modal-title">СОЗДАТЬ ПРОФИЛЬ</div>
 <div class="modal-close" id="close-profile">&#x2715;</div>
 <div id="profile-modal-body"></div>
 </div>
@@ -437,14 +367,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 </div>
 <div class="modal-close" id="close-profiles">&#x2715;</div>
 <div id="profiles-list-body"><div class="placeholder"><div class="ph-text">Загрузка...</div></div></div>
-</div>
-</div>
-
-<div class="modal-overlay" id="modal-user-history">
-<div class="modal">
-<div class="modal-title" id="modal-user-history-title">ИСТОРИЯ НИКА</div>
-<div class="modal-close" id="close-user-history">&#x2715;</div>
-<div id="user-history-body"><div class="placeholder"><div class="ph-text">Загрузка...</div></div></div>
 </div>
 </div>
 
@@ -549,7 +471,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 <div class="footer">
 <div class="footer-text">PrisonEvo</div>
-<div class="footer-text" id="guide-link" style="cursor:pointer;color:var(--accent);border:1px solid rgba(74,158,255,0.3);padding:3px 10px;border-radius:2px;background:rgba(74,158,255,0.04);transition:all 0.15s">📖 Гайд</div>
+<div class="footer-text">Cristalix 2026</div>
 <div class="admin-link" id="admin-link" style="display:none">Админ панель</div>
 </div>
 </div>
@@ -575,7 +497,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="page-back" id="admin-back">&#x2190; Назад</div>
 <div class="admin-title">АДМИН<em>.</em>ПАНЕЛЬ</div>
 </div>
-<!-- 2 вкладки: Пользователи, Идеи -->
 <div class="action-row" style="margin-bottom:20px">
 <div class="action-btn" id="admin-tab-users" onclick="switchAdminTab('users')">
 <div class="action-btn-label" style="font-size:10px">Пользователи</div>
@@ -583,11 +504,17 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="action-btn" id="admin-tab-ideas" onclick="switchAdminTab('ideas')">
 <div class="action-btn-label" style="font-size:10px">Идеи</div>
 </div>
+<div class="action-btn" id="admin-tab-history" onclick="switchAdminTab('history')">
+<div class="action-btn-label" style="font-size:10px">История</div>
+</div>
 </div>
 <div id="admin-user-list">
 <div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка</div></div>
 </div>
 <div id="admin-ideas-list" style="display:none">
+<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка</div></div>
+</div>
+<div id="admin-history-list" style="display:none">
 <div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка</div></div>
 </div>
 </div>
@@ -635,206 +562,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <span class="calc-result-val calc-locked" id="calc-blocks">&#x2014;</span>
 </div>
 <div class="calc-locked-note">Данные появятся после вайпа</div>
-</div>
-</div>
-
-
-<div class="page" id="page-guide">
-<div class="admin-page-header" style="position:relative">
-<div class="page-back" id="guide-back">&#x2190; Назад</div>
-<div class="top-title" style="font-size:15px;letter-spacing:1px">ГАЙД<em style="color:var(--accent)">.</em>ПО БОТУ</div>
-</div>
-<div class="guide-page-wrap">
-
-<!-- HERO -->
-<div class="guide-hero">
-<div class="guide-hero-badge">Официальное руководство</div>
-<div class="guide-hero-title">ТРЕКЕР<em>.</em>БОССОВ</div>
-<div class="guide-hero-sub">by whyousolonely · PrisonEvo · Cristalix 2026</div>
-<div class="guide-hero-desc">Всё о боте — от создания профиля до отслеживания боссов.</div>
-</div>
-
-<!-- TOC -->
-<div class="guide-toc">
-<div class="guide-toc-title">Содержание</div>
-<ul class="guide-toc-list">
-<li><a href="#gs1"><span class="guide-toc-num">01</span> Создание профиля</a></li>
-<li><a href="#gs2"><span class="guide-toc-num">02</span> Обновление профиля</a></li>
-<li><a href="#gs3"><span class="guide-toc-num">03</span> Список профилей и S‑монеты</a></li>
-<li><a href="#gs4"><span class="guide-toc-num">04</span> Значок подписчика ТГК</a></li>
-<li><a href="#gs5"><span class="guide-toc-num">05</span> Боссы и цвета</a></li>
-<li><a href="#gs6"><span class="guide-toc-num">06</span> Уведомления в Telegram</a></li>
-<li><a href="#gs7"><span class="guide-toc-num">07</span> Звук за 1 минуту до босса</a></li>
-<li><a href="#gs8"><span class="guide-toc-num">08</span> Калькулятор уровней</a></li>
-<li><a href="#gs9"><span class="guide-toc-num">09</span> Идеи для бота</a></li>
-<li><a href="#gs10"><span class="guide-toc-num">10</span> Поддержка монетами и Топ донатов</a></li>
-<li><a href="#gs11"><span class="guide-toc-num">11</span> Нашёл баг?</a></li>
-</ul>
-</div>
-
-<!-- 01 СОЗДАНИЕ ПРОФИЛЯ -->
-<div class="guide-section" id="gs1">
-<div class="guide-section-header"><span class="guide-section-num">01</span><span class="guide-section-title">Создание профиля</span></div>
-<p class="guide-body">Чтобы пользоваться ботом, нужен профиль — без него уведомления не приходят и часть функций недоступна. Создать его просто.</p>
-<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 1</div><div class="guide-img-placeholder-desc">Главный экран при первом открытии — плашка «Профиль не создан» и кнопка «+ Создать профиль»</div></div>
-<div class="guide-steps">
-<div class="guide-step"><span class="guide-step-num">1</span><span class="guide-step-text">Открой бота в Telegram и нажми <b>«Открыть приложение»</b>.</span></div>
-<div class="guide-step"><span class="guide-step-num">2</span><span class="guide-step-text">На главном экране нажми <b>«+ Создать профиль»</b>.</span></div>
-<div class="guide-step"><span class="guide-step-num">3</span><span class="guide-step-text">Появится <b>пятизначный код</b>, например <em>AB3X7</em>. Действует 5 минут.</span></div>
-<div class="guide-step"><span class="guide-step-num">4</span><span class="guide-step-text">Зайди на <b>PrisonEvo</b> и напиши боту в личку:<br><br><code>/m PrisonEvoAssist verify AB3X7</code><br><br>Вместо <em>AB3X7</em> — твой код.</span></div>
-<div class="guide-step"><span class="guide-step-num">5</span><span class="guide-step-text">Бот считает ник и донат из игры и создаст профиль. В Telegram придёт сообщение <b>«Профиль создан!»</b></span></div>
-</div>
-<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 2</div><div class="guide-img-placeholder-desc">Экран с кодом верификации — большой код, таймер и команда для вставки</div></div>
-<div class="guide-infobox warn"><span class="guide-infobox-icon">⚠️</span><span class="guide-infobox-text">Ник берётся из игры автоматически. Пиши команду тем аккаунтом, который хочешь привязать.</span></div>
-</div>
-
-<div class="guide-divider"></div>
-
-<!-- 02 ОБНОВЛЕНИЕ ПРОФИЛЯ -->
-<div class="guide-section" id="gs2">
-<div class="guide-section-header"><span class="guide-section-num">02</span><span class="guide-section-title">Обновление профиля</span></div>
-<p class="guide-body">Сменил ник или купил новый донат? Обнови профиль — маленькой <b>зелёной кнопкой ⟳</b> рядом с кнопкой «Профили» в своей плашке.</p>
-<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 3</div><div class="guide-img-placeholder-desc">Плашка профиля — зелёная кнопка ⟳ справа от кнопки «Профили»</div></div>
-<div class="guide-steps">
-<div class="guide-step"><span class="guide-step-num">1</span><span class="guide-step-text">Нажми <b>зелёную кнопку ⟳</b> в плашке профиля.</span></div>
-<div class="guide-step"><span class="guide-step-num">2</span><span class="guide-step-text">Появится новый код. Напиши в игре: <code>/m PrisonEvoAssist verify КОД</code></span></div>
-<div class="guide-step"><span class="guide-step-num">3</span><span class="guide-step-text">Бот считает актуальный ник и донат — профиль обновится.</span></div>
-</div>
-<div class="guide-infobox accent"><span class="guide-infobox-icon">💡</span><span class="guide-infobox-text">Если ник уже занят другим игроком — бот сообщит в Telegram и профиль не обновится.</span></div>
-</div>
-
-<div class="guide-divider"></div>
-
-<!-- 03 СПИСОК ПРОФИЛЕЙ -->
-<div class="guide-section" id="gs3">
-<div class="guide-section-header"><span class="guide-section-num">03</span><span class="guide-section-title">Список профилей и S‑монеты</span></div>
-<p class="guide-body">Нажми <b>«Профили»</b> в своей плашке — откроется список всех зарегистрированных игроков с никами, значками и <b>S‑монетами ★</b>.</p>
-<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 4</div><div class="guide-img-placeholder-desc">Список профилей — ники, значки, доноты и S-монеты у каждого</div></div>
-<div class="guide-infobox ready"><span class="guide-infobox-icon">⭐</span><span class="guide-infobox-text"><b>Как получить S‑монеты?</b> Автоматически — пока у тебя открыто приложение. <b>1 минута = 1 S‑монета.</b> Чем их больше, тем выше ты в списке. Никаких доп. действий не нужно.</span></div>
-</div>
-
-<div class="guide-divider"></div>
-
-<!-- 04 ТГК ЗНАЧОК -->
-<div class="guide-section" id="gs4">
-<div class="guide-section-header"><span class="guide-section-num">04</span><span class="guide-section-title">Значок подписчика ТГК</span></div>
-<p class="guide-body">Подпишись на канал <b>@PrisonEvoAssist</b> — получи значок 👤 рядом с ником. Виден в списке профилей и в топе донатов.</p>
-<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 5</div><div class="guide-img-placeholder-desc">Модальное окно «Телеграм канал» — кнопки «Подписаться» и «Проверить»</div></div>
-<div class="guide-steps">
-<div class="guide-step"><span class="guide-step-num">1</span><span class="guide-step-text">Нажми кнопку <b>📣</b> в правом верхнем углу приложения.</span></div>
-<div class="guide-step"><span class="guide-step-num">2</span><span class="guide-step-text">Нажми <b>«ПОДПИСАТЬСЯ →»</b> — откроется канал в Telegram.</span></div>
-<div class="guide-step"><span class="guide-step-num">3</span><span class="guide-step-text">Вернись в приложение и нажми <b>«✓ ПРОВЕРИТЬ»</b> — значок выдастся автоматически.</span></div>
-</div>
-<div class="guide-infobox accent"><span class="guide-infobox-icon">📰</span><span class="guide-infobox-text">В канале публикуются все новости и обновления бота первыми.</span></div>
-</div>
-
-<div class="guide-divider"></div>
-
-<!-- 05 БОССЫ И ЦВЕТА -->
-<div class="guide-section" id="gs5">
-<div class="guide-section-header"><span class="guide-section-num">05</span><span class="guide-section-title">Боссы и цвета</span></div>
-<p class="guide-body">Главная функция — список 12 боссов с таймерами. Бот считывает убийства из логов и рассчитывает время возрождения.</p>
-<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 6</div><div class="guide-img-placeholder-desc">Список боссов — карточки с таймерами и цветными полосками слева</div></div>
-<p class="guide-body">Цветная полоска слева у каждой карточки показывает состояние:</p>
-<div class="guide-color-legend">
-<div class="guide-color-item"><div class="guide-color-dot green"></div><span class="guide-color-label">🟢 Зелёный</span><span class="guide-color-desc">Босс <b>готов к бою</b> — таймер истёк, можно идти.</span></div>
-<div class="guide-color-item"><div class="guide-color-dot blue"></div><span class="guide-color-label">🔵 Синий</span><span class="guide-color-desc">Босс <b>убит, на перезарядке</b> — показывается время до респавна.</span></div>
-<div class="guide-color-item"><div class="guide-color-dot grey"></div><span class="guide-color-label">⚫ Серый</span><span class="guide-color-desc"><b>Нет данных</b> — босса не убивали с запуска бота.</span></div>
-</div>
-<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 7</div><div class="guide-img-placeholder-desc">Блок «Следующий босс» — ближайший по времени босс с обратным отсчётом</div></div>
-<p class="guide-body">Над списком — блок <b>«Следующий босс»</b>: показывает того, кто заспавнится раньше всех. Обновление каждые 5 сек, или вручную кнопкой <b>«Обновить данные»</b>.</p>
-</div>
-
-<div class="guide-divider"></div>
-
-<!-- 06 УВЕДОМЛЕНИЯ -->
-<div class="guide-section" id="gs6">
-<div class="guide-section-header"><span class="guide-section-num">06</span><span class="guide-section-title">Уведомления в Telegram</span></div>
-<p class="guide-body">Бот присылает сообщения прямо в чат — приложение можно не держать открытым:</p>
-<div class="guide-steps">
-<div class="guide-step"><span class="guide-step-num">💀</span><span class="guide-step-text"><b>Босс убит</b> — моментально сообщает о гибели и времени респавна.</span></div>
-<div class="guide-step"><span class="guide-step-num">⏱️</span><span class="guide-step-text"><b>За 1 минуту</b> — предупреждает заранее. Успей занять позицию!</span></div>
-</div>
-<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 8</div><div class="guide-img-placeholder-desc">Карточка босса с оранжевым переключателем уведомлений справа — вкл. и выкл.</div></div>
-<p class="guide-body">У каждого босса есть <b>оранжевый переключатель</b> — выключи уведомления по конкретному боссу, остальные продолжат приходить.</p>
-<div class="guide-infobox warn"><span class="guide-infobox-icon">💡</span><span class="guide-infobox-text">Настройки <b>индивидуальны</b> — твои переключатели не влияют на других игроков.</span></div>
-</div>
-
-<div class="guide-divider"></div>
-
-<!-- 07 ЗВУК -->
-<div class="guide-section" id="gs7">
-<div class="guide-section-header"><span class="guide-section-num">07</span><span class="guide-section-title">Звук за 1 минуту до босса</span></div>
-<p class="guide-body">Когда приложение открыто, за минуту до босса прозвучит оповещение. Можно выбрать звук и настроить громкость.</p>
-<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 9</div><div class="guide-img-placeholder-desc">Панель звука — переключатель вкл/выкл, список звуков, слайдер громкости</div></div>
-<div class="guide-steps">
-<div class="guide-step"><span class="guide-step-num">🔊</span><span class="guide-step-text">Синий переключатель — включить/выключить звук.</span></div>
-<div class="guide-step"><span class="guide-step-num">🎵</span><span class="guide-step-text">Выпадающий список — 6 вариантов звука. При выборе сразу проигрывается.</span></div>
-<div class="guide-step"><span class="guide-step-num">🔉</span><span class="guide-step-text">Слайдер — громкость от 1 до 100.</span></div>
-</div>
-<div class="guide-infobox accent"><span class="guide-infobox-icon">📱</span><span class="guide-infobox-text">Звук работает только когда приложение открыто. Для фоновых оповещений — используй <b>уведомления в Telegram</b>.</span></div>
-</div>
-
-<div class="guide-divider"></div>
-
-<!-- 08 КАЛЬКУЛЯТОР -->
-<div class="guide-section" id="gs8">
-<div class="guide-section-header"><span class="guide-section-num">08</span><span class="guide-section-title">Калькулятор уровней</span></div>
-<p class="guide-body">Кнопка <b>«Калькулятор»</b> открывает инструмент для расчёта ресурсов между уровнями. Укажи текущий и целевой уровень — калькулятор покажет разницу.</p>
-<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 10</div><div class="guide-img-placeholder-desc">Страница калькулятора — ползунки уровней и блок результатов</div></div>
-<div class="guide-infobox warn"><span class="guide-infobox-icon">⏳</span><span class="guide-infobox-text"><b>Скоро.</b> Данные по монетам и блокам появятся после вайпа — как только будут известны все требования прокачки.</span></div>
-</div>
-
-<div class="guide-divider"></div>
-
-<!-- 09 ИДЕИ -->
-<div class="guide-section" id="gs9">
-<div class="guide-section-header"><span class="guide-section-num">09</span><span class="guide-section-title">Идеи для бота</span></div>
-<p class="guide-body">Есть идея как улучшить бота? Кнопка <b>«Идеи»</b> — предложи её. Каждая идея рассматривается разработчиком.</p>
-<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 11</div><div class="guide-img-placeholder-desc">Страница идей — поле ввода и кнопка «Отправить идею»</div></div>
-<div class="guide-steps">
-<div class="guide-step"><span class="guide-step-num">1</span><span class="guide-step-text">Нажми <b>«Идеи»</b> на главном экране.</span></div>
-<div class="guide-step"><span class="guide-step-num">2</span><span class="guide-step-text">Напиши идею в поле — до <b>500 символов</b>.</span></div>
-<div class="guide-step"><span class="guide-step-num">3</span><span class="guide-step-text">Нажми <b>«Отправить»</b>. Бот уведомит в Telegram о результате рассмотрения.</span></div>
-</div>
-<div class="guide-infobox accent"><span class="guide-infobox-icon">⏰</span><span class="guide-infobox-text">После отправки идеи — <b>кулдаун 1 час</b>. Формулируй мысль чётко с первого раза!</span></div>
-</div>
-
-<div class="guide-divider"></div>
-
-<!-- 10 ПОДДЕРЖКА -->
-<div class="guide-section" id="gs10">
-<div class="guide-section-header"><span class="guide-section-num">10</span><span class="guide-section-title">Поддержка монетами и Топ донатов</span></div>
-<p class="guide-body">Кнопка <b>«Поддержать»</b> — задонатить монеты на развитие бота и попасть в публичный <b>Топ донатов</b>.</p>
-<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 12</div><div class="guide-img-placeholder-desc">Топ донатов — список с никами, значками и суммами. Золото/серебро/бронза у топ-3</div></div>
-<div class="guide-steps">
-<div class="guide-step"><span class="guide-step-num">1</span><span class="guide-step-text">Зайди на <b>PrisonEvo</b>.</span></div>
-<div class="guide-step"><span class="guide-step-num">2</span><span class="guide-step-text">Переведи монеты боту: <code>/pay PrisonEvoAssist [сумма]</code></span></div>
-<div class="guide-step"><span class="guide-step-num">3</span><span class="guide-step-text">Бот зачислит монеты автоматически — ник появится в топе.</span></div>
-</div>
-<div class="guide-infobox warn"><span class="guide-infobox-icon">⚠️</span><span class="guide-infobox-text">Ник перевода должен совпадать с ником профиля в боте, иначе монеты не зачислятся.</span></div>
-</div>
-
-<div class="guide-divider"></div>
-
-<!-- 11 БАГ -->
-<div class="guide-section" id="gs11">
-<div class="guide-section-header"><span class="guide-section-num">11</span><span class="guide-section-title">Нашёл баг? Пиши сюда</span></div>
-<p class="guide-body">Что-то сломалось? Нажми <b>🐛</b> в правом верхнем углу — откроется окно с контактом разработчика.</p>
-<div class="guide-img-placeholder"><div class="guide-img-placeholder-label">📸 Скриншот 13</div><div class="guide-img-placeholder-desc">Модальное окно «Нашёл баг?» — кнопка «Написать» и ник разработчика @whatafukk</div></div>
-<div class="guide-steps">
-<div class="guide-step"><span class="guide-step-num">1</span><span class="guide-step-text">Нажми <b>🐛</b> в правом верхнем углу.</span></div>
-<div class="guide-step"><span class="guide-step-num">2</span><span class="guide-step-text">Нажми <b>«📣 Написать»</b> — откроется чат с <b>@whatafukk</b> в Telegram.</span></div>
-<div class="guide-step"><span class="guide-step-num">3</span><span class="guide-step-text">Опиши что случилось и при каких условиях. Скриншот приветствуется.</span></div>
-</div>
-<div class="guide-infobox ready"><span class="guide-infobox-icon">🙏</span><span class="guide-infobox-text">Любой репорт очень помогает. Разработчик читает все сообщения.</span></div>
-</div>
-
-<div class="guide-footer-inner">
-<div class="guide-footer-inner-title">ТРЕКЕР БОССОВ</div>
-<div class="guide-footer-inner-sub">by whyousolonely · @PrisonEvoAssist · Cristalix 2026</div>
-</div>
-
 </div>
 </div>
 
@@ -962,28 +689,14 @@ function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 function clearCodeCountdown(){if(codeCountdown){clearInterval(codeCountdown);codeCountdown=null;}}
 function setProfileWall(show){const wall=document.getElementById('profile-wall');wall.style.display=show?'flex':'none';}
-
-// ── Утилита для открытия Telegram-ссылки БЕЗ закрытия приложения ──
-function openTgLink(url){
-  // openTelegramLink открывает внутри Telegram, не закрывая WebApp
-  if(tg&&tg.openTelegramLink){
-    tg.openTelegramLink(url);
-  } else if(tg&&tg.openLink){
-    tg.openLink(url,{try_instant_view:false});
-  } else {
-    window.open(url,'_blank');
-  }
-}
-
 document.getElementById('close-bug').addEventListener('click',()=>closeModal('modal-bug'));
 document.getElementById('modal-bug').addEventListener('click',e=>{if(e.target.id==='modal-bug')closeModal('modal-bug');});
 document.getElementById('btn-bug').addEventListener('click',()=>openModal('modal-bug'));
-
-// ── Кнопка "Написать" в баг-репорте — открывает профиль в Telegram, НЕ в браузере ──
 document.getElementById('bug-tg-btn').addEventListener('click',()=>{
-  openTgLink('https://t.me/whatafukk');
+if(tg&&tg.openTelegramLink){tg.openTelegramLink('https://t.me/whatafukk');}
+else if(tg&&tg.openLink){tg.openLink('https://t.me/whatafukk',{try_instant_view:false});}
+else{window.open('https://t.me/whatafukk','_blank');}
 });
-
 document.getElementById('close-tgk').addEventListener('click',()=>closeModal('modal-tgk'));
 document.getElementById('modal-tgk').addEventListener('click',e=>{if(e.target.id==='modal-tgk')closeModal('modal-tgk');});
 document.getElementById('btn-tgk').addEventListener('click',()=>{
@@ -991,7 +704,9 @@ document.getElementById('tgk-check-result').style.display='none';
 openModal('modal-tgk');
 });
 document.getElementById('tgk-subscribe-btn').addEventListener('click',()=>{
-  openTgLink('https://t.me/PrisonEvoAssist');
+if(tg&&tg.openTelegramLink){tg.openTelegramLink('https://t.me/PrisonEvoAssist');}
+else if(tg&&tg.openLink){tg.openLink('https://t.me/PrisonEvoAssist',{try_instant_view:false});}
+else{window.open('https://t.me/PrisonEvoAssist','_blank');}
 });
 document.getElementById('tgk-check-btn').addEventListener('click',async()=>{
 if(!TG_USER_ID){showToast('Войдите через Telegram');return;}
@@ -1049,7 +764,6 @@ document.getElementById('ideas-back').addEventListener('click',()=>showPage('pag
 document.getElementById('admin-back').addEventListener('click',()=>showPage('page-main'));
 document.getElementById('admin-link').addEventListener('click',()=>{switchAdminTab('users');showPage('page-admin');});
 document.getElementById('wall-create-btn').addEventListener('click',startProfileCreation);
-
 async function loadProfile(){
 if(!TG_USER_ID){renderProfileBar(null);setProfileWall(true);return;}
 try{
@@ -1061,7 +775,6 @@ renderProfileBar(userProfile);
 setProfileWall(!userProfile);
 }catch(e){renderProfileBar(null);}
 }
-
 function renderProfileBar(profile){
 const bar=document.getElementById('profile-bar');
 if(profile==='blacklisted'){
@@ -1076,79 +789,10 @@ return;
 const badge=profile.donate?donateBadge(profile.donate):'';
 const badges=badgesHtml(profile.verified,profile.badge||'',false);
 const avatar=profile.avatar_url?`<img src="${profile.avatar_url}" onerror="this.parentElement.textContent='?'">`:getTgAvatar();
-// Кнопки справа: "Профили" + кнопка обновления (зелёная ⟳)
-bar.innerHTML=`
-<div class="profile-left">
-  <div class="profile-avatar">${avatar}</div>
-  <div style="display:flex;align-items:center;gap:4px;min-width:0;overflow:hidden">
-    ${badge?badge+'&nbsp;':''}
-    <span class="profile-name">${profile.nick}</span>
-    ${badges}
-  </div>
-</div>
-<div class="profile-right-btns">
-  <div class="view-profiles-btn" id="view-profiles-btn">Профили</div>
-  <div class="profile-update-btn" id="profile-update-btn" title="Обновить донат / ник">&#x21BB;</div>
-</div>`;
+bar.innerHTML=`<div class="profile-left"><div class="profile-avatar">${avatar}</div><div style="display:flex;align-items:center;gap:4px;min-width:0;overflow:hidden">${badge?badge+'&nbsp;':''}<span class="profile-name">${profile.nick}</span>${badges}</div></div><div style="display:flex;gap:5px;align-items:center"><div class="profile-refresh-btn" id="profile-refresh-btn" title="Обновить профиль">&#x21BB;</div><div class="view-profiles-btn" id="view-profiles-btn">Профили</div></div>`;
 document.getElementById('view-profiles-btn').addEventListener('click',openProfilesList);
-document.getElementById('profile-update-btn').addEventListener('click',startProfileUpdate);
+document.getElementById('profile-refresh-btn').addEventListener('click',startProfileUpdate);
 }
-
-// ── Обновление профиля ──
-async function startProfileUpdate(){
-if(!TG_USER_ID||!userProfile||!userProfile.nick){showToast('Сначала создай профиль');return;}
-const btn=document.getElementById('profile-update-btn');
-if(btn){btn.classList.add('spinning-upd');btn.style.pointerEvents='none';}
-document.getElementById('modal-profile-title').textContent='ОБНОВИТЬ ПРОФИЛЬ';
-const body=document.getElementById('profile-modal-body');
-body.innerHTML=`<div class="ph-text" style="text-align:center">Генерация кода...</div>`;
-openModal('modal-profile');
-if(btn){setTimeout(()=>{btn.classList.remove('spinning-upd');btn.style.pointerEvents='';},600);}
-const tgAvatarUrl=tg?.initDataUnsafe?.user?.photo_url||null;
-try{
-const res=await fetch(`${API_BASE}/profile/update`,{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},body:JSON.stringify({user_id:TG_USER_ID,avatar_url:tgAvatarUrl})});
-if(res.status===403){body.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:#ff4d6d;text-align:center">Вы в чёрном списке</div>`;return;}
-const data=await res.json();
-if(data.error){body.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--warn);text-align:center">${data.error}</div>`;return;}
-const code=data.code;
-let remaining=300;
-body.innerHTML=`
-<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:10px;line-height:1.6">
-Если вы обновили свой ник или донат, вы можете обновить свой профиль. Следуйте инструкциям ниже.
-</div>
-<div class="code-box"><div class="code-val">${code}</div><div class="code-timer" id="code-timer">Действует: 5:00</div></div>
-<div class="code-hint">Напиши в личку боту PrisonEvoAssist на сервере:</div>
-<div class="code-cmd">/m PrisonEvoAssist verify ${code}</div>`;
-clearCodeCountdown();
-codeCountdown=setInterval(()=>{
-remaining--;
-if(remaining<=0){clearCodeCountdown();closeModal('modal-profile');showToast('Код истёк');return;}
-const m=Math.floor(remaining/60),s=remaining%60;
-const el=document.getElementById('code-timer');
-if(el)el.textContent=`Действует: ${m}:${String(s).padStart(2,'0')}`;
-},1000);
-pollProfileUpdate(code);
-}catch(e){body.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--warn);text-align:center">Бот выключен</div>`;}
-}
-
-function pollProfileUpdate(code){
-let attempts=0;
-const iv=setInterval(async()=>{
-attempts++;
-if(attempts>60){clearInterval(iv);return;}
-try{
-const res=await fetch(`${API_BASE}/profile?uid=${TG_USER_ID}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
-const data=await res.json();
-// Если ник изменился или донат изменился — обновление прошло
-if(data.nick&&(data.nick!==userProfile.nick||data.donate!==userProfile.donate)){
-clearInterval(iv);clearCodeCountdown();closeModal('modal-profile');
-userProfile=data;renderProfileBar(data);
-showToast(`Профиль обновлён: ${data.nick}`);
-}
-}catch(e){}
-},5000);
-}
-
 async function openProfilesList(){
 openModal('modal-profiles');
 const body=document.getElementById('profiles-list-body');
@@ -1169,9 +813,7 @@ body.appendChild(el);
 });
 }catch(e){body.innerHTML=`<div class="placeholder"><div class="ph-text">Ошибка загрузки</div></div>`;}
 }
-
 async function startProfileCreation(){
-document.getElementById('modal-profile-title').textContent='СОЗДАТЬ ПРОФИЛЬ';
 const body=document.getElementById('profile-modal-body');
 body.innerHTML=`<div class="ph-text" style="text-align:center">Генерация кода...</div>`;
 openModal('modal-profile');
@@ -1194,16 +836,39 @@ if(el)el.textContent=`Действует: ${m}:${String(s).padStart(2,'0')}`;
 pollVerification(code);
 }catch(e){body.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--warn);text-align:center">Бот выключен</div>`;}
 }
-
-function pollVerification(code){
+async function startProfileUpdate(){
+const body=document.getElementById('profile-modal-body');
+const titleEl=document.querySelector('#modal-profile .modal-title');
+if(titleEl)titleEl.textContent='ОБНОВИТЬ ПРОФИЛЬ';
+body.innerHTML=`<div class="ph-text" style="text-align:center">Генерация кода...</div>`;
+openModal('modal-profile');
+const tgAvatarUrl=tg?.initDataUnsafe?.user?.photo_url||null;
+try{
+const res=await fetch(`${API_BASE}/profile/create`,{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},body:JSON.stringify({user_id:TG_USER_ID,avatar_url:tgAvatarUrl,update:true})});
+if(res.status===403){body.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:#ff4d6d;text-align:center">Вы в чёрном списке</div>`;return;}
+const data=await res.json();
+const code=data.code;
+let remaining=300;
+body.innerHTML=`<div class="code-box"><div class="code-val">${code}</div><div class="code-timer" id="code-timer">Действует: 5:00</div></div><div class="code-hint">Напишите в личку боту PrisonEvoAssist на сервере:</div><div class="code-cmd">/m PrisonEvoAssist verify ${code}</div><div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);margin-top:10px;line-height:1.6">Ник должен совпадать с текущим или нового не должно быть у другого игрока.</div>`;
+clearCodeCountdown();
+codeCountdown=setInterval(()=>{
+remaining--;
+if(remaining<=0){clearCodeCountdown();closeModal('modal-profile');showToast('Код истёк');return;}
+const m=Math.floor(remaining/60),s=remaining%60;
+const el=document.getElementById('code-timer');
+if(el)el.textContent=`Действует: ${m}:${String(s).padStart(2,'0')}`;
+},1000);
+pollVerification(code,true);
+}catch(e){body.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--warn);text-align:center">Бот выключен</div>`;}
+}
+function pollVerification(code,isUpdate){
 let attempts=0;
 const iv=setInterval(async()=>{
 attempts++;
 if(attempts>60){clearInterval(iv);return;}
-try{const res=await fetch(`${API_BASE}/profile?uid=${TG_USER_ID}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});const data=await res.json();if(data.nick){clearInterval(iv);clearCodeCountdown();closeModal('modal-profile');userProfile=data;renderProfileBar(data);setProfileWall(false);showToast(`Профиль создан: ${data.nick}`);}}catch(e){}
+try{const res=await fetch(`${API_BASE}/profile?uid=${TG_USER_ID}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});const data=await res.json();if(data.nick){clearInterval(iv);clearCodeCountdown();closeModal('modal-profile');userProfile=data;renderProfileBar(data);setProfileWall(false);showToast(isUpdate?`Профиль обновлён: ${data.nick}`:`Профиль создан: ${data.nick}`);}}catch(e){}
 },5000);
 }
-
 function buildTopEntry(rank,entry,isMe,amtStr){
 const rankCls=rank===1?'r1':rank===2?'r2':rank===3?'r3':'';
 const badge=entry.donate?donateBadge(entry.donate,'profile-badge'):'';
@@ -1341,21 +1006,19 @@ loadIdeasPage();
 }else{showToast('Ошибка отправки');}
 }catch(e){showToast('Бот выключен');if(btn)btn.disabled=false;}
 }
-
-// ── Админ-панель ──
 let adminTab='users';
 function switchAdminTab(tab){
 adminTab=tab;
 document.getElementById('admin-user-list').style.display=tab==='users'?'block':'none';
 document.getElementById('admin-ideas-list').style.display=tab==='ideas'?'block':'none';
-['users','ideas'].forEach(t=>{
-const el=document.getElementById('admin-tab-'+t);
-if(el)el.style.borderColor=t===tab?'var(--accent)':'var(--border2)';
-});
+document.getElementById('admin-history-list').style.display=tab==='history'?'block':'none';
+document.getElementById('admin-tab-users').style.borderColor=tab==='users'?'var(--accent)':'var(--border2)';
+document.getElementById('admin-tab-ideas').style.borderColor=tab==='ideas'?'var(--accent)':'var(--border2)';
+document.getElementById('admin-tab-history').style.borderColor=tab==='history'?'var(--accent)':'var(--border2)';
 if(tab==='users')loadAdminUsers();
 else if(tab==='ideas')loadAdminIdeas();
+else loadAdminHistory();
 }
-
 async function loadAdminUsers(){
 const list=document.getElementById('admin-user-list');
 list.innerHTML=`<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка...</div></div>`;
@@ -1368,58 +1031,6 @@ list.innerHTML='';
 data.users.forEach(u=>list.appendChild(buildAdminCard(u)));
 }catch(e){list.innerHTML=`<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;}
 }
-
-// ── История конкретного пользователя (модальное окно) ──
-let histModalUid=0;
-document.getElementById('close-user-history').addEventListener('click',()=>closeModal('modal-user-history'));
-document.getElementById('modal-user-history').addEventListener('click',e=>{if(e.target.id==='modal-user-history')closeModal('modal-user-history');});
-
-async function openUserHistory(uid,nick){
-histModalUid=uid;
-document.getElementById('modal-user-history-title').textContent=`ИСТОРИЯ: ${nick}`;
-document.getElementById('user-history-body').innerHTML=`<div class="placeholder"><div class="ph-text">Загрузка...</div></div>`;
-openModal('modal-user-history');
-await loadUserHistory(uid);
-}
-
-async function loadUserHistory(uid){
-const body=document.getElementById('user-history-body');
-try{
-const res=await fetch(`${API_BASE}/admin/history?uid=${TG_USER_ID}&target=${uid}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
-const data=await res.json();
-const entries=data.history||[];
-if(!entries.length){
-body.innerHTML=`<div class="placeholder" style="padding:30px 0"><div class="ph-icon">[ · ]</div><div class="ph-text">История пуста</div><div class="ph-sub">Пользователь не менял ник</div></div>`;
-return;
-}
-body.innerHTML='';
-const note=document.createElement('div');
-note.style.cssText='font-family:"Share Tech Mono",monospace;font-size:8px;color:var(--dim);letter-spacing:1px;margin-bottom:10px';
-note.textContent=`${entries.length} запис${entries.length===1?'ь':entries.length<5?'и':'ей'} — старые ники до смены`;
-body.appendChild(note);
-entries.forEach((entry,idx)=>{
-const row=document.createElement('div');
-row.className='hist-user-entry';
-const dt=new Date(entry.ts*1000).toLocaleString('ru',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'});
-const donBadge=entry.donate&&entry.donate.trim()?donateBadge(entry.donate,'auc-badge'):'';
-row.innerHTML=`
-${donBadge}
-<span class="hist-user-nick">${entry.nick||'—'}</span>
-<span class="hist-user-ts">${dt}</span>
-<span class="hist-user-del" data-idx="${idx}" title="Удалить запись">✕</span>`;
-row.querySelector('.hist-user-del').addEventListener('click',async(e)=>{
-const i=parseInt(e.target.dataset.idx);
-try{
-await fetch(`${API_BASE}/admin/history-delete`,{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},body:JSON.stringify({admin_id:TG_USER_ID,user_id:uid,index:i})});
-showToast('Запись удалена');
-await loadUserHistory(uid);
-}catch(err){showToast('Ошибка');}
-});
-body.appendChild(row);
-});
-}catch(e){body.innerHTML=`<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;}
-}
-
 let adminIdeasFilter='all';
 let adminIdeasCache=[];
 async function loadAdminIdeas(){
@@ -1433,6 +1044,34 @@ adminIdeasCache=data.ideas||[];
 renderAdminIdeas();
 }catch(e){document.getElementById('admin-ideas-list').innerHTML=`<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;}
 }
+async function loadAdminHistory(){
+const list=document.getElementById('admin-history-list');
+list.innerHTML=`<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Загрузка...</div></div>`;
+try{
+const res=await fetch(`${API_BASE}/admin/history?uid=${TG_USER_ID}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
+if(!res.ok){list.innerHTML=`<div class="placeholder"><div class="ph-text">Нет доступа</div></div>`;return;}
+const data=await res.json();
+const entries=data.history||[];
+if(!entries.length){list.innerHTML=`<div class="placeholder"><div class="ph-icon">[ · · · ]</div><div class="ph-text">Список пуст</div></div>`;return;}
+list.innerHTML='';
+entries.forEach(e=>{
+const card=document.createElement('div');
+card.className='admin-user-card';
+const ts=new Date(e.ts*1000).toLocaleString('ru');
+const oldBadge=e.old_donate?donateBadge(e.old_donate,'auc-badge'):'';
+const newBadge=e.new_donate?donateBadge(e.new_donate,'auc-badge'):'';
+card.innerHTML=`
+<div class="auc-uid" style="margin-bottom:4px">${ts} &bull; ID: ${e.user_id}</div>
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text)">
+${e.old_nick?`<span style="color:var(--muted)">${e.old_nick}</span>`:''} 
+${e.old_nick!==e.new_nick?`<span style="color:var(--dim)">→</span><span style="color:var(--white)">${e.new_nick}</span>`:'<span style="color:var(--white)">${e.new_nick}</span>'}
+${oldBadge}${e.old_donate!==e.new_donate?`<span style="color:var(--dim)">→</span>${newBadge}`:''}
+</div>`;
+list.appendChild(card);
+});
+}catch(e){list.innerHTML=`<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;}
+}
+
 function renderAdminIdeas(){
 const list=document.getElementById('admin-ideas-list');
 const filtered=adminIdeasFilter==='all'?adminIdeasCache:adminIdeasCache.filter(i=>i.status===adminIdeasFilter);
@@ -1487,14 +1126,12 @@ setTimeout(loadAdminIdeas,400);
 function buildAdminCard(u){
 const card=document.createElement('div');
 card.className='admin-user-card';
-const badge=u.donate&&u.donate.trim()?donateBadge(u.donate,'auc-badge'):'';
+const badge=u.donate?donateBadge(u.donate,'auc-badge'):'';
 const badges=badgesHtml(u.verified,u.badge||'',true);
 const blTag=u.blacklisted?'<span class="auc-bl">БЛОК</span>':'';
 const hasBadge=Array.isArray(u.badge)?u.badge.includes('green'):u.badge==='green';
-const hasTgk=Array.isArray(u.badge)?u.badge.includes('tgk')||u.badge.includes('channel'):u.badge==='tgk'||u.badge==='channel';
 const ideaBannedBtn=u.idea_banned?`<div class="auc-btn ideaunbl" data-action="idea-unban" data-uid="${u.user_id}">Разблок.идеи</div>`:'';
 const ideaCdBtn=u.idea_cd_left>0?`<div class="auc-btn idea-cd-rm" data-action="idea-cd-reset" data-uid="${u.user_id}">Снять КД идей</div>`:'';
-const tgkBtn=hasTgk?`<div class="auc-btn tgk-rm" data-action="tgk-rm" data-uid="${u.user_id}">Снять ТГК</div>`:'';
 card.innerHTML=`
 <div class="auc-top">${badge}<span class="auc-nick">${u.nick||'—'}</span>${badges}${blTag}</div>
 <div class="auc-uid">ID: ${u.user_id}</div>
@@ -1502,19 +1139,11 @@ card.innerHTML=`
 ${u.blacklisted?`<div class="auc-btn bl-rem" data-action="bl-rem" data-uid="${u.user_id}">Снять блок</div>`:`<div class="auc-btn bl-add" data-action="bl-add" data-uid="${u.user_id}">Заблокировать</div>`}
 ${u.verified?`<div class="auc-btn ver" data-action="unverify" data-uid="${u.user_id}">Снять галочку</div>`:`<div class="auc-btn ver" data-action="verify" data-uid="${u.user_id}">Верифицировать</div>`}
 ${hasBadge?`<div class="auc-btn badge-rm" data-action="badge-rm" data-uid="${u.user_id}">Снять Dev</div>`:`<div class="auc-btn badge-g" data-action="badge-green" data-uid="${u.user_id}">&lt;/&gt; Dev</div>`}
-${tgkBtn}
 ${ideaBannedBtn}${ideaCdBtn}
-<div class="auc-btn" style="color:#a78bfa;border-color:#a78bfa;background:rgba(167,139,250,0.06)" data-action="history" data-uid="${u.user_id}" data-nick="${u.nick||'—'}">История</div>
 <div class="auc-btn del" data-action="delete" data-uid="${u.user_id}">Удалить</div>
 </div>`;
 card.querySelectorAll('.auc-btn').forEach(btn=>{
-btn.addEventListener('click',()=>{
-if(btn.dataset.action==='history'){
-openUserHistory(parseInt(btn.dataset.uid),btn.dataset.nick);
-}else{
-handleAdminAction(btn.dataset.action,parseInt(btn.dataset.uid));
-}
-});
+btn.addEventListener('click',()=>handleAdminAction(btn.dataset.action,parseInt(btn.dataset.uid)));
 });
 return card;
 }
@@ -1527,8 +1156,7 @@ else if(action==='bl-rem'){await post('/admin/blacklist',{admin_id:TG_USER_ID,us
 else if(action==='verify'){await post('/admin/verify',{admin_id:TG_USER_ID,user_id:targetUid,verified:true});showToast('Верифицирован');}
 else if(action==='unverify'){await post('/admin/verify',{admin_id:TG_USER_ID,user_id:targetUid,verified:false});showToast('Галочка снята');}
 else if(action==='badge-green'){await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:'green'});showToast('Dev выдан');}
-else if(action==='badge-rm'){await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:'green-rm'});showToast('Dev снят');}
-else if(action==='tgk-rm'){await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:'tgk-rm'});showToast('ТГК значок снят');}
+else if(action==='badge-rm'){await post('/admin/badge',{admin_id:TG_USER_ID,user_id:targetUid,badge:''});showToast('Dev снят');}
 else if(action==='idea-unban'){await post('/admin/idea-unban',{admin_id:TG_USER_ID,user_id:targetUid});showToast('Идеи разблокированы');}
 else if(action==='idea-cd-reset'){await post('/admin/idea-cd-reset',{admin_id:TG_USER_ID,user_id:targetUid});showToast('КД идей снято');}
 else if(action==='delete'){await post('/admin/delete',{admin_id:TG_USER_ID,user_id:targetUid});showToast('Профиль удалён');}
@@ -1727,32 +1355,6 @@ document.getElementById('refresh-btn').addEventListener('click',()=>loadData(fal
 loadProfile();
 loadData(false);
 setInterval(()=>loadData(true),5000);
-
-// ── GUIDE PAGE LOGIC ──
-function openGuide(){showPage('page-guide');window.scrollTo(0,0);}
-function closeGuide(){
-  // Если профиля нет — при закрытии показываем стену
-  if(!userProfile||!userProfile.nick){
-    showPage('page-main');
-    setProfileWall(true);
-  } else {
-    showPage('page-main');
-  }
-}
-document.getElementById('guide-back').addEventListener('click',closeGuide);
-document.getElementById('guide-link').addEventListener('click',openGuide);
-
-// Открыть гайд если в URL есть ?page=guide (кнопка из Telegram)
-(function(){
-  try{
-    const params=new URLSearchParams(window.location.search);
-    if(params.get('page')==='guide'){
-      // Небольшая задержка чтобы страница успела прогрузиться
-      setTimeout(openGuide, 100);
-    }
-  }catch(e){}
-})();
-
 </script>
 </body>
 </html>
