@@ -281,6 +281,12 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .calc-result-val.calc-locked{color:var(--border2);font-size:18px;}
 .calc-divider{height:1px;background:var(--border);margin:6px 0;}
 .calc-locked-note{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);text-align:center;margin-top:10px;letter-spacing:1px;}
+/* Поле ввода ника в модалке профиля */
+.nick-input{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:6px;color:var(--white);font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:600;padding:10px 12px;outline:none;text-align:center;letter-spacing:1px;margin-bottom:10px;}
+.nick-input:focus{border-color:var(--accent);}
+.nick-input::placeholder{color:var(--dim);font-weight:400;font-size:13px;letter-spacing:0;}
+.nick-submit-btn{width:100%;background:rgba(74,158,255,0.08);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:10px;padding:10px;border-radius:6px;cursor:pointer;transition:all 0.15s;letter-spacing:1px;}
+.nick-submit-btn:hover{background:rgba(74,158,255,0.16);}
 /* ══ GUIDE PAGE ══ */
 .guide-page-wrap{padding:0 0 60px;}
 .guide-hero{padding:28px 0 20px;text-align:center;border-bottom:1px solid var(--border);margin-bottom:28px;}
@@ -922,16 +928,20 @@ function openTgLink(url){
   else{window.open(url,'_blank');}
 }
 
+// ── GUIDE PAGE LOGIC ──
+// Хелпер: активна ли сейчас страница гайда
 function isGuidePage(){return document.getElementById('page-guide')?.classList.contains('active');}
 
 function openGuide(){
   showPage('page-guide');
+  // Скрываем стену — в гайде она не нужна
   setProfileWall(false);
   window.scrollTo(0,0);
 }
 
 function closeGuide(){
   showPage('page-main');
+  // Показываем стену только если нет профиля
   if(!userProfile||!userProfile.nick){
     setProfileWall(true);
   }
@@ -984,9 +994,11 @@ document.getElementById('admin-back').addEventListener('click',()=>showPage('pag
 document.getElementById('admin-link').addEventListener('click',()=>{switchAdminTab('users');showPage('page-admin');});
 document.getElementById('wall-create-btn').addEventListener('click',startProfileCreation);
 
+// ── loadProfile: не показываем стену если открыт гайд ──
 async function loadProfile(){
 if(!TG_USER_ID){
   renderProfileBar(null);
+  // Показываем стену только если НЕ на странице гайда
   if(!isGuidePage()) setProfileWall(true);
   return;
 }
@@ -996,6 +1008,7 @@ if(res.status===403){isBlacklisted=true;renderProfileBar('blacklisted');setProfi
 const data=await res.json();
 userProfile=Object.keys(data).length&&data.nick?data:null;
 renderProfileBar(userProfile);
+// Показываем стену только если нет профиля И мы не на странице гайда
 if(!isGuidePage()) setProfileWall(!userProfile);
 }catch(e){renderProfileBar(null);}
 }
@@ -1032,12 +1045,23 @@ const btn=document.getElementById('profile-update-btn');
 if(btn){btn.classList.add('spinning-upd');btn.style.pointerEvents='none';}
 document.getElementById('modal-profile-title').textContent='ОБНОВИТЬ ПРОФИЛЬ';
 const body=document.getElementById('profile-modal-body');
-body.innerHTML=`<div class="ph-text" style="text-align:center">Генерация кода...</div>`;
 openModal('modal-profile');
 if(btn){setTimeout(()=>{btn.classList.remove('spinning-upd');btn.style.pointerEvents='';},600);}
+// Шаг 1: просим ввести новый ник (может совпадать со старым если менялся только донат)
+body.innerHTML=`
+<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:12px;line-height:1.7">
+Если вы обновили ник или донат — введи актуальный ник и нажми "Далее"
+</div>
+<input class="nick-input" id="nick-input" type="text" placeholder="Твой актуальный ник в игре" maxlength="32" autocomplete="off" autocorrect="off" spellcheck="false" value="${userProfile.nick||''}">
+<button class="nick-submit-btn" id="nick-submit-btn">Далее →</button>`;
+document.getElementById('nick-input').select();
+const doUpdate = async () => {
+const nickVal = (document.getElementById('nick-input')?.value||'').trim();
+if(!nickVal){showToast('Введи ник');return;}
+body.innerHTML=`<div class="ph-text" style="text-align:center">Генерация кода...</div>`;
 const tgAvatarUrl=tg?.initDataUnsafe?.user?.photo_url||null;
 try{
-const res=await fetch(`${API_BASE}/profile/update`,{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},body:JSON.stringify({user_id:TG_USER_ID,avatar_url:tgAvatarUrl})});
+const res=await fetch(`${API_BASE}/profile/update`,{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},body:JSON.stringify({user_id:TG_USER_ID,avatar_url:tgAvatarUrl,expected_nick:nickVal})});
 if(res.status===403){body.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:#ff4d6d;text-align:center">Вы в чёрном списке</div>`;return;}
 const data=await res.json();
 if(data.error){body.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--warn);text-align:center">${data.error}</div>`;return;}
@@ -1045,16 +1069,18 @@ const code=data.code;
 let remaining=300;
 body.innerHTML=`
 <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:10px;line-height:1.6">
-Если вы обновили свой ник или донат, вы можете обновить свой профиль. Следуйте инструкциям ниже.
+Напиши в личку боту <b>PrisonEvoAssist</b> на сервере от ника <b style="color:var(--accent)">${nickVal}</b>:
 </div>
 <div class="code-box"><div class="code-val">${code}</div><div class="code-timer" id="code-timer">Действует: 5:00</div></div>
-<div class="code-hint">Напиши в личку боту PrisonEvoAssist на сервере:</div>
 <div class="code-cmd">/m PrisonEvoAssist verify ${code}</div>`;
 clearCodeCountdown();
 codeCountdown=setInterval(()=>{remaining--;if(remaining<=0){clearCodeCountdown();closeModal('modal-profile');showToast('Код истёк');return;}
 const m=Math.floor(remaining/60),s=remaining%60;const el=document.getElementById('code-timer');if(el)el.textContent=`Действует: ${m}:${String(s).padStart(2,'0')}`;},1000);
 pollProfileUpdate(code);
 }catch(e){body.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--warn);text-align:center">Бот выключен</div>`;}
+};
+document.getElementById('nick-submit-btn').addEventListener('click', doUpdate);
+document.getElementById('nick-input').addEventListener('keydown', e=>{if(e.key==='Enter')doUpdate();});
 }
 
 function pollProfileUpdate(code){
@@ -1087,20 +1113,34 @@ body.appendChild(el);});
 async function startProfileCreation(){
 document.getElementById('modal-profile-title').textContent='СОЗДАТЬ ПРОФИЛЬ';
 const body=document.getElementById('profile-modal-body');
-body.innerHTML=`<div class="ph-text" style="text-align:center">Генерация кода...</div>`;
 openModal('modal-profile');
+// Шаг 1: просим ввести ник
+body.innerHTML=`
+<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:12px;line-height:1.7">
+Введи свой ник в игре <b style="color:var(--white)">точно как он написан</b> — это нужно чтобы бот привязал именно твой профиль
+</div>
+<input class="nick-input" id="nick-input" type="text" placeholder="Твой ник в игре" maxlength="32" autocomplete="off" autocorrect="off" spellcheck="false">
+<button class="nick-submit-btn" id="nick-submit-btn">Далее →</button>`;
+document.getElementById('nick-input').focus();
+const doCreate = async () => {
+const nickVal = (document.getElementById('nick-input')?.value||'').trim();
+if(!nickVal){showToast('Введи ник');return;}
+body.innerHTML=`<div class="ph-text" style="text-align:center">Генерация кода...</div>`;
 const tgAvatarUrl=tg?.initDataUnsafe?.user?.photo_url||null;
 try{
-const res=await fetch(`${API_BASE}/profile/create`,{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},body:JSON.stringify({user_id:TG_USER_ID,avatar_url:tgAvatarUrl})});
+const res=await fetch(`${API_BASE}/profile/create`,{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},body:JSON.stringify({user_id:TG_USER_ID,avatar_url:tgAvatarUrl,expected_nick:nickVal})});
 if(res.status===403){body.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:#ff4d6d;text-align:center">Вы в чёрном списке</div>`;return;}
 const data=await res.json();
 const code=data.code;let remaining=300;
-body.innerHTML=`<div class="code-box"><div class="code-val">${code}</div><div class="code-timer" id="code-timer">Действует: 5:00</div></div><div class="code-hint">Напишите в личку боту PrisonEvoAssist на сервере:</div><div class="code-cmd">/m PrisonEvoAssist verify ${code}</div>`;
+body.innerHTML=`<div class="code-box"><div class="code-val">${code}</div><div class="code-timer" id="code-timer">Действует: 5:00</div></div><div class="code-hint">Напишите в личку боту <b>PrisonEvoAssist</b> на сервере:</div><div class="code-cmd">/m PrisonEvoAssist verify ${code}</div>`;
 clearCodeCountdown();
 codeCountdown=setInterval(()=>{remaining--;if(remaining<=0){clearCodeCountdown();closeModal('modal-profile');showToast('Код истёк');return;}
 const m=Math.floor(remaining/60),s=remaining%60;const el=document.getElementById('code-timer');if(el)el.textContent=`Действует: ${m}:${String(s).padStart(2,'0')}`;},1000);
 pollVerification(code);
 }catch(e){body.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--warn);text-align:center">Бот выключен</div>`;}
+};
+document.getElementById('nick-submit-btn').addEventListener('click', doCreate);
+document.getElementById('nick-input').addEventListener('keydown', e=>{if(e.key==='Enter')doCreate();});
 }
 
 function pollVerification(code){
@@ -1384,10 +1424,12 @@ btn.addEventListener('mouseleave',()=>{tip.style.display='none';});
 })();
 document.getElementById('refresh-btn').addEventListener('click',()=>loadData(false));
 
+// Открыть гайд если в URL есть ?page=guide, иначе обычный старт
 (function(){
 try{
 const params=new URLSearchParams(window.location.search);
 if(params.get('page')==='guide'){
+  // Сначала открываем гайд (скрывает стену), потом загружаем профиль
   setTimeout(()=>{openGuide();loadProfile();loadData(false);},150);
   setInterval(()=>loadData(true),5000);
   return;
