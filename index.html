@@ -345,19 +345,25 @@
     const API_BASE = getApiBase();
     try { localStorage.setItem('bt_api_base_v1', API_BASE); } catch (e) {}
 
+    const BOSS_IMG_EXT = 'png';
+    function bossImgUrl(id){
+      // Если картинки лежат в корне GitHub Pages: boss1.png ... boss12.png
+      // (работает и в локальном режиме, если файлы рядом с index.html)
+      return `boss${id}.${BOSS_IMG_EXT}`;
+    }
     const BOSSES=[
-      {id:1,full:"Цып. Агрессивный пернатый",icon:"🐔"},
-      {id:2,full:"Аль-Каум. Владыка песков",icon:"🏜️"},
-      {id:3,full:"Азерус. Магматический лорд",icon:"🔥"},
-      {id:4,full:"Слаймяш. Мутированный слизень",icon:"🟢"},
-      {id:5,full:"Диаваль. Последний гладиатор",icon:"⚔️"},
-      {id:6,full:"Эгалмот. Хаос Гесиода",icon:"👁️"},
-      {id:7,full:"Шайн. Подводный владыка",icon:"🐟"},
-      {id:8,full:"Алевия. Верховная чародейка",icon:"🧙‍♀️"},
-      {id:9,full:"Флоракс. Повелитель леса",icon:"🌳"},
-      {id:10,full:"Хладорожденный Лич. Король мёртвых",icon:"💀"},
-      {id:11,full:"Талениэль. Эльфийка-охотница",icon:"🏹"},
-      {id:12,full:"Мориэль. Падший ангел",icon:"👼"},
+      {id:1,full:"Цып. Агрессивный пернатый"},
+      {id:2,full:"Аль-Каум. Владыка песков"},
+      {id:3,full:"Азерус. Магматический лорд"},
+      {id:4,full:"Слаймяш. Мутированный слизень"},
+      {id:5,full:"Диаваль. Последний гладиатор"},
+      {id:6,full:"Эгалмот. Хаос Гесиода"},
+      {id:7,full:"Шайн. Подводный владыка"},
+      {id:8,full:"Алевия. Верховная чародейка"},
+      {id:9,full:"Флоракс. Повелитель леса"},
+      {id:10,full:"Хладорожденный Лич. Король мёртвых"},
+      {id:11,full:"Талениэль. Эльфийка-охотница"},
+      {id:12,full:"Мориэль. Падший ангел"},
     ];
 
     const SOUND_KEY="bt_sound_v3",VOL_KEY="bt_vol_v3",STYPE_KEY="bt_stype_v3";
@@ -452,8 +458,19 @@
       if(tg?.openTelegramLink) tg.openTelegramLink('https://t.me/whatafukk'); else window.open('https://t.me/whatafukk','_blank');
     });
 
-    document.getElementById('tgk-sub-btn').addEventListener('click', ()=>{
-      if(tg?.openTelegramLink) tg.openTelegramLink('https://t.me/PrisonEvoAssist'); else window.open('https://t.me/PrisonEvoAssist','_blank');
+    document.getElementById('tgk-sub-btn').addEventListener('click', async ()=>{
+      // В Telegram WebApp переход по ссылке часто закрывает приложение.
+      // Поэтому по умолчанию просто копируем ссылку и просим открыть вручную.
+      const link = 'https://t.me/PrisonEvoAssist';
+      let copied = false;
+      try {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(link);
+          copied = true;
+        }
+      } catch (e) {}
+      if (copied) showToast('Ссылка скопирована. Открой канал и подпишись.');
+      else showToast('Открой канал: @PrisonEvoAssist');
     });
 
     document.getElementById('tgk-check-btn').addEventListener('click', async ()=>{
@@ -545,7 +562,8 @@
       if(!best){ nb.style.display='none'; return; }
       const boss=BOSSES.find(b=>b.id===best.id);
       nb.style.display='flex';
-      document.getElementById('nb-icon').textContent=boss?.icon||'?';
+      const nbIco=document.getElementById('nb-icon');
+      nbIco.innerHTML = boss ? `<img src="${bossImgUrl(boss.id)}" alt="" style="width:28px;height:28px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(74,158,255,0.15))">` : '?';
       document.getElementById('nb-name').textContent=boss?.full||'—';
       const tl=getTL(best.respawn_at);
       if(tl===0){
@@ -578,7 +596,9 @@
         const card=document.createElement('div');
         card.className=`boss-card ${state}`;
         card.dataset.bossId=boss.id;
-        const ico=document.createElement('div'); ico.className='boss-avatar-fb'; ico.textContent=boss.icon;
+        const ico=document.createElement('div');
+        ico.className='boss-avatar-fb';
+        ico.innerHTML = `<img src="${bossImgUrl(boss.id)}" alt="" style="width:28px;height:28px;object-fit:contain">`;
         const ctr=document.createElement('div'); ctr.innerHTML=`<div class="boss-name">${boss.full}</div>${timerHTML}`;
         const tog=document.createElement('div'); tog.className=`notif-toggle ${notifications[boss.id]?'on':''}`; tog.dataset.id=boss.id;
         card.appendChild(ico); card.appendChild(ctr); card.appendChild(tog);
