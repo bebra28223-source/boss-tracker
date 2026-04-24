@@ -73,6 +73,11 @@
     .stat-label{font-size:9px;font-weight:600;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;}
     .refresh-btn{width:100%;background:transparent;border:1px solid var(--border2);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:6px;cursor:pointer;margin-bottom:12px;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:8px;}
     .refresh-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(74,158,255,0.04);}
+    .calc-open-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;border-radius:10px;padding:12px 14px;cursor:pointer;border:1px solid rgba(74,158,255,0.35);background:linear-gradient(135deg, rgba(74,158,255,0.14), rgba(74,158,255,0.06));color:var(--white);transition:all 0.15s;}
+    .calc-open-btn:hover{border-color:rgba(74,158,255,0.75);background:linear-gradient(135deg, rgba(74,158,255,0.18), rgba(74,158,255,0.08));}
+    .calc-open-title{font-family:'Orbitron',monospace;font-size:12px;font-weight:900;letter-spacing:2px;color:var(--white);}
+    .calc-open-sub{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);}
+    .calc-open-badge{font-family:'Share Tech Mono',monospace;font-size:9px;font-weight:700;letter-spacing:1px;padding:3px 7px;border-radius:999px;color:var(--accent);border:1px solid rgba(74,158,255,0.55);background:rgba(74,158,255,0.10);}
     @keyframes spin{to{transform:rotate(360deg);}}
     .spinning .ri{display:inline-block;animation:spin 0.6s linear;}
     .sync-bar{display:flex;align-items:center;gap:6px;margin-bottom:14px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;}
@@ -241,7 +246,6 @@
       </div>
       <div class="header-right">
         <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);border:1px solid var(--border2);padding:3px 8px;border-radius:2px;background:var(--surface);letter-spacing:1px">v1.1</div>
-        <div class="hbtn hbtn-calc" id="btn-calc">🧮</div>
         <div class="hbtn hbtn-bug" id="btn-bug">🐛</div>
         <div class="hbtn hbtn-tgk" id="btn-tgk">📣</div>
       </div>
@@ -311,6 +315,16 @@
       <div class="stat s-notif"><div class="stat-val" id="cnt-notif">—</div><div class="stat-label">Уведомл.</div></div>
     </div>
 
+    <button class="calc-open-btn" id="btn-calc-open" type="button">
+      <span style="font-size:18px;line-height:1">🧮</span>
+      <span style="display:flex;flex-direction:column;gap:2px;align-items:flex-start">
+        <span class="calc-open-title">КАЛЬКУЛЯТОР УРОВНЕЙ</span>
+        <span class="calc-open-sub">быстро посчитать до цели</span>
+      </span>
+      <span style="flex:1"></span>
+      <span class="calc-open-badge">NEW</span>
+    </button>
+
     <button class="refresh-btn" id="refresh-btn"><span class="ri">↻</span><span>Обновить данные</span></button>
 
     <div class="sync-bar">
@@ -347,9 +361,9 @@
 
     const BOSS_IMG_EXT = 'png';
     function bossImgUrl(id){
-      // Если картинки лежат в корне GitHub Pages: boss1.png ... boss12.png
-      // (работает и в локальном режиме, если файлы рядом с index.html)
-      return `boss${id}.${BOSS_IMG_EXT}`;
+      // GitHub: boss-tracker/imgs/boss1.png ... boss12.png
+      const base = new URL('imgs/', location.href).toString();
+      return `${base}boss${id}.${BOSS_IMG_EXT}`;
     }
     const BOSSES=[
       {id:1,full:"Цып. Агрессивный пернатый"},
@@ -450,7 +464,7 @@
 
     document.getElementById('btn-bug').addEventListener('click', ()=> openModal('modal-bug'));
     document.getElementById('btn-tgk').addEventListener('click', ()=> { document.getElementById('tgk-result').style.display='none'; openModal('modal-tgk'); });
-    document.getElementById('btn-calc').addEventListener('click', ()=> openModal('modal-calc'));
+    document.getElementById('btn-calc-open').addEventListener('click', ()=> openModal('modal-calc'));
     document.getElementById('info-btn').addEventListener('click', ()=> openModal('modal-info'));
     document.getElementById('sp-lock-btn').addEventListener('click', ()=> { document.getElementById('tgk-result').style.display='none'; openModal('modal-tgk'); });
 
