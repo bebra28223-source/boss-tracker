@@ -347,8 +347,26 @@
 
   <script>
     const tg = window.Telegram?.WebApp;
-    if (tg) { tg.expand(); tg.setHeaderColor('#0c0d10'); tg.setBackgroundColor('#0c0d10'); }
-    const TG_USER_ID = tg?.initDataUnsafe?.user?.id || 0;
+    if (tg) { tg.expand(); tg.setHeaderColor('#0c0d10'); tg.setBackgroundColor('#0c0d10'); tg.ready(); }
+    /** @returns {number} */
+    function getTgUserId() {
+      const w = window.Telegram?.WebApp;
+      if (!w) return 0;
+      const a = w.initDataUnsafe?.user?.id;
+      if (a) return a;
+      try {
+        const raw = w.initData;
+        if (raw) {
+          const p = new URLSearchParams(raw);
+          const uj = p.get('user');
+          if (uj) {
+            const u = JSON.parse(uj);
+            if (u && u.id) return u.id;
+          }
+        }
+      } catch (e) {}
+      return 0;
+    }
 
     function getApiBase() {
       const u = new URL(location.href);
@@ -444,9 +462,10 @@
     }
 
     async function checkTgkSub(){
-      if(!TG_USER_ID) return false;
+      const uid = getTgUserId();
+      if(!uid) return false;
       try{
-        const r = await fetch(`${API_BASE}/check-channel?uid=${TG_USER_ID}&t=${Date.now()}`, { cache:'no-store', headers:{'ngrok-skip-browser-warning':'1'} });
+        const r = await fetch(`${API_BASE}/check-channel?uid=${uid}&t=${Date.now()}`, { cache:'no-store', headers:{'ngrok-skip-browser-warning':'1'} });
         const d = await r.json();
         return d.subscribed === true;
       }catch(e){ return false; }
@@ -541,13 +560,14 @@
     });
 
     async function pushNotifySeconds(){
-      if(!TG_USER_ID) return;
+      const uid = getTgUserId();
+      if(!uid) return;
       try{
         await fetch(API_BASE + '/notify-seconds', {
           method:'POST',
           cache:'no-store',
           headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},
-          body: JSON.stringify({ user_id: TG_USER_ID, notify_seconds: notifySeconds })
+          body: JSON.stringify({ user_id: uid, notify_seconds: notifySeconds })
         });
       }catch(e){}
     }
@@ -654,13 +674,14 @@
     }
 
     async function pushToggle(bossId, enabled){
-      if(!TG_USER_ID) return;
+      const uid = getTgUserId();
+      if(!uid) return;
       try{
         await fetch(API_BASE+'/toggle', {
           method:'POST',
           cache:'no-store',
           headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},
-          body: JSON.stringify({ user_id: TG_USER_ID, boss_id: bossId, enabled, notify_seconds: notifySeconds })
+          body: JSON.stringify({ user_id: uid, boss_id: bossId, enabled, notify_seconds: notifySeconds })
         });
       }catch(e){}
     }
@@ -712,13 +733,14 @@
       }
       setSyncState('loading','Загрузка...');
       try{
-        const res = await fetch(`${API_BASE}/bosses${TG_USER_ID?'?uid='+TG_USER_ID:''}`, { cache:'no-store', headers:{'ngrok-skip-browser-warning':'1'} });
+        const myUid = getTgUserId();
+        const res = await fetch(`${API_BASE}/bosses${myUid ? '?uid=' + myUid : ''}`, { cache:'no-store', headers:{'ngrok-skip-browser-warning':'1'} });
         if(!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if(!data.bosses) throw new Error('no data');
         respawnData = data.bosses;
 
-        if(typeof data.notify_seconds === 'number' && TG_USER_ID){
+        if(typeof data.notify_seconds === 'number' && myUid){
           // Подтягиваем серверное значение (если ты будешь менять его где-то ещё)
           notifySeconds = Math.max(20, Math.min(120, Math.floor(data.notify_seconds)));
           notifySlider.value = notifySeconds;
@@ -781,7 +803,7 @@
 
     (async function init(){
       updateSoundUI();
-      if(!isTgkSub && TG_USER_ID){
+      if(!isTgkSub && getTgUserId()){
         const ok = await checkTgkSub();
         if(ok){ isTgkSub=true; localStorage.setItem(TGK_KEY,'1'); updateSoundUI(); }
       }
