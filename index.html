@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Трекер Боссов</title>
+<title>Трекер Боссов PrisonEvo</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
@@ -11,7 +11,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(74,158,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.018) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
-.wrap{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 14px 60px;}
+.wrap{position:relative;z-index:1;max-width:500px;margin:0 auto;padding:0 14px 60px;}
 .header{padding:22px 0 16px;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);margin-bottom:18px;}
 .logo-title{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--white);letter-spacing:2px;}
 .logo-title em{color:var(--accent);font-style:normal;}
@@ -20,8 +20,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .hbtn{font-family:'Share Tech Mono',monospace;font-size:9px;padding:4px 9px;border-radius:3px;cursor:pointer;transition:all 0.15s;border:1px solid;letter-spacing:1px;}
 .hbtn-bug{color:#ff4d6d;border-color:#ff4d6d;background:rgba(255,77,109,0.07);}
 .hbtn-tgk{color:var(--accent);border-color:var(--accent);background:rgba(74,158,255,0.07);}
+.hbtn-calc{color:var(--ready);border-color:var(--ready);background:rgba(46,204,113,0.07);}
 .hbtn-bug:hover{background:rgba(255,77,109,0.16);}
 .hbtn-tgk:hover{background:rgba(74,158,255,0.14);}
+.hbtn-calc:hover{background:rgba(46,204,113,0.14);}
 .next-boss{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;}
 .next-boss::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);}
 .next-boss.nb-ready::before{background:linear-gradient(90deg,var(--ready),transparent);}
@@ -115,10 +117,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .calc-result-val.locked{color:var(--border2);font-size:18px;}
 .calc-divider{height:1px;background:var(--border);margin:6px 0;}
 .calc-locked-note{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);text-align:center;margin-top:10px;letter-spacing:1px;}
-.calc-soon-banner{background:linear-gradient(135deg,rgba(74,158,255,0.06),rgba(167,139,250,0.06));border:1px solid rgba(74,158,255,0.2);border-radius:10px;padding:16px;margin-bottom:12px;text-align:center;}
-.calc-soon-icon{font-size:26px;margin-bottom:6px;}
-.calc-soon-title{font-family:'Orbitron',monospace;font-size:12px;font-weight:900;color:var(--accent);letter-spacing:4px;margin-bottom:6px;}
-.calc-soon-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.6;}
 .footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
 .footer-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px;}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
@@ -142,14 +140,14 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="modal-overlay" id="modal-tgk">
 <div class="modal">
 <div class="modal-title">ТЕЛЕГРАМ КАНАЛ</div>
-<div class="modal-close" id="close-tgk">&#x2715;</div>
+<div class="modal-close" id="close-tgk">✕</div>
 <div style="text-align:center;margin-bottom:14px">
 <div style="font-size:28px;margin-bottom:6px">📣</div>
 <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:2px">@PrisonEvoAssist</div>
 </div>
 <div style="background:var(--bg);border:1px solid rgba(243,156,18,0.3);border-radius:8px;padding:12px;margin-bottom:10px">
 <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--warn);margin-bottom:6px">🔊 Звук до босса — только для подписчиков</div>
-<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.6">Настрой за сколько минут тебе прозвучит оповещение. Доступно только подписчикам канала — подпишись и нажми «Проверить».</div>
+<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.6">Настрой за сколько секунд до босса прозвучит оповещение. Доступно только подписчикам канала — подпишись и нажми «Проверить».</div>
 </div>
 <div style="background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:12px;margin-bottom:14px">
 <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--white);margin-bottom:6px">📰 Новости бота</div>
@@ -166,7 +164,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="modal-overlay" id="modal-bug">
 <div class="modal">
 <div class="modal-title">НАШЁЛ БАГ?</div>
-<div class="modal-close" id="close-bug">&#x2715;</div>
+<div class="modal-close" id="close-bug">✕</div>
 <div style="text-align:center;font-size:30px;margin-bottom:12px">🐛</div>
 <div style="background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:12px;margin-bottom:12px">
 <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.7;margin-bottom:10px">Нашёл баг — напиши разработчику напрямую.</div>
@@ -182,12 +180,44 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="modal-overlay" id="modal-info">
 <div class="modal">
 <div class="modal-title">Что значат цвета?</div>
-<div class="modal-close" id="close-info">&#x2715;</div>
+<div class="modal-close" id="close-info">✕</div>
 <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px"><div style="width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 5px rgba(74,158,255,0.5);flex-shrink:0;margin-top:2px"></div><div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5"><b style="color:var(--white)">Синий</b> — убит, идёт таймер до респавна.</div></div>
 <div class="modal-divider"></div>
 <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px"><div style="width:12px;height:12px;border-radius:50%;background:var(--ready);box-shadow:0 0 5px rgba(46,204,113,0.5);flex-shrink:0;margin-top:2px"></div><div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5"><b style="color:var(--white)">Зелёный</b> — готов к бою.</div></div>
 <div class="modal-divider"></div>
 <div style="display:flex;align-items:flex-start;gap:10px"><div style="width:12px;height:12px;border-radius:50%;background:var(--border2);flex-shrink:0;margin-top:2px"></div><div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5"><b style="color:var(--white)">Серый</b> — нет данных с запуска бота.</div></div>
+</div>
+</div>
+
+<div class="modal-overlay" id="modal-calc">
+<div class="modal">
+<div class="modal-title">КАЛЬКУЛЯТОР УРОВНЕЙ</div>
+<div class="modal-close" id="close-calc">✕</div>
+<div class="calc-card" style="margin-bottom:12px">
+<div class="calc-section-label">Текущий уровень</div>
+<div class="calc-input-row">
+<button class="calc-lvl-btn" id="calc-cur-minus">−</button>
+<div class="calc-lvl-display" id="calc-cur-val">1</div>
+<button class="calc-lvl-btn" id="calc-cur-plus">+</button>
+</div>
+<input type="range" class="calc-slider" id="calc-cur-slider" min="1" max="199" value="1">
+</div>
+<div class="calc-card" style="margin-bottom:12px">
+<div class="calc-section-label">Целевой уровень</div>
+<div class="calc-input-row">
+<button class="calc-lvl-btn" id="calc-tgt-minus">−</button>
+<div class="calc-lvl-display" id="calc-tgt-val">200</div>
+<button class="calc-lvl-btn" id="calc-tgt-plus">+</button>
+</div>
+<input type="range" class="calc-slider" id="calc-tgt-slider" min="2" max="200" value="200">
+</div>
+<div class="calc-result-card">
+<div class="calc-result-row"><span class="calc-result-label">Уровней до цели</span><span class="calc-result-val" id="calc-diff">199</span></div>
+<div class="calc-divider"></div>
+<div class="calc-result-row"><span class="calc-result-label">Монет (100 = 1 ур.)</span><span class="calc-result-val" id="calc-coins">19900</span></div>
+<div class="calc-result-row"><span class="calc-result-label">Блоков (1 = 1 монета)</span><span class="calc-result-val" id="calc-blocks">19900</span></div>
+</div>
+<div class="calc-locked-note" style="margin-top:12px">Формула: 1 уровень = 100 монет = 100 блоков</div>
 </div>
 </div>
 
@@ -198,9 +228,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="logo-sub">by whyousolonely</div>
 </div>
 <div class="header-right">
-<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);border:1px solid var(--border2);padding:3px 8px;border-radius:2px;background:var(--surface);letter-spacing:1px">v1.0</div>
+<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);border:1px solid var(--border2);padding:3px 8px;border-radius:2px;background:var(--surface);letter-spacing:1px">v2.0</div>
 <div class="hbtn hbtn-bug" id="btn-bug">🐛</div>
 <div class="hbtn hbtn-tgk" id="btn-tgk">📣</div>
+<div class="hbtn hbtn-calc" id="btn-calc">📊</div>
 </div>
 </div>
 
@@ -248,8 +279,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="sp-row">
 <span class="sp-row-label">Оповестить за</span>
 <div class="sp-slider-wrap">
-<input type="range" class="sp-slider" id="notify-slider" min="1" max="10" value="1">
-<span class="sp-val" id="notify-label" style="min-width:38px;color:var(--accent);font-family:'Orbitron',monospace;font-size:10px">1 мин</span>
+<input type="range" class="sp-slider" id="notify-slider" min="20" max="120" value="60">
+<span class="sp-val" id="notify-label" style="min-width:48px;color:var(--accent);font-family:'Orbitron',monospace;font-size:10px">60 сек</span>
 </div>
 </div>
 </div>
@@ -285,42 +316,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="placeholder"><div class="ph-text">Загрузка данных</div><div class="loading-bar"></div></div>
 </div>
 
-<div class="section-head" style="margin-top:24px">
-<div class="section-line"></div>
-<div class="section-text">Калькулятор уровней</div>
-<div class="section-line"></div>
-</div>
-<div class="calc-soon-banner">
-<div class="calc-soon-icon">⏳</div>
-<div class="calc-soon-title">СКОРО</div>
-<div class="calc-soon-text">Данные по монетам и блокам появятся после вайпа.</div>
-</div>
-<div class="calc-card">
-<div class="calc-section-label">Текущий уровень</div>
-<div class="calc-input-row">
-<button class="calc-lvl-btn" id="calc-cur-minus">−</button>
-<div class="calc-lvl-display" id="calc-cur-val">1</div>
-<button class="calc-lvl-btn" id="calc-cur-plus">+</button>
-</div>
-<input type="range" class="calc-slider" id="calc-cur-slider" min="1" max="199" value="1">
-</div>
-<div class="calc-card">
-<div class="calc-section-label">Целевой уровень</div>
-<div class="calc-input-row">
-<button class="calc-lvl-btn" id="calc-tgt-minus">−</button>
-<div class="calc-lvl-display" id="calc-tgt-val">200</div>
-<button class="calc-lvl-btn" id="calc-tgt-plus">+</button>
-</div>
-<input type="range" class="calc-slider" id="calc-tgt-slider" min="2" max="200" value="200">
-</div>
-<div class="calc-result-card">
-<div class="calc-result-row"><span class="calc-result-label">Уровней до цели</span><span class="calc-result-val" id="calc-diff">199</span></div>
-<div class="calc-divider"></div>
-<div class="calc-result-row"><span class="calc-result-label">Монет</span><span class="calc-result-val locked" id="calc-coins">—</span></div>
-<div class="calc-result-row"><span class="calc-result-label">Блоков</span><span class="calc-result-val locked" id="calc-blocks">—</span></div>
-<div class="calc-locked-note">Данные появятся после вайпа</div>
-</div>
-
 <div class="footer">
 <div class="footer-text">PrisonEvo</div>
 <div class="footer-text">@PrisonEvoAssist</div>
@@ -330,12 +325,12 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="toast" id="toast"></div>
 
 <script>
-const API_BASE="https://childlike-flaxseed-chubby.ngrok-free.dev";
-const tg=window.Telegram?.WebApp;
+const API_BASE = "https://childlike-flaxseed-chubby.ngrok-free.dev";
+const tg = window.Telegram?.WebApp;
 if(tg){tg.expand();tg.setHeaderColor('#0c0d10');tg.setBackgroundColor('#0c0d10');}
-const TG_USER_ID=tg?.initDataUnsafe?.user?.id||0;
+const TG_USER_ID = tg?.initDataUnsafe?.user?.id || 0;
 
-const BOSSES=[
+const BOSSES = [
   {id:1,full:"Цып. Агрессивный пернатый",icon:"🐔"},
   {id:2,full:"Аль-Каум. Владыка песков",icon:"🏜️"},
   {id:3,full:"Азерус. Магматический лорд",icon:"🔥"},
@@ -351,34 +346,34 @@ const BOSSES=[
 ];
 
 const SOUND_KEY="bt_sound_v3",VOL_KEY="bt_vol_v3",STYPE_KEY="bt_stype_v3";
-const NOTIFY_KEY="bt_notify_min_v1",NOTIF_KEY="bt_notif_v1",TGK_KEY="bt_tgk_sub_v1";
+const NOTIFY_SEC_KEY="bt_notify_sec_v2",NOTIF_KEY="bt_notif_v1",TGK_KEY="bt_tgk_sub_v1";
 
-let soundEnabled=localStorage.getItem(SOUND_KEY)!=="false";
-let soundVolume=parseInt(localStorage.getItem(VOL_KEY)||"67")/100;
-let soundType=localStorage.getItem(STYPE_KEY)||"crystal";
-let notifyMinutes=parseInt(localStorage.getItem(NOTIFY_KEY)||"1");
-let isTgkSub=localStorage.getItem(TGK_KEY)==="1";
-let respawnData=[],alreadySounded=new Set(),tickInterval=null,audioCtx=null;
+let soundEnabled = localStorage.getItem(SOUND_KEY) !== "false";
+let soundVolume = parseInt(localStorage.getItem(VOL_KEY) || "67") / 100;
+let soundType = localStorage.getItem(STYPE_KEY) || "crystal";
+let notifySec = parseInt(localStorage.getItem(NOTIFY_SEC_KEY) || "60");
+let isTgkSub = localStorage.getItem(TGK_KEY) === "1";
+let respawnData = [], alreadySounded = new Set(), tickInterval = null, audioCtx = null;
 
 function loadNotifLocal(){
-  const def={};BOSSES.forEach(b=>def[b.id]=true);
-  try{const s=localStorage.getItem(NOTIF_KEY);if(s)return{...def,...JSON.parse(s)};}catch(e){}
+  const def = {}; BOSSES.forEach(b=>def[b.id]=true);
+  try{const s=localStorage.getItem(NOTIF_KEY);if(s)return {...def,...JSON.parse(s)};}catch(e){}
   return def;
 }
-let notifications=loadNotifLocal();
+let notifications = loadNotifLocal();
 function saveNotifLocal(){try{localStorage.setItem(NOTIF_KEY,JSON.stringify(notifications));}catch(e){}}
 
 function getACtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
 
 function playSound(){
   try{
-    const ctx=getACtx(),vol=soundVolume,now=ctx.currentTime;
+    const ctx=getACtx(), vol=soundVolume, now=ctx.currentTime;
     function n(type,freq,start,dur,peak,fade){
-      const o=ctx.createOscillator(),g=ctx.createGain();
-      o.connect(g);g.connect(ctx.destination);o.type=type;o.frequency.value=freq;
-      g.gain.setValueAtTime(0,now+start);g.gain.linearRampToValueAtTime(peak*vol,now+start+0.04);
-      g.gain.setValueAtTime(peak*vol,now+start+dur-fade);g.gain.exponentialRampToValueAtTime(0.0001,now+start+dur);
-      o.start(now+start);o.stop(now+start+dur);
+      const o=ctx.createOscillator(), g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination); o.type=type; o.frequency.value=freq;
+      g.gain.setValueAtTime(0,now+start); g.gain.linearRampToValueAtTime(peak*vol,now+start+0.04);
+      g.gain.setValueAtTime(peak*vol,now+start+dur-fade); g.gain.exponentialRampToValueAtTime(0.0001,now+start+dur);
+      o.start(now+start); o.stop(now+start+dur);
     }
     const t=soundType;
     if(t==='crystal'){[[523,0],[659,0.3],[784,0.6],[1047,0.9],[1319,1.2]].forEach(([f,s])=>{n('sine',f,s,0.7,0.3,0.55);n('sine',f*2,s,0.35,0.05,0.25);});}
@@ -395,67 +390,78 @@ function playSound(){
 }
 
 function updateSoundUI(){
-  const can=isTgkSub;
-  document.getElementById('sound-toggle').classList.toggle('on',soundEnabled&&can);
-  const ctrl=document.getElementById('sp-controls');
-  ctrl.style.opacity=can?'1':'0.4';
-  ctrl.style.pointerEvents=can?'':'none';
-  document.getElementById('sp-locked-banner').style.display=can?'none':'flex';
-  document.getElementById('sp-lock-btn').style.display=can?'none':'block';
+  const can = isTgkSub;
+  document.getElementById('sound-toggle').classList.toggle('on',soundEnabled && can);
+  const ctrl = document.getElementById('sp-controls');
+  ctrl.style.opacity = can ? '1' : '0.4';
+  ctrl.style.pointerEvents = can ? '' : 'none';
+  document.getElementById('sp-locked-banner').style.display = can ? 'none' : 'flex';
+  document.getElementById('sp-lock-btn').style.display = can ? 'none' : 'block';
 }
 
 async function checkTgkSub(){
-  if(!TG_USER_ID)return false;
+  if(!TG_USER_ID) return false;
   try{
-    const r=await fetch(`${API_BASE}/check-channel?uid=${TG_USER_ID}&t=${Date.now()}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
-    const d=await r.json();
-    return d.subscribed===true;
-  }catch(e){return false;}
+    const r = await fetch(`${API_BASE}/check-channel?uid=${TG_USER_ID}&t=${Date.now()}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
+    const d = await r.json();
+    return d.subscribed === true;
+  }catch(e){ return false; }
 }
 
 document.getElementById('tgk-sub-btn').addEventListener('click',()=>{
-  if(tg?.openTelegramLink)tg.openTelegramLink('https://t.me/PrisonEvoAssist');
+  if(tg?.openTelegramLink) tg.openTelegramLink('https://t.me/PrisonEvoAssist');
   else window.open('https://t.me/PrisonEvoAssist','_blank');
 });
 document.getElementById('tgk-check-btn').addEventListener('click',async()=>{
-  const btn=document.getElementById('tgk-check-btn');
-  const res=document.getElementById('tgk-result');
-  btn.textContent='...';btn.style.opacity='0.6';
-  const ok=await checkTgkSub();
-  btn.textContent='✓ ПРОВЕРИТЬ';btn.style.opacity='1';
-  res.style.display='block';
+  const btn = document.getElementById('tgk-check-btn');
+  const res = document.getElementById('tgk-result');
+  btn.textContent = '...'; btn.style.opacity = '0.6';
+  const ok = await checkTgkSub();
+  btn.textContent = '✓ ПРОВЕРИТЬ'; btn.style.opacity = '1';
+  res.style.display = 'block';
   if(ok){
-    isTgkSub=true;localStorage.setItem(TGK_KEY,'1');
-    res.style.color='var(--ready)';res.textContent='Подписка подтверждена! Звук разблокирован.';
-    updateSoundUI();setTimeout(()=>closeModal('modal-tgk'),1400);
+    isTgkSub = true; localStorage.setItem(TGK_KEY,'1');
+    res.style.color = 'var(--ready)'; res.textContent = 'Подписка подтверждена! Звук разблокирован.';
+    updateSoundUI(); setTimeout(()=>closeModal('modal-tgk'),1400);
   }else{
-    isTgkSub=false;localStorage.setItem(TGK_KEY,'0');
-    res.style.color='#ff4d6d';res.textContent='Ты не подписан на канал.';
+    isTgkSub = false; localStorage.setItem(TGK_KEY,'0');
+    res.style.color = '#ff4d6d'; res.textContent = 'Ты не подписан на канал.';
     updateSoundUI();
   }
 });
 
-const soundToggle=document.getElementById('sound-toggle');
-const volSlider=document.getElementById('vol-slider');
-const volLabel=document.getElementById('vol-label');
-const soundSel=document.getElementById('sound-select');
-const notifySlider=document.getElementById('notify-slider');
-const notifyLabel=document.getElementById('notify-label');
-volSlider.value=Math.round(soundVolume*100);volLabel.textContent=Math.round(soundVolume*100);
-soundSel.value=soundType;notifySlider.value=notifyMinutes;notifyLabel.textContent=notifyMinutes+' мин';
+const soundToggle = document.getElementById('sound-toggle');
+const volSlider = document.getElementById('vol-slider');
+const volLabel = document.getElementById('vol-label');
+const soundSel = document.getElementById('sound-select');
+const notifySlider = document.getElementById('notify-slider');
+const notifyLabel = document.getElementById('notify-label');
+volSlider.value = Math.round(soundVolume*100); volLabel.textContent = Math.round(soundVolume*100);
+soundSel.value = soundType; notifySlider.value = notifySec; 
+notifyLabel.textContent = notifySec + ' сек';
 
 soundToggle.addEventListener('click',()=>{
-  if(!isTgkSub){showToast('Нужна подписка на канал');openModal('modal-tgk');return;}
-  soundEnabled=!soundEnabled;localStorage.setItem(SOUND_KEY,soundEnabled);
-  updateSoundUI();showToast(soundEnabled?'Звук включён':'Звук выключен');
-  if(soundEnabled)try{getACtx().resume().then(playSound);}catch(e){}
+  if(!isTgkSub){ showToast('Нужна подписка на канал'); openModal('modal-tgk'); return; }
+  soundEnabled = !soundEnabled; localStorage.setItem(SOUND_KEY,soundEnabled);
+  updateSoundUI(); showToast(soundEnabled ? 'Звук включён' : 'Звук выключен');
+  if(soundEnabled) try{ getACtx().resume().then(playSound); }catch(e){}
 });
-volSlider.addEventListener('input',()=>{soundVolume=parseInt(volSlider.value)/100;volLabel.textContent=volSlider.value;localStorage.setItem(VOL_KEY,volSlider.value);});
-soundSel.addEventListener('change',()=>{soundType=soundSel.value;localStorage.setItem(STYPE_KEY,soundType);if(soundEnabled&&isTgkSub)try{getACtx().resume().then(playSound);}catch(e){}});
-notifySlider.addEventListener('input',()=>{notifyMinutes=parseInt(notifySlider.value);notifyLabel.textContent=notifyMinutes+' мин';localStorage.setItem(NOTIFY_KEY,notifyMinutes);alreadySounded.clear();});
+volSlider.addEventListener('input',()=>{ soundVolume = parseInt(volSlider.value)/100; volLabel.textContent = volSlider.value; localStorage.setItem(VOL_KEY,volSlider.value); });
+soundSel.addEventListener('change',()=>{ soundType = soundSel.value; localStorage.setItem(STYPE_KEY,soundType); if(soundEnabled && isTgkSub) try{ getACtx().resume().then(playSound); }catch(e){} });
+notifySlider.addEventListener('input',()=>{ notifySec = parseInt(notifySlider.value); notifyLabel.textContent = notifySec + ' сек'; localStorage.setItem(NOTIFY_SEC_KEY,notifySec); alreadySounded.clear(); pushNotifySec(); });
 
-function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
+async function pushNotifySec(){
+  if(!TG_USER_ID) return;
+  for(let boss of BOSSES){
+    try{
+      await fetch(API_BASE+'/toggle',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},
+        body:JSON.stringify({user_id:TG_USER_ID,boss_id:boss.id,enabled:notifications[boss.id],notify_sec:notifySec})});
+    }catch(e){}
+  }
+}
+
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 document.getElementById('btn-bug').addEventListener('click',()=>openModal('modal-bug'));
 document.getElementById('close-bug').addEventListener('click',()=>closeModal('modal-bug'));
 document.getElementById('modal-bug').addEventListener('click',e=>{if(e.target.id==='modal-bug')closeModal('modal-bug');});
@@ -468,7 +474,35 @@ document.getElementById('close-info').addEventListener('click',()=>closeModal('m
 document.getElementById('modal-info').addEventListener('click',e=>{if(e.target.id==='modal-info')closeModal('modal-info');});
 document.getElementById('sp-lock-btn').addEventListener('click',()=>{document.getElementById('tgk-result').style.display='none';openModal('modal-tgk');});
 
-let toastTimer=null;
+// Калькулятор в отдельном модальном окне
+document.getElementById('btn-calc').addEventListener('click',()=>{
+  document.getElementById('calc-cur-val').textContent = curLevel;
+  document.getElementById('calc-tgt-val').textContent = tgtLevel;
+  document.getElementById('calc-cur-slider').value = curLevel;
+  document.getElementById('calc-tgt-slider').value = tgtLevel;
+  updateCalcDisplay();
+  openModal('modal-calc');
+});
+document.getElementById('close-calc').addEventListener('click',()=>closeModal('modal-calc'));
+document.getElementById('modal-calc').addEventListener('click',e=>{if(e.target.id==='modal-calc')closeModal('modal-calc');});
+
+let curLevel = 1, tgtLevel = 200;
+function updateCalcDisplay(){
+  const diff = tgtLevel - curLevel;
+  const coins = diff * 100;
+  const blocks = coins;
+  document.getElementById('calc-diff').textContent = diff;
+  document.getElementById('calc-coins').textContent = coins.toLocaleString();
+  document.getElementById('calc-blocks').textContent = blocks.toLocaleString();
+}
+document.getElementById('calc-cur-minus').addEventListener('click',()=>{if(curLevel>1){curLevel--; if(curLevel>=tgtLevel) tgtLevel = curLevel+1; document.getElementById('calc-cur-val').textContent=curLevel; document.getElementById('calc-cur-slider').value=curLevel; document.getElementById('calc-tgt-slider').value=tgtLevel; document.getElementById('calc-tgt-val').textContent=tgtLevel; updateCalcDisplay();}});
+document.getElementById('calc-cur-plus').addEventListener('click',()=>{if(curLevel<199){curLevel++; if(curLevel>=tgtLevel) tgtLevel = Math.min(curLevel+1,200); document.getElementById('calc-cur-val').textContent=curLevel; document.getElementById('calc-cur-slider').value=curLevel; document.getElementById('calc-tgt-slider').value=tgtLevel; document.getElementById('calc-tgt-val').textContent=tgtLevel; updateCalcDisplay();}});
+document.getElementById('calc-tgt-minus').addEventListener('click',()=>{if(tgtLevel>curLevel+1){tgtLevel--; document.getElementById('calc-tgt-val').textContent=tgtLevel; document.getElementById('calc-tgt-slider').value=tgtLevel; updateCalcDisplay();}});
+document.getElementById('calc-tgt-plus').addEventListener('click',()=>{if(tgtLevel<200){tgtLevel++; document.getElementById('calc-tgt-val').textContent=tgtLevel; document.getElementById('calc-tgt-slider').value=tgtLevel; updateCalcDisplay();}});
+document.getElementById('calc-cur-slider').addEventListener('input',e=>{curLevel=parseInt(e.target.value); if(curLevel>=tgtLevel) tgtLevel=Math.min(curLevel+1,200); document.getElementById('calc-cur-val').textContent=curLevel; document.getElementById('calc-tgt-val').textContent=tgtLevel; document.getElementById('calc-tgt-slider').value=tgtLevel; updateCalcDisplay();});
+document.getElementById('calc-tgt-slider').addEventListener('input',e=>{tgtLevel=parseInt(e.target.value); if(tgtLevel<=curLevel) curLevel=Math.max(tgtLevel-1,1); document.getElementById('calc-cur-val').textContent=curLevel; document.getElementById('calc-cur-slider').value=curLevel; document.getElementById('calc-tgt-val').textContent=tgtLevel; updateCalcDisplay();});
+
+let toastTimer = null;
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2200);}
 
 function fmtTime(sec){if(sec<=0)return null;const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=Math.floor(sec%60);if(h>0)return `${h}ч ${m}м`;if(m>0)return `${m}м ${String(s).padStart(2,'0')}с`;return `${s}с`;}
@@ -520,11 +554,10 @@ function renderBosses(){
   updateNextBoss();
 }
 
-async function pushToggle(bossId,enabled){if(!TG_USER_ID)return;try{await fetch(API_BASE+'/toggle',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},body:JSON.stringify({user_id:TG_USER_ID,boss_id:bossId,enabled})});}catch(e){}}
+async function pushToggle(bossId,enabled){if(!TG_USER_ID)return;try{await fetch(API_BASE+'/toggle',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},body:JSON.stringify({user_id:TG_USER_ID,boss_id:bossId,enabled,notify_sec:notifySec})});}catch(e){}}
 
 function tick(){
   if(!respawnData.length)return;
-  const notifySec=notifyMinutes*60;
   let cntReady=0,cntActive=0;
   document.querySelectorAll('.boss-card').forEach(card=>{
     const id=parseInt(card.dataset.bossId);
@@ -535,12 +568,12 @@ function tick(){
       if(!card.classList.contains('state-ready')){card.classList.remove('state-active','state-unknown');card.classList.add('state-ready');const tc=card.querySelector('.boss-timer');if(tc){tc.className='boss-timer t-ready';tc.textContent='✅ ГОТОВ К БОЮ';}}
       cntReady++;
     }else if(tl>0){
-      if(tl<=notifySec&&tl>(notifySec-5)&&!alreadySounded.has(`s${id}`)){
+      if(tl<=notifySec && tl>(notifySec-5) && !alreadySounded.has(`s${id}`)){
         alreadySounded.add(`s${id}`);
-        if(soundEnabled&&isTgkSub&&notifications[id])try{getACtx().resume().then(playSound);}catch(e){}
+        if(soundEnabled && isTgkSub && notifications[id]) try{ getACtx().resume().then(playSound); }catch(e){}
         tg?.HapticFeedback?.notificationOccurred('warning');
       }
-      if(tl>notifySec+5)alreadySounded.delete(`s${id}`);
+      if(tl>notifySec+5) alreadySounded.delete(`s${id}`);
       if(!card.classList.contains('state-active')){card.classList.remove('state-ready','state-unknown');card.classList.add('state-active');}
       const tc=card.querySelector('.boss-timer');if(tc){tc.className='boss-timer t-active';tc.textContent=fmtTime(tl);}
       cntActive++;
@@ -559,7 +592,7 @@ async function loadData(silent){
     if(!res.ok)throw new Error(`HTTP ${res.status}`);
     const data=await res.json();if(!data.bosses)throw new Error('no data');
     respawnData=data.bosses;
-    if(data.notifications&&Object.keys(data.notifications).length>0){Object.entries(data.notifications).forEach(([id,val])=>{notifications[parseInt(id)]=val;});saveNotifLocal();}
+    if(data.notifications && Object.keys(data.notifications).length>0){Object.entries(data.notifications).forEach(([id,val])=>{notifications[parseInt(id)]=val.enabled; if(val.notify_sec) notifySec=val.notify_sec; });saveNotifLocal();}
     renderBosses();setSyncState('synced','Синхронизировано');
     if(!tickInterval)tickInterval=setInterval(tick,1000);
   }catch(e){
@@ -569,22 +602,10 @@ async function loadData(silent){
 }
 
 async function bgTgkCheck(){
-  if(!isTgkSub)return;
-  const ok=await checkTgkSub();
+  if(!isTgkSub) return;
+  const ok = await checkTgkSub();
   if(!ok){isTgkSub=false;localStorage.setItem(TGK_KEY,'0');soundEnabled=false;localStorage.setItem(SOUND_KEY,'false');updateSoundUI();showToast('Ты отписался — звук отключён');}
 }
-
-(function(){
-  let cur=1,tgt=200;
-  function update(){if(cur>=tgt)tgt=Math.min(cur+1,200);if(tgt<=cur)cur=Math.max(tgt-1,1);document.getElementById('calc-cur-val').textContent=cur;document.getElementById('calc-tgt-val').textContent=tgt;document.getElementById('calc-cur-slider').value=cur;document.getElementById('calc-tgt-slider').value=tgt;document.getElementById('calc-diff').textContent=tgt-cur;}
-  document.getElementById('calc-cur-minus').addEventListener('click',()=>{if(cur>1){cur--;update();}});
-  document.getElementById('calc-cur-plus').addEventListener('click',()=>{if(cur<199){cur++;update();}});
-  document.getElementById('calc-tgt-minus').addEventListener('click',()=>{if(tgt>2){tgt--;update();}});
-  document.getElementById('calc-tgt-plus').addEventListener('click',()=>{if(tgt<200){tgt++;update();}});
-  document.getElementById('calc-cur-slider').addEventListener('input',e=>{cur=parseInt(e.target.value);update();});
-  document.getElementById('calc-tgt-slider').addEventListener('input',e=>{tgt=parseInt(e.target.value);update();});
-  update();
-})();
 
 document.addEventListener('click',()=>{try{getACtx().resume();}catch(e){}},{once:true});
 document.getElementById('refresh-btn').addEventListener('click',()=>loadData(false));
