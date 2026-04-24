@@ -1,685 +1,748 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Трекер Боссов</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0c0d10;--surface:#12141a;--panel:#181b23;--border:#252a35;--border2:#2e3545;--text:#cdd4e0;--muted:#8a95a8;--dim:#6a7488;--white:#eef2f8;--accent:#4a9eff;--ready:#2ecc71;--warn:#f39c12;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(74,158,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.018) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
-.page{display:none;position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 14px 60px;}
-.page.active{display:block;}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Трекер Боссов</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0c0d10;--surface:#12141a;--panel:#181b23;--border:#252a35;--border2:#2e3545;--text:#cdd4e0;--muted:#8a95a8;--dim:#6a7488;--white:#eef2f8;--accent:#4a9eff;--ready:#2ecc71;--warn:#f39c12;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(74,158,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.018) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+    .wrap{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 14px 60px;}
+    .header{padding:22px 0 16px;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);margin-bottom:18px;}
+    .logo-title{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--white);letter-spacing:2px;}
+    .logo-title em{color:var(--accent);font-style:normal;}
+    .logo-sub{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);margin-top:4px;letter-spacing:1px;}
+    .header-right{display:flex;gap:6px;align-items:center;}
+    .hbtn{font-family:'Share Tech Mono',monospace;font-size:9px;padding:4px 9px;border-radius:3px;cursor:pointer;transition:all 0.15s;border:1px solid;letter-spacing:1px;user-select:none;}
+    .hbtn-bug{color:#ff4d6d;border-color:#ff4d6d;background:rgba(255,77,109,0.07);}
+    .hbtn-tgk{color:var(--accent);border-color:var(--accent);background:rgba(74,158,255,0.07);}
+    .hbtn-calc{color:#a78bfa;border-color:#a78bfa;background:rgba(167,139,250,0.08);}
+    .hbtn-bug:hover{background:rgba(255,77,109,0.16);}
+    .hbtn-tgk:hover{background:rgba(74,158,255,0.14);}
+    .hbtn-calc:hover{background:rgba(167,139,250,0.16);}
 
-.header{padding:22px 0 16px;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);margin-bottom:18px;}
-.logo-title{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--white);letter-spacing:2px;}
-.logo-title em{color:var(--accent);font-style:normal;}
-.logo-sub{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);margin-top:4px;letter-spacing:1px;}
-.header-right{display:flex;gap:6px;align-items:center;}
-.hbtn{font-family:'Share Tech Mono',monospace;font-size:9px;padding:4px 9px;border-radius:3px;cursor:pointer;transition:all 0.15s;border:1px solid;letter-spacing:1px;}
-.hbtn-bug{color:#ff4d6d;border-color:#ff4d6d;background:rgba(255,77,109,0.07);}
-.hbtn-tgk{color:var(--accent);border-color:var(--accent);background:rgba(74,158,255,0.07);}
-.hbtn-bug:hover{background:rgba(255,77,109,0.16);}
-.hbtn-tgk:hover{background:rgba(74,158,255,0.14);}
+    .next-boss{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;}
+    .next-boss::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);}
+    .next-boss.nb-ready::before{background:linear-gradient(90deg,var(--ready),transparent);}
+    .nb-icon{width:40px;height:40px;border-radius:8px;background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+    .nb-info{flex:1;min-width:0;}
+    .nb-label{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:3px;margin-bottom:3px;}
+    .nb-name{font-size:14px;font-weight:600;color:var(--white);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .nb-status{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);}
+    .next-boss.nb-ready .nb-status{color:var(--ready);}
+    .nb-cd{font-family:'Orbitron',monospace;font-size:18px;font-weight:700;color:var(--accent);flex-shrink:0;}
+    .next-boss.nb-ready .nb-cd{color:var(--ready);}
 
-.next-boss{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;}
-.next-boss::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);}
-.next-boss.nb-ready::before{background:linear-gradient(90deg,var(--ready),transparent);}
-.nb-icon{width:40px;height:40px;border-radius:8px;background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-.nb-info{flex:1;min-width:0;}
-.nb-label{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:3px;margin-bottom:3px;}
-.nb-name{font-size:14px;font-weight:600;color:var(--white);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.nb-status{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);}
-.next-boss.nb-ready .nb-status{color:var(--ready);}
-.nb-cd{font-family:'Orbitron',monospace;font-size:18px;font-weight:700;color:var(--accent);flex-shrink:0;}
-.next-boss.nb-ready .nb-cd{color:var(--ready);}
+    .sound-panel{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:14px;}
+    .sp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+    .sp-title{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);letter-spacing:1px;}
+    .sp-head-right{display:flex;align-items:center;gap:8px;}
+    .sp-lock-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--warn);letter-spacing:0.5px;cursor:pointer;border:1px solid rgba(243,156,18,0.4);padding:2px 8px;border-radius:2px;background:rgba(243,156,18,0.06);transition:all 0.15s;}
+    .sp-lock-btn:hover{background:rgba(243,156,18,0.14);}
+    .toggle-btn{width:40px;height:22px;background:var(--panel);border:1px solid var(--border2);border-radius:11px;position:relative;cursor:pointer;transition:all 0.2s;flex-shrink:0;}
+    .toggle-btn::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;background:var(--muted);border-radius:50%;transition:all 0.2s;}
+    .toggle-btn.on{background:rgba(74,158,255,0.12);border-color:var(--accent);}
+    .toggle-btn.on::after{transform:translateX(18px);background:var(--accent);box-shadow:0 0 6px rgba(74,158,255,0.7);}
+    .sp-rows{display:flex;flex-direction:column;gap:9px;}
+    .sp-row{display:flex;align-items:center;gap:8px;}
+    .sp-row-label{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);min-width:92px;letter-spacing:0.5px;}
+    .sp-select{background:var(--panel);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-family:'Share Tech Mono',monospace;font-size:9px;padding:4px 8px;flex:1;appearance:none;cursor:pointer;outline:none;}
+    .sp-slider-wrap{display:flex;align-items:center;gap:6px;flex:1;}
+    .sp-slider{-webkit-appearance:none;appearance:none;flex:1;height:3px;border-radius:2px;background:var(--border2);outline:none;cursor:pointer;}
+    .sp-slider::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--accent);cursor:pointer;}
+    .sp-val{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);min-width:48px;text-align:right;}
+    .sp-locked-banner{background:rgba(243,156,18,0.06);border:1px solid rgba(243,156,18,0.25);border-radius:7px;padding:10px 13px;display:flex;align-items:flex-start;gap:10px;margin-top:12px;}
+    .sp-locked-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+    .sp-locked-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--warn);line-height:1.6;}
+    .sp-locked-sub{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted);line-height:1.5;margin-top:3px;}
 
-.sound-panel{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:14px;}
-.sp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.sp-title{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);letter-spacing:1px;}
-.sp-head-right{display:flex;align-items:center;gap:8px;}
-.sp-lock-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--warn);cursor:pointer;border:1px solid rgba(243,156,18,0.4);padding:2px 8px;border-radius:2px;background:rgba(243,156,18,0.06);transition:all 0.15s;}
-.sp-lock-btn:hover{background:rgba(243,156,18,0.14);}
-.toggle-btn{width:40px;height:22px;background:var(--panel);border:1px solid var(--border2);border-radius:11px;position:relative;cursor:pointer;transition:all 0.2s;flex-shrink:0;}
-.toggle-btn::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;background:var(--muted);border-radius:50%;transition:all 0.2s;}
-.toggle-btn.on{background:rgba(74,158,255,0.12);border-color:var(--accent);}
-.toggle-btn.on::after{transform:translateX(18px);background:var(--accent);box-shadow:0 0 6px rgba(74,158,255,0.7);}
-.sp-rows{display:flex;flex-direction:column;gap:9px;}
-.sp-row{display:flex;align-items:center;gap:8px;}
-.sp-row-label{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);min-width:82px;letter-spacing:0.5px;}
-.sp-select{background:var(--panel);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-family:'Share Tech Mono',monospace;font-size:9px;padding:4px 8px;flex:1;appearance:none;cursor:pointer;outline:none;}
-.sp-slider-wrap{display:flex;align-items:center;gap:6px;flex:1;}
-.sp-slider{-webkit-appearance:none;appearance:none;flex:1;height:3px;border-radius:2px;background:var(--border2);outline:none;cursor:pointer;}
-.sp-slider::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--accent);cursor:pointer;}
-.sp-val{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);min-width:36px;text-align:right;}
-.sp-val.accent{font-family:'Orbitron',monospace;font-size:10px;color:var(--accent);}
-.sp-locked-banner{background:rgba(243,156,18,0.06);border:1px solid rgba(243,156,18,0.25);border-radius:7px;padding:10px 13px;display:flex;align-items:flex-start;gap:10px;margin-top:12px;}
-.sp-locked-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
-.sp-locked-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--warn);line-height:1.6;}
-.sp-locked-sub{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted);line-height:1.5;margin-top:3px;}
+    .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
+    .stat{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 10px 10px;text-align:center;position:relative;overflow:hidden;}
+    .stat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;}
+    .stat.s-ready::after{background:var(--ready);}
+    .stat.s-active::after{background:var(--accent);}
+    .stat.s-notif::after{background:var(--warn);}
+    .stat-val{font-family:'Orbitron',monospace;font-size:24px;font-weight:700;line-height:1;margin-bottom:4px;}
+    .stat.s-ready .stat-val{color:var(--ready);}
+    .stat.s-active .stat-val{color:var(--accent);}
+    .stat.s-notif .stat-val{color:var(--warn);}
+    .stat-label{font-size:9px;font-weight:600;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;}
+    .refresh-btn{width:100%;background:transparent;border:1px solid var(--border2);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:6px;cursor:pointer;margin-bottom:12px;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:8px;}
+    .refresh-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(74,158,255,0.04);}
+    @keyframes spin{to{transform:rotate(360deg);}}
+    .spinning .ri{display:inline-block;animation:spin 0.6s linear;}
+    .sync-bar{display:flex;align-items:center;gap:6px;margin-bottom:14px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;}
+    .sync-dot{width:6px;height:6px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background 0.3s;}
+    .sync-dot.synced{background:var(--ready);box-shadow:0 0 4px var(--ready);}
+    .sync-dot.loading{background:var(--accent);animation:blink 1s infinite;}
+    .sync-dot.error{background:var(--warn);}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+    .sync-info-btn{margin-left:auto;color:var(--accent);cursor:pointer;border:1px solid rgba(74,158,255,0.3);padding:2px 7px;border-radius:2px;font-size:9px;letter-spacing:1px;transition:all 0.15s;background:rgba(74,158,255,0.04);}
+    .sync-info-btn:hover{background:rgba(74,158,255,0.12);}
+    .section-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+    .section-line{flex:1;height:1px;background:var(--border);}
+    .section-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;}
+    .boss-list{display:flex;flex-direction:column;gap:4px;}
+    .boss-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:11px 14px;display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:12px;position:relative;overflow:hidden;}
+    .boss-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;border-radius:8px 0 0 8px;transition:background 0.3s;}
+    .boss-card.state-ready{background:rgba(46,204,113,0.04);border-color:rgba(46,204,113,0.3);}
+    .boss-card.state-ready::before{background:var(--ready);box-shadow:0 0 10px rgba(46,204,113,0.5);}
+    .boss-card.state-active::before{background:var(--accent);}
+    .boss-card.state-unknown::before{background:var(--border2);}
+    .boss-avatar-fb{width:38px;height:38px;border-radius:6px;background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:20px;}
+    .boss-name{font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px;}
+    .boss-timer{font-family:'Share Tech Mono',monospace;font-size:11px;}
+    .boss-timer.t-ready{color:var(--ready);}
+    .boss-timer.t-active{color:var(--accent);}
+    .boss-timer.t-unknown{color:var(--muted);}
+    .notif-toggle{width:40px;height:22px;background:var(--panel);border:1px solid var(--border2);border-radius:11px;position:relative;cursor:pointer;transition:all 0.2s;flex-shrink:0;}
+    .notif-toggle::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;background:var(--muted);border-radius:50%;transition:all 0.2s;}
+    .notif-toggle.on{background:rgba(243,156,18,0.12);border-color:var(--warn);}
+    .notif-toggle.on::after{transform:translateX(18px);background:var(--warn);box-shadow:0 0 6px rgba(243,156,18,0.7);}
 
-.action-row{display:flex;gap:8px;margin-bottom:14px;}
-.action-btn{flex:1;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;transition:all 0.15s;}
-.action-btn:hover{border-color:var(--accent);background:rgba(74,158,255,0.04);}
-.action-btn-icon{font-size:20px;line-height:1;}
-.action-btn-label{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;text-align:center;}
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
+    .modal-overlay.open{display:flex;}
+    .modal{background:var(--panel);border:1px solid var(--border2);border-radius:12px;padding:24px;max-width:340px;width:100%;position:relative;max-height:90vh;overflow-y:auto;}
+    .modal-title{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--white);letter-spacing:2px;margin-bottom:16px;}
+    .modal-close{position:absolute;top:14px;right:14px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);cursor:pointer;border:1px solid var(--border2);padding:2px 8px;border-radius:2px;}
+    .modal-close:hover{color:var(--text);}
+    .modal-divider{height:1px;background:var(--border);margin:12px 0;}
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--border2);border-radius:8px;padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px;transition:transform 0.3s ease;z-index:999;white-space:nowrap;pointer-events:none;}
+    .toast.show{transform:translateX(-50%) translateY(0);}
+    .placeholder{text-align:center;padding:40px 20px;}
+    .ph-text{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px;}
+    .loading-bar{width:120px;height:2px;background:var(--border);margin:14px auto 0;border-radius:1px;overflow:hidden;}
+    .loading-bar::after{content:'';display:block;height:100%;width:40%;background:var(--accent);animation:ls 1.2s ease-in-out infinite;}
+    @keyframes ls{0%{transform:translateX(-150%)}100%{transform:translateX(400%)}}
 
-.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
-.stat{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 10px 10px;text-align:center;position:relative;overflow:hidden;}
-.stat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;}
-.stat.s-ready::after{background:var(--ready);}
-.stat.s-active::after{background:var(--accent);}
-.stat.s-notif::after{background:var(--warn);}
-.stat-val{font-family:'Orbitron',monospace;font-size:24px;font-weight:700;line-height:1;margin-bottom:4px;}
-.stat.s-ready .stat-val{color:var(--ready);}
-.stat.s-active .stat-val{color:var(--accent);}
-.stat.s-notif .stat-val{color:var(--warn);}
-.stat-label{font-size:9px;font-weight:600;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;}
-
-.refresh-btn{width:100%;background:transparent;border:1px solid var(--border2);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:6px;cursor:pointer;margin-bottom:12px;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:8px;}
-.refresh-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(74,158,255,0.04);}
-@keyframes spin{to{transform:rotate(360deg);}}
-.spinning .ri{display:inline-block;animation:spin 0.6s linear;}
-
-.sync-bar{display:flex;align-items:center;gap:6px;margin-bottom:14px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;}
-.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background 0.3s;}
-.sync-dot.synced{background:var(--ready);box-shadow:0 0 4px var(--ready);}
-.sync-dot.loading{background:var(--accent);animation:blink 1s infinite;}
-.sync-dot.error{background:var(--warn);}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
-.sync-info-btn{margin-left:auto;color:var(--accent);cursor:pointer;border:1px solid rgba(74,158,255,0.3);padding:2px 7px;border-radius:2px;font-size:9px;letter-spacing:1px;transition:all 0.15s;background:rgba(74,158,255,0.04);}
-.sync-info-btn:hover{background:rgba(74,158,255,0.12);}
-
-.section-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.section-line{flex:1;height:1px;background:var(--border);}
-.section-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;}
-
-.boss-list{display:flex;flex-direction:column;gap:4px;}
-.boss-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:11px 14px;display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:12px;position:relative;overflow:hidden;}
-.boss-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;border-radius:8px 0 0 8px;transition:background 0.3s;}
-.boss-card.state-ready{background:rgba(46,204,113,0.04);border-color:rgba(46,204,113,0.3);}
-.boss-card.state-ready::before{background:var(--ready);box-shadow:0 0 10px rgba(46,204,113,0.5);}
-.boss-card.state-active::before{background:var(--accent);}
-.boss-card.state-unknown::before{background:var(--border2);}
-.boss-avatar-fb{width:38px;height:38px;border-radius:6px;background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:20px;}
-.boss-name{font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px;}
-.boss-timer{font-family:'Share Tech Mono',monospace;font-size:11px;}
-.boss-timer.t-ready{color:var(--ready);}
-.boss-timer.t-active{color:var(--accent);}
-.boss-timer.t-unknown{color:var(--muted);}
-.notif-toggle{width:40px;height:22px;background:var(--panel);border:1px solid var(--border2);border-radius:11px;position:relative;cursor:pointer;transition:all 0.2s;flex-shrink:0;}
-.notif-toggle::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;background:var(--muted);border-radius:50%;transition:all 0.2s;}
-.notif-toggle.on{background:rgba(243,156,18,0.12);border-color:var(--warn);}
-.notif-toggle.on::after{transform:translateX(18px);background:var(--warn);box-shadow:0 0 6px rgba(243,156,18,0.7);}
-
-.footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
-.footer-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px;}
-
-/* CALC PAGE */
-.page-back{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);cursor:pointer;border:1px solid var(--border2);padding:4px 10px;border-radius:2px;background:transparent;transition:all 0.15s;flex-shrink:0;}
-.page-back:hover{color:var(--text);}
-.page-header{padding:22px 0 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);margin-bottom:20px;}
-.page-title{font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--white);letter-spacing:2px;}
-.page-title em{color:var(--warn);font-style:normal;}
-.calc-card{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:16px;margin-bottom:12px;}
-.calc-section-label{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;}
-.calc-input-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px;}
-.calc-lvl-btn{width:36px;height:36px;border-radius:8px;background:var(--panel);border:1px solid var(--border2);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;}
-.calc-lvl-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(74,158,255,0.07);}
-.calc-lvl-btn:active{transform:scale(0.93);}
-.calc-lvl-display{font-family:'Orbitron',monospace;font-size:32px;font-weight:900;color:var(--white);min-width:72px;text-align:center;}
-.calc-slider{-webkit-appearance:none;appearance:none;width:100%;height:3px;border-radius:2px;background:var(--border2);outline:none;cursor:pointer;}
-.calc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 6px rgba(74,158,255,0.5);}
-.calc-result-card{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:16px;margin-bottom:12px;}
-.calc-result-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;}
-.calc-result-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;}
-.calc-result-val{font-family:'Orbitron',monospace;font-size:16px;font-weight:700;color:var(--accent);}
-.calc-result-val.locked{color:var(--border2);font-size:18px;}
-.calc-divider{height:1px;background:var(--border);margin:6px 0;}
-.calc-locked-note{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);text-align:center;margin-top:10px;letter-spacing:1px;}
-.calc-soon-banner{background:linear-gradient(135deg,rgba(74,158,255,0.06),rgba(167,139,250,0.06));border:1px solid rgba(74,158,255,0.2);border-radius:10px;padding:16px;margin-bottom:12px;text-align:center;}
-.calc-soon-icon{font-size:26px;margin-bottom:6px;}
-.calc-soon-title{font-family:'Orbitron',monospace;font-size:12px;font-weight:900;color:var(--accent);letter-spacing:4px;margin-bottom:6px;}
-.calc-soon-text{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.6;}
-
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
-.modal-overlay.open{display:flex;}
-.modal{background:var(--panel);border:1px solid var(--border2);border-radius:12px;padding:24px;max-width:340px;width:100%;position:relative;max-height:90vh;overflow-y:auto;}
-.modal-title{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--white);letter-spacing:2px;margin-bottom:16px;}
-.modal-close{position:absolute;top:14px;right:14px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);cursor:pointer;border:1px solid var(--border2);padding:2px 8px;border-radius:2px;}
-.modal-close:hover{color:var(--text);}
-.modal-divider{height:1px;background:var(--border);margin:12px 0;}
-
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--border2);border-radius:8px;padding:10px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px;transition:transform 0.3s ease;z-index:999;white-space:nowrap;pointer-events:none;}
-.toast.show{transform:translateX(-50%) translateY(0);}
-.placeholder{text-align:center;padding:40px 20px;}
-.ph-text{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px;}
-.loading-bar{width:120px;height:2px;background:var(--border);margin:14px auto 0;border-radius:1px;overflow:hidden;}
-.loading-bar::after{content:'';display:block;height:100%;width:40%;background:var(--accent);animation:ls 1.2s ease-in-out infinite;}
-@keyframes ls{0%{transform:translateX(-150%)}100%{transform:translateX(400%)}}
-</style>
+    .calc-card{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:16px;margin-bottom:12px;}
+    .calc-section-label{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;}
+    .calc-input-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px;}
+    .calc-lvl-btn{width:36px;height:36px;border-radius:8px;background:var(--panel);border:1px solid var(--border2);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;}
+    .calc-lvl-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(74,158,255,0.07);}
+    .calc-lvl-btn:active{transform:scale(0.93);}
+    .calc-lvl-display{font-family:'Orbitron',monospace;font-size:32px;font-weight:900;color:var(--white);min-width:72px;text-align:center;}
+    .calc-slider{-webkit-appearance:none;appearance:none;width:100%;height:3px;border-radius:2px;background:var(--border2);outline:none;cursor:pointer;}
+    .calc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 6px rgba(74,158,255,0.5);}
+    .calc-result-card{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:16px;margin-bottom:0;}
+    .calc-result-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;}
+    .calc-result-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;}
+    .calc-result-val{font-family:'Orbitron',monospace;font-size:16px;font-weight:700;color:var(--accent);}
+    .calc-divider{height:1px;background:var(--border);margin:6px 0;}
+  </style>
 </head>
 <body>
 
-<!-- TGK Modal -->
-<div class="modal-overlay" id="modal-tgk">
-<div class="modal">
-<div class="modal-title">ТЕЛЕГРАМ КАНАЛ</div>
-<div class="modal-close" id="close-tgk">&#x2715;</div>
-<div style="text-align:center;margin-bottom:14px">
-<div style="font-size:28px;margin-bottom:6px">📣</div>
-<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:2px">@PrisonEvoAssist</div>
-</div>
-<div style="background:var(--bg);border:1px solid rgba(243,156,18,0.3);border-radius:8px;padding:12px;margin-bottom:10px">
-<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--warn);margin-bottom:6px">🔊 Звук до босса — только для подписчиков</div>
-<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.6">Настрой за сколько тебе прозвучит оповещение. Доступно только подписчикам — подпишись и нажми «Проверить».</div>
-</div>
-<div style="background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:12px;margin-bottom:14px">
-<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--white);margin-bottom:6px">📰 Новости бота</div>
-<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.6">Все обновления и анонсы публикуются в канале первыми.</div>
-</div>
-<div style="display:flex;gap:8px">
-<div id="tgk-sub-btn" style="flex:1;text-align:center;background:rgba(74,158,255,0.08);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 6px;border-radius:4px;cursor:pointer;letter-spacing:1px">ПОДПИСАТЬСЯ →</div>
-<div id="tgk-check-btn" style="text-align:center;background:rgba(46,204,113,0.08);border:1px solid var(--ready);color:var(--ready);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 12px;border-radius:4px;cursor:pointer;letter-spacing:1px;white-space:nowrap">✓ ПРОВЕРИТЬ</div>
-</div>
-<div id="tgk-result" style="margin-top:10px;font-family:'Share Tech Mono',monospace;font-size:10px;text-align:center;display:none"></div>
-</div>
-</div>
+  <div class="modal-overlay" id="modal-tgk">
+    <div class="modal">
+      <div class="modal-title">ТЕЛЕГРАМ КАНАЛ</div>
+      <div class="modal-close" data-close="modal-tgk">&#x2715;</div>
+      <div style="text-align:center;margin-bottom:14px">
+        <div style="font-size:28px;margin-bottom:6px">📣</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:2px">@PrisonEvoAssist</div>
+      </div>
+      <div style="background:var(--bg);border:1px solid rgba(243,156,18,0.3);border-radius:8px;padding:12px;margin-bottom:10px">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--warn);margin-bottom:6px">🔊 Звук до босса — только для подписчиков</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.6">
+          Подпишись и нажми «Проверить».
+        </div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <div id="tgk-sub-btn" style="flex:1;text-align:center;background:rgba(74,158,255,0.08);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 6px;border-radius:4px;cursor:pointer;letter-spacing:1px">ПОДПИСАТЬСЯ →</div>
+        <div id="tgk-check-btn" style="text-align:center;background:rgba(46,204,113,0.08);border:1px solid var(--ready);color:var(--ready);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 12px;border-radius:4px;cursor:pointer;letter-spacing:1px;white-space:nowrap">✓ ПРОВЕРИТЬ</div>
+      </div>
+      <div id="tgk-result" style="margin-top:10px;font-family:'Share Tech Mono',monospace;font-size:10px;text-align:center;display:none"></div>
+    </div>
+  </div>
 
-<!-- Bug Modal -->
-<div class="modal-overlay" id="modal-bug">
-<div class="modal">
-<div class="modal-title">НАШЁЛ БАГ?</div>
-<div class="modal-close" id="close-bug">&#x2715;</div>
-<div style="text-align:center;font-size:30px;margin-bottom:12px">🐛</div>
-<div style="background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:12px;margin-bottom:12px">
-<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.7;margin-bottom:10px">Нашёл баг — напиши разработчику напрямую.</div>
-<div style="display:flex;gap:8px;align-items:center">
-<div id="bug-tg-btn" style="flex:1;text-align:center;background:rgba(74,158,255,0.08);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 6px;border-radius:4px;cursor:pointer;letter-spacing:1px">📣 Написать</div>
-<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--white);font-weight:600">@whatafukk</div>
-</div>
-</div>
-<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);line-height:1.6;text-align:center">Опиши что произошло и при каких условиях.</div>
-</div>
-</div>
+  <div class="modal-overlay" id="modal-bug">
+    <div class="modal">
+      <div class="modal-title">НАШЁЛ БАГ?</div>
+      <div class="modal-close" data-close="modal-bug">&#x2715;</div>
+      <div style="text-align:center;font-size:30px;margin-bottom:12px">🐛</div>
+      <div style="background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:12px;margin-bottom:12px">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.7;margin-bottom:10px">Напиши разработчику напрямую.</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div id="bug-tg-btn" style="flex:1;text-align:center;background:rgba(74,158,255,0.08);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 6px;border-radius:4px;cursor:pointer;letter-spacing:1px">📣 Написать</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--white);font-weight:600">@whatafukk</div>
+        </div>
+      </div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);line-height:1.6;text-align:center">Опиши что произошло и при каких условиях.</div>
+    </div>
+  </div>
 
-<!-- Info Modal -->
-<div class="modal-overlay" id="modal-info">
-<div class="modal">
-<div class="modal-title">Что значат цвета?</div>
-<div class="modal-close" id="close-info">&#x2715;</div>
-<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px"><div style="width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 5px rgba(74,158,255,0.5);flex-shrink:0;margin-top:2px"></div><div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5"><b style="color:var(--white)">Синий</b> — убит, идёт таймер до респавна.</div></div>
-<div class="modal-divider"></div>
-<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px"><div style="width:12px;height:12px;border-radius:50%;background:var(--ready);box-shadow:0 0 5px rgba(46,204,113,0.5);flex-shrink:0;margin-top:2px"></div><div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5"><b style="color:var(--white)">Зелёный</b> — готов к бою.</div></div>
-<div class="modal-divider"></div>
-<div style="display:flex;align-items:flex-start;gap:10px"><div style="width:12px;height:12px;border-radius:50%;background:var(--border2);flex-shrink:0;margin-top:2px"></div><div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5"><b style="color:var(--white)">Серый</b> — нет данных с запуска бота.</div></div>
-</div>
-</div>
+  <div class="modal-overlay" id="modal-info">
+    <div class="modal">
+      <div class="modal-title">Что значат цвета?</div>
+      <div class="modal-close" data-close="modal-info">&#x2715;</div>
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px">
+        <div style="width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 5px rgba(74,158,255,0.5);flex-shrink:0;margin-top:2px"></div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5"><b style="color:var(--white)">Синий</b> — убит, идёт таймер до респавна.</div>
+      </div>
+      <div class="modal-divider"></div>
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px">
+        <div style="width:12px;height:12px;border-radius:50%;background:var(--ready);box-shadow:0 0 5px rgba(46,204,113,0.5);flex-shrink:0;margin-top:2px"></div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5"><b style="color:var(--white)">Зелёный</b> — готов к бою.</div>
+      </div>
+      <div class="modal-divider"></div>
+      <div style="display:flex;align-items:flex-start;gap:10px">
+        <div style="width:12px;height:12px;border-radius:50%;background:var(--border2);flex-shrink:0;margin-top:2px"></div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5"><b style="color:var(--white)">Серый</b> — нет данных с запуска бота.</div>
+      </div>
+    </div>
+  </div>
 
-<!-- MAIN PAGE -->
-<div class="page active" id="page-main">
-<div class="header">
-<div>
-<div class="logo-title">ТРЕКЕР<em>.</em>БОССОВ</div>
-<div class="logo-sub">by whyousolonely</div>
-</div>
-<div class="header-right">
-<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);border:1px solid var(--border2);padding:3px 8px;border-radius:2px;background:var(--surface);letter-spacing:1px">v1.0</div>
-<div class="hbtn hbtn-bug" id="btn-bug">🐛</div>
-<div class="hbtn hbtn-tgk" id="btn-tgk">📣</div>
-</div>
-</div>
+  <div class="modal-overlay" id="modal-calc">
+    <div class="modal">
+      <div class="modal-title">КАЛЬКУЛЯТОР УРОВНЕЙ</div>
+      <div class="modal-close" data-close="modal-calc">&#x2715;</div>
 
-<div class="next-boss" id="next-boss" style="display:none">
-<div class="nb-icon" id="nb-icon"></div>
-<div class="nb-info">
-<div class="nb-label">следующий босс</div>
-<div class="nb-name" id="nb-name"></div>
-<div class="nb-status" id="nb-status"></div>
-</div>
-<div class="nb-cd" id="nb-cd"></div>
-</div>
+      <div class="calc-card">
+        <div class="calc-section-label">Текущий уровень</div>
+        <div class="calc-input-row">
+          <button class="calc-lvl-btn" id="calc-cur-minus">−</button>
+          <div class="calc-lvl-display" id="calc-cur-val">1</div>
+          <button class="calc-lvl-btn" id="calc-cur-plus">+</button>
+        </div>
+        <input type="range" class="calc-slider" id="calc-cur-slider" min="1" max="199" value="1">
+      </div>
 
-<div class="sound-panel">
-<div class="sp-head">
-<span class="sp-title">🔊 ЗВУК ДО БОССА</span>
-<div class="sp-head-right">
-<div class="sp-lock-btn" id="sp-lock-btn" style="display:none">🔒 Подписаться</div>
-<div class="toggle-btn" id="sound-toggle"></div>
-</div>
-</div>
-<div id="sp-controls" class="sp-rows">
-<div class="sp-row">
-<span class="sp-row-label">Звук</span>
-<select class="sp-select" id="sound-select">
-<option value="crystal">Кристальный перезвон</option>
-<option value="forest">Лесной колокол</option>
-<option value="pulse">Мягкий пульс</option>
-<option value="chime">Ветряные колокольчики</option>
-<option value="harp">Арфа</option>
-<option value="water">Водяные капли</option>
-<option value="bell">Бронзовый колокол</option>
-<option value="glass">Стеклянный звон</option>
-<option value="soft">Тихий зов</option>
-<option value="piano">Фортепиано</option>
-</select>
-</div>
-<div class="sp-row">
-<span class="sp-row-label">Громкость</span>
-<div class="sp-slider-wrap">
-<input type="range" class="sp-slider" id="vol-slider" min="1" max="100" value="67">
-<span class="sp-val" id="vol-label">67</span>
-</div>
-</div>
-<div class="sp-row">
-<span class="sp-row-label">Оповестить за</span>
-<div class="sp-slider-wrap">
-<input type="range" class="sp-slider" id="notify-slider" min="20" max="120" step="10" value="60">
-<span class="sp-val accent" id="notify-label">1 мин</span>
-</div>
-</div>
-</div>
-<div id="sp-locked-banner" class="sp-locked-banner" style="display:none">
-<span class="sp-locked-icon">🔒</span>
-<div>
-<div class="sp-locked-text">Только для подписчиков @PrisonEvoAssist</div>
-<div class="sp-locked-sub">Нажми 📣 → «Подписаться» → «Проверить» — и звук разблокируется.</div>
-</div>
-</div>
-</div>
+      <div class="calc-card">
+        <div class="calc-section-label">Целевой уровень</div>
+        <div class="calc-input-row">
+          <button class="calc-lvl-btn" id="calc-tgt-minus">−</button>
+          <div class="calc-lvl-display" id="calc-tgt-val">200</div>
+          <button class="calc-lvl-btn" id="calc-tgt-plus">+</button>
+        </div>
+        <input type="range" class="calc-slider" id="calc-tgt-slider" min="2" max="200" value="200">
+      </div>
 
-<div class="action-row">
-<div class="action-btn" id="btn-calc">
-<div class="action-btn-icon">🧮</div>
-<div class="action-btn-label">Калькулятор</div>
-</div>
-</div>
+      <div class="calc-result-card">
+        <div class="calc-result-row"><span class="calc-result-label">Уровней до цели</span><span class="calc-result-val" id="calc-diff">199</span></div>
+        <div class="calc-divider"></div>
+        <div class="calc-result-row"><span class="calc-result-label">Монет</span><span class="calc-result-val" id="calc-coins">—</span></div>
+        <div class="calc-result-row"><span class="calc-result-label">Блоков</span><span class="calc-result-val" id="calc-blocks">—</span></div>
+      </div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);text-align:center;margin-top:10px;letter-spacing:1px">
+        Данные по монетам/блокам добавишь позже — сейчас считается разница уровней.
+      </div>
+    </div>
+  </div>
 
-<div class="stats">
-<div class="stat s-ready"><div class="stat-val" id="cnt-ready">—</div><div class="stat-label">Готово</div></div>
-<div class="stat s-active"><div class="stat-val" id="cnt-active">—</div><div class="stat-label">В таймере</div></div>
-<div class="stat s-notif"><div class="stat-val" id="cnt-notif">—</div><div class="stat-label">Уведомл.</div></div>
-</div>
+  <div class="wrap">
+    <div class="header">
+      <div>
+        <div class="logo-title">ТРЕКЕР<em>.</em>БОССОВ</div>
+        <div class="logo-sub">by whyousolonely</div>
+      </div>
+      <div class="header-right">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);border:1px solid var(--border2);padding:3px 8px;border-radius:2px;background:var(--surface);letter-spacing:1px">v1.1</div>
+        <div class="hbtn hbtn-calc" id="btn-calc">🧮</div>
+        <div class="hbtn hbtn-bug" id="btn-bug">🐛</div>
+        <div class="hbtn hbtn-tgk" id="btn-tgk">📣</div>
+      </div>
+    </div>
 
-<button class="refresh-btn" id="refresh-btn"><span class="ri">↻</span><span>Обновить данные</span></button>
+    <div class="next-boss" id="next-boss" style="display:none">
+      <div class="nb-icon" id="nb-icon"></div>
+      <div class="nb-info">
+        <div class="nb-label">следующий босс</div>
+        <div class="nb-name" id="nb-name"></div>
+        <div class="nb-status" id="nb-status"></div>
+      </div>
+      <div class="nb-cd" id="nb-cd"></div>
+    </div>
 
-<div class="sync-bar">
-<div class="sync-dot" id="sync-dot"></div>
-<span id="sync-label">Ожидание</span>
-<span class="sync-info-btn" id="info-btn">Узнать больше</span>
-</div>
+    <div class="sound-panel">
+      <div class="sp-head">
+        <span class="sp-title">🔊 ЗВУК ДО БОССА</span>
+        <div class="sp-head-right">
+          <div class="sp-lock-btn" id="sp-lock-btn" style="display:none">🔒 Подписаться</div>
+          <div class="toggle-btn" id="sound-toggle"></div>
+        </div>
+      </div>
+      <div id="sp-controls" class="sp-rows">
+        <div class="sp-row">
+          <span class="sp-row-label">Звук</span>
+          <select class="sp-select" id="sound-select">
+            <option value="crystal">Кристальный перезвон</option>
+            <option value="forest">Лесной колокол</option>
+            <option value="pulse">Мягкий пульс</option>
+            <option value="chime">Ветряные колокольчики</option>
+            <option value="harp">Арфа</option>
+            <option value="water">Водяные капли</option>
+            <option value="bell">Бронзовый колокол</option>
+            <option value="glass">Стеклянный звон</option>
+            <option value="soft">Тихий зов</option>
+            <option value="piano">Фортепиано</option>
+          </select>
+        </div>
+        <div class="sp-row">
+          <span class="sp-row-label">Громкость</span>
+          <div class="sp-slider-wrap">
+            <input type="range" class="sp-slider" id="vol-slider" min="1" max="100" value="67">
+            <span class="sp-val" id="vol-label">67</span>
+          </div>
+        </div>
+        <div class="sp-row">
+          <span class="sp-row-label">Оповестить за</span>
+          <div class="sp-slider-wrap">
+            <input type="range" class="sp-slider" id="notify-slider" min="20" max="120" step="5" value="60">
+            <span class="sp-val" id="notify-label" style="min-width:60px;color:var(--accent);font-family:'Orbitron',monospace;font-size:10px">60 сек</span>
+          </div>
+        </div>
+      </div>
+      <div id="sp-locked-banner" class="sp-locked-banner" style="display:none">
+        <span class="sp-locked-icon">🔒</span>
+        <div>
+          <div class="sp-locked-text">Только для подписчиков @PrisonEvoAssist</div>
+          <div class="sp-locked-sub">Нажми 📣 → «Подписаться» → «Проверить» — и звук разблокируется.</div>
+        </div>
+      </div>
+    </div>
 
-<div class="section-head">
-<div class="section-line"></div>
-<div class="section-text">Боссы</div>
-<div class="section-line"></div>
-</div>
-<div class="boss-list" id="boss-list">
-<div class="placeholder"><div class="ph-text">Загрузка данных</div><div class="loading-bar"></div></div>
-</div>
+    <div class="stats">
+      <div class="stat s-ready"><div class="stat-val" id="cnt-ready">—</div><div class="stat-label">Готово</div></div>
+      <div class="stat s-active"><div class="stat-val" id="cnt-active">—</div><div class="stat-label">В таймере</div></div>
+      <div class="stat s-notif"><div class="stat-val" id="cnt-notif">—</div><div class="stat-label">Уведомл.</div></div>
+    </div>
 
-<div class="footer">
-<div class="footer-text">PrisonEvo</div>
-<div class="footer-text">@PrisonEvoAssist</div>
-</div>
-</div>
+    <button class="refresh-btn" id="refresh-btn"><span class="ri">↻</span><span>Обновить данные</span></button>
 
-<!-- CALC PAGE -->
-<div class="page" id="page-calc">
-<div class="page-header">
-<div class="page-back" id="calc-back">← Назад</div>
-<div class="page-title">КАЛЬКУЛЯТОР <em style="font-size:12px;color:var(--muted);font-family:'Share Tech Mono',monospace;letter-spacing:1px">уровней</em></div>
-</div>
-<div class="calc-soon-banner">
-<div class="calc-soon-icon">⏳</div>
-<div class="calc-soon-title">СКОРО</div>
-<div class="calc-soon-text">Данные по монетам и блокам появятся после вайпа — как только будут известны все требования прокачки.</div>
-</div>
-<div class="calc-card">
-<div class="calc-section-label">Текущий уровень</div>
-<div class="calc-input-row">
-<button class="calc-lvl-btn" id="calc-cur-minus">−</button>
-<div class="calc-lvl-display" id="calc-cur-val">1</div>
-<button class="calc-lvl-btn" id="calc-cur-plus">+</button>
-</div>
-<input type="range" class="calc-slider" id="calc-cur-slider" min="1" max="199" value="1">
-</div>
-<div class="calc-card">
-<div class="calc-section-label">Целевой уровень</div>
-<div class="calc-input-row">
-<button class="calc-lvl-btn" id="calc-tgt-minus">−</button>
-<div class="calc-lvl-display" id="calc-tgt-val">200</div>
-<button class="calc-lvl-btn" id="calc-tgt-plus">+</button>
-</div>
-<input type="range" class="calc-slider" id="calc-tgt-slider" min="2" max="200" value="200">
-</div>
-<div class="calc-result-card">
-<div class="calc-result-row"><span class="calc-result-label">Уровней до цели</span><span class="calc-result-val" id="calc-diff">199</span></div>
-<div class="calc-divider"></div>
-<div class="calc-result-row"><span class="calc-result-label">Монет</span><span class="calc-result-val locked" id="calc-coins">—</span></div>
-<div class="calc-result-row"><span class="calc-result-label">Блоков</span><span class="calc-result-val locked" id="calc-blocks">—</span></div>
-<div class="calc-locked-note">Данные появятся после вайпа</div>
-</div>
-</div>
+    <div class="sync-bar">
+      <div class="sync-dot" id="sync-dot"></div>
+      <span id="sync-label">Ожидание</span>
+      <span class="sync-info-btn" id="info-btn">Узнать больше</span>
+    </div>
 
-<div class="toast" id="toast"></div>
+    <div class="section-head">
+      <div class="section-line"></div>
+      <div class="section-text">Боссы</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="boss-list" id="boss-list">
+      <div class="placeholder"><div class="ph-text">Загрузка данных</div><div class="loading-bar"></div></div>
+    </div>
+  </div>
 
-<script>
-const API_BASE="https://childlike-flaxseed-chubby.ngrok-free.dev";
-const tg=window.Telegram?.WebApp;
-if(tg){tg.expand();tg.setHeaderColor('#0c0d10');tg.setBackgroundColor('#0c0d10');}
-const TG_USER_ID=tg?.initDataUnsafe?.user?.id||0;
+  <div class="toast" id="toast"></div>
 
-const BOSSES=[
-  {id:1,full:"Цып. Агрессивный пернатый",icon:"🐔"},
-  {id:2,full:"Аль-Каум. Владыка песков",icon:"🏜️"},
-  {id:3,full:"Азерус. Магматический лорд",icon:"🔥"},
-  {id:4,full:"Слаймяш. Мутированный слизень",icon:"🟢"},
-  {id:5,full:"Диаваль. Последний гладиатор",icon:"⚔️"},
-  {id:6,full:"Эгалмот. Хаос Гесиода",icon:"👁️"},
-  {id:7,full:"Шайн. Подводный владыка",icon:"🐟"},
-  {id:8,full:"Алевия. Верховная чародейка",icon:"🧙‍♀️"},
-  {id:9,full:"Флоракс. Повелитель леса",icon:"🌳"},
-  {id:10,full:"Хладорожденный Лич. Король мёртвых",icon:"💀"},
-  {id:11,full:"Талениэль. Эльфийка-охотница",icon:"🏹"},
-  {id:12,full:"Мориэль. Падший ангел",icon:"👼"},
-];
+  <script>
+    const tg = window.Telegram?.WebApp;
+    if (tg) { tg.expand(); tg.setHeaderColor('#0c0d10'); tg.setBackgroundColor('#0c0d10'); }
+    const TG_USER_ID = tg?.initDataUnsafe?.user?.id || 0;
 
-const SOUND_KEY="bt_sound_v3",VOL_KEY="bt_vol_v3",STYPE_KEY="bt_stype_v3";
-const NOTIFY_KEY="bt_notify_sec_v1",NOTIF_KEY="bt_notif_v1",TGK_KEY="bt_tgk_sub_v1";
-
-let soundEnabled=localStorage.getItem(SOUND_KEY)!=="false";
-let soundVolume=parseInt(localStorage.getItem(VOL_KEY)||"67")/100;
-let soundType=localStorage.getItem(STYPE_KEY)||"crystal";
-let notifySeconds=parseInt(localStorage.getItem(NOTIFY_KEY)||"60");
-let isTgkSub=localStorage.getItem(TGK_KEY)==="1";
-let respawnData=[],alreadySounded=new Set(),tickInterval=null,audioCtx=null;
-
-function loadNotifLocal(){
-  const def={};BOSSES.forEach(b=>def[b.id]=true);
-  try{const s=localStorage.getItem(NOTIF_KEY);if(s)return{...def,...JSON.parse(s)};}catch(e){}
-  return def;
-}
-let notifications=loadNotifLocal();
-function saveNotifLocal(){try{localStorage.setItem(NOTIF_KEY,JSON.stringify(notifications));}catch(e){}}
-function getACtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
-
-function fmtNotifyLabel(sec){
-  if(sec<60)return sec+'с';
-  if(sec%60===0)return (sec/60)+' мин';
-  return Math.floor(sec/60)+'м '+( sec%60)+'с';
-}
-
-// 10 sounds, all under 2 seconds
-function playSound(){
-  try{
-    const ctx=getACtx(),vol=soundVolume,now=ctx.currentTime;
-    function n(type,freq,start,dur,peak,fade){
-      const o=ctx.createOscillator(),g=ctx.createGain();
-      o.connect(g);g.connect(ctx.destination);o.type=type;o.frequency.value=freq;
-      g.gain.setValueAtTime(0,now+start);
-      g.gain.linearRampToValueAtTime(peak*vol,now+start+0.04);
-      g.gain.setValueAtTime(peak*vol,now+start+dur-fade);
-      g.gain.exponentialRampToValueAtTime(0.0001,now+start+dur);
-      o.start(now+start);o.stop(now+start+dur);
+    function getApiBase() {
+      const u = new URL(location.href);
+      const fromQuery = u.searchParams.get('api');
+      const clean = (v) => (v || '').replace(/\/+$/, '');
+      return clean(fromQuery) || clean(localStorage.getItem('bt_api_base_v1')) || "https://childlike-flaxseed-chubby.ngrok-free.dev";
     }
-    const t=soundType;
-    if(t==='crystal'){[[523,0],[659,0.25],[784,0.5],[1047,0.75],[1319,1.0]].forEach(([f,s])=>{n('sine',f,s,0.6,0.28,0.45);n('sine',f*2,s,0.3,0.04,0.22);});}
-    else if(t==='forest'){[[330,0],[440,0.22],[554,0.44],[660,0.66],[880,0.88]].forEach(([f,s])=>{n('sine',f,s,0.7,0.2,0.55);n('triangle',f*1.5,s,0.38,0.04,0.28);});}
-    else if(t==='pulse'){for(let i=0;i<5;i++){n('sine',200+i*45,i*0.3,0.2,0.18,0.14);n('sine',400+i*90,i*0.3,0.16,0.07,0.1);}}
-    else if(t==='chime'){[[392,0],[494,0.2],[587,0.4],[784,0.6],[988,0.8],[1175,1.0]].forEach(([f,s])=>{n('sine',f,s,0.55,0.18,0.42);});}
-    else if(t==='harp'){[[294,0],[370,0.16],[440,0.32],[587,0.48],[740,0.64],[880,0.82],[1109,1.0]].forEach(([f,s])=>{n('sine',f,s,0.65,0.16,0.5);n('triangle',f*1.5,s,0.32,0.03,0.25);});}
-    else if(t==='water'){[[800,0],[1000,0.1],[1200,0.2],[900,0.45],[1100,0.55],[1300,0.65],[1000,0.9],[1200,1.0]].forEach(([f,s])=>{n('sine',f,s,0.2,0.14,0.16);});}
-    else if(t==='bell'){[[220,0],[440,0.04],[880,0.08]].forEach(([f,s])=>{n('sine',f,s,1.6,0.25,1.2);n('sine',f*2.756,s,1.0,0.05,0.7);});}
-    else if(t==='glass'){[[659,0],[830,0.28],[1047,0.56],[1319,0.84],[1047,1.14]].forEach(([f,s])=>{n('sine',f,s,0.55,0.17,0.42);n('sine',f*1.8,s,0.28,0.03,0.2);});}
-    else if(t==='soft'){[[329,0],[415,0.3],[493,0.6],[554,0.9],[659,1.2]].forEach(([f,s])=>{n('sine',f,s,0.75,0.12,0.6);n('sine',f*1.007,s,0.75,0.05,0.6);});}
-    else if(t==='piano'){[[262,0],[330,0.18],[392,0.36],[523,0.54],[659,0.72],[784,0.9]].forEach(([f,s])=>{n('triangle',f,s,0.75,0.22,0.58);n('sine',f*2,s,0.4,0.04,0.3);});}
-  }catch(e){}
-}
+    const API_BASE = getApiBase();
+    try { localStorage.setItem('bt_api_base_v1', API_BASE); } catch (e) {}
 
-function updateSoundUI(){
-  const can=isTgkSub;
-  document.getElementById('sound-toggle').classList.toggle('on',soundEnabled&&can);
-  const ctrl=document.getElementById('sp-controls');
-  ctrl.style.opacity=can?'1':'0.4';
-  ctrl.style.pointerEvents=can?'':'none';
-  document.getElementById('sp-locked-banner').style.display=can?'none':'flex';
-  document.getElementById('sp-lock-btn').style.display=can?'none':'block';
-}
+    const BOSSES=[
+      {id:1,full:"Цып. Агрессивный пернатый",icon:"🐔"},
+      {id:2,full:"Аль-Каум. Владыка песков",icon:"🏜️"},
+      {id:3,full:"Азерус. Магматический лорд",icon:"🔥"},
+      {id:4,full:"Слаймяш. Мутированный слизень",icon:"🟢"},
+      {id:5,full:"Диаваль. Последний гладиатор",icon:"⚔️"},
+      {id:6,full:"Эгалмот. Хаос Гесиода",icon:"👁️"},
+      {id:7,full:"Шайн. Подводный владыка",icon:"🐟"},
+      {id:8,full:"Алевия. Верховная чародейка",icon:"🧙‍♀️"},
+      {id:9,full:"Флоракс. Повелитель леса",icon:"🌳"},
+      {id:10,full:"Хладорожденный Лич. Король мёртвых",icon:"💀"},
+      {id:11,full:"Талениэль. Эльфийка-охотница",icon:"🏹"},
+      {id:12,full:"Мориэль. Падший ангел",icon:"👼"},
+    ];
 
-async function checkTgkSub(){
-  if(!TG_USER_ID)return false;
-  try{
-    const r=await fetch(`${API_BASE}/check-channel?uid=${TG_USER_ID}&t=${Date.now()}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
-    const d=await r.json();
-    return d.subscribed===true;
-  }catch(e){return false;}
-}
+    const SOUND_KEY="bt_sound_v3",VOL_KEY="bt_vol_v3",STYPE_KEY="bt_stype_v3";
+    const NOTIFY_SEC_KEY="bt_notify_sec_v1";
+    const NOTIF_STATE_KEY="bt_notif_state_v1";
+    const TGK_KEY="bt_tgk_sub_v1";
 
-document.getElementById('tgk-sub-btn').addEventListener('click',()=>{
-  if(tg?.openTelegramLink)tg.openTelegramLink('https://t.me/PrisonEvoAssist');
-  else window.open('https://t.me/PrisonEvoAssist','_blank');
-});
-document.getElementById('tgk-check-btn').addEventListener('click',async()=>{
-  const btn=document.getElementById('tgk-check-btn');
-  const res=document.getElementById('tgk-result');
-  btn.textContent='...';btn.style.opacity='0.6';
-  const ok=await checkTgkSub();
-  btn.textContent='✓ ПРОВЕРИТЬ';btn.style.opacity='1';
-  res.style.display='block';
-  if(ok){
-    isTgkSub=true;localStorage.setItem(TGK_KEY,'1');
-    res.style.color='var(--ready)';res.textContent='Подписка подтверждена! Звук разблокирован.';
-    updateSoundUI();setTimeout(()=>closeModal('modal-tgk'),1400);
-  }else{
-    isTgkSub=false;localStorage.setItem(TGK_KEY,'0');
-    res.style.color='#ff4d6d';res.textContent='Ты не подписан на канал.';
-    updateSoundUI();
-  }
-});
+    let soundEnabled = localStorage.getItem(SOUND_KEY) !== "false";
+    let soundVolume  = parseInt(localStorage.getItem(VOL_KEY) || "67", 10) / 100;
+    let soundType    = localStorage.getItem(STYPE_KEY) || "crystal";
+    let notifySeconds= Math.max(20, Math.min(120, parseInt(localStorage.getItem(NOTIFY_SEC_KEY) || "60", 10) || 60));
+    let isTgkSub     = localStorage.getItem(TGK_KEY) === "1";
 
-const soundToggle=document.getElementById('sound-toggle');
-const volSlider=document.getElementById('vol-slider');
-const volLabel=document.getElementById('vol-label');
-const soundSel=document.getElementById('sound-select');
-const notifySlider=document.getElementById('notify-slider');
-const notifyLabel=document.getElementById('notify-label');
+    let respawnData = [];
+    let alreadySounded = new Set();
+    let tickInterval = null;
+    let audioCtx = null;
 
-volSlider.value=Math.round(soundVolume*100);
-volLabel.textContent=Math.round(soundVolume*100);
-soundSel.value=soundType;
-notifySlider.value=notifySeconds;
-notifyLabel.textContent=fmtNotifyLabel(notifySeconds);
+    function loadNotifLocal(){
+      const def={}; BOSSES.forEach(b=>def[b.id]=true);
+      try{
+        const s=localStorage.getItem(NOTIF_STATE_KEY);
+        if(s) return {...def, ...JSON.parse(s)};
+      }catch(e){}
+      return def;
+    }
+    let notifications = loadNotifLocal();
+    function saveNotifLocal(){ try{ localStorage.setItem(NOTIF_STATE_KEY, JSON.stringify(notifications)); }catch(e){} }
 
-soundToggle.addEventListener('click',()=>{
-  if(!isTgkSub){showToast('Нужна подписка на канал');openModal('modal-tgk');return;}
-  soundEnabled=!soundEnabled;localStorage.setItem(SOUND_KEY,soundEnabled);
-  updateSoundUI();showToast(soundEnabled?'Звук включён':'Звук выключен');
-  if(soundEnabled)try{getACtx().resume().then(playSound);}catch(e){}
-});
-volSlider.addEventListener('input',()=>{
-  soundVolume=parseInt(volSlider.value)/100;
-  volLabel.textContent=volSlider.value;
-  localStorage.setItem(VOL_KEY,volSlider.value);
-});
-soundSel.addEventListener('change',()=>{
-  soundType=soundSel.value;localStorage.setItem(STYPE_KEY,soundType);
-  if(soundEnabled&&isTgkSub)try{getACtx().resume().then(playSound);}catch(e){}
-});
-notifySlider.addEventListener('input',()=>{
-  notifySeconds=parseInt(notifySlider.value);
-  notifyLabel.textContent=fmtNotifyLabel(notifySeconds);
-  localStorage.setItem(NOTIFY_KEY,notifySeconds);
-  alreadySounded.clear();
-});
+    function getACtx(){ if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); return audioCtx; }
 
-function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
-function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
+    function playSound(){
+      try{
+        const ctx=getACtx(),vol=soundVolume,now=ctx.currentTime;
+        function n(type,freq,start,dur,peak,fade){
+          const o=ctx.createOscillator(),g=ctx.createGain();
+          o.connect(g);g.connect(ctx.destination);o.type=type;o.frequency.value=freq;
+          g.gain.setValueAtTime(0,now+start);g.gain.linearRampToValueAtTime(peak*vol,now+start+0.04);
+          g.gain.setValueAtTime(peak*vol,now+start+dur-fade);g.gain.exponentialRampToValueAtTime(0.0001,now+start+dur);
+          o.start(now+start);o.stop(now+start+dur);
+        }
+        const t=soundType;
+        if(t==='crystal'){[[523,0],[659,0.3],[784,0.6],[1047,0.9],[1319,1.2]].forEach(([f,s])=>{n('sine',f,s,0.7,0.3,0.55);n('sine',f*2,s,0.35,0.05,0.25);});}
+        else if(t==='forest'){[[330,0],[440,0.28],[554,0.56],[660,0.84],[880,1.12]].forEach(([f,s])=>{n('sine',f,s,0.8,0.22,0.6);n('triangle',f*1.5,s,0.45,0.04,0.35);});}
+        else if(t==='pulse'){for(let i=0;i<6;i++){n('sine',220+i*40,i*0.28,0.22,0.18,0.15);n('sine',440+i*80,i*0.28,0.18,0.07,0.12);}}
+        else if(t==='chime'){[[392,0],[494,0.22],[587,0.44],[784,0.66],[988,0.88],[1175,1.1],[988,1.4]].forEach(([f,s])=>{n('sine',f,s,0.65,0.2,0.5);});}
+        else if(t==='harp'){[[294,0],[370,0.18],[440,0.36],[587,0.54],[740,0.72],[880,0.9],[1109,1.1],[880,1.38]].forEach(([f,s])=>{n('sine',f,s,0.75,0.18,0.55);n('triangle',f*1.5,s,0.38,0.04,0.28);});}
+        else if(t==='water'){[[800,0],[1000,0.1],[1200,0.2],[900,0.5],[1100,0.6],[1300,0.7],[1050,1.05],[1250,1.15]].forEach(([f,s])=>{n('sine',f,s,0.22,0.16,0.18);});}
+        else if(t==='bell'){[[220,0],[440,0.05],[880,0.1],[1760,0.15]].forEach(([f,s])=>{n('sine',f,s,1.7,0.28,1.3);n('sine',f*2.756,s,1.1,0.05,0.75);});}
+        else if(t==='glass'){[[659,0],[830,0.3],[1047,0.6],[1319,0.9],[1047,1.25],[830,1.6]].forEach(([f,s])=>{n('sine',f,s,0.6,0.18,0.45);n('sine',f*1.8,s,0.3,0.03,0.22);});}
+        else if(t==='soft'){[[329,0],[415,0.38],[493,0.76],[554,1.14],[659,1.52]].forEach(([f,s])=>{n('sine',f,s,0.85,0.14,0.65);n('sine',f*1.007,s,0.85,0.06,0.65);});}
+        else if(t==='piano'){[[262,0],[330,0.22],[392,0.44],[523,0.66],[659,0.88],[784,1.1],[659,1.38]].forEach(([f,s])=>{n('triangle',f,s,0.85,0.25,0.65);n('sine',f*2,s,0.45,0.04,0.35);});}
+      }catch(e){}
+    }
 
-document.getElementById('btn-bug').addEventListener('click',()=>openModal('modal-bug'));
-document.getElementById('close-bug').addEventListener('click',()=>closeModal('modal-bug'));
-document.getElementById('modal-bug').addEventListener('click',e=>{if(e.target.id==='modal-bug')closeModal('modal-bug');});
-document.getElementById('bug-tg-btn').addEventListener('click',()=>{if(tg?.openTelegramLink)tg.openTelegramLink('https://t.me/whatafukk');else window.open('https://t.me/whatafukk','_blank');});
-document.getElementById('btn-tgk').addEventListener('click',()=>{document.getElementById('tgk-result').style.display='none';openModal('modal-tgk');});
-document.getElementById('close-tgk').addEventListener('click',()=>closeModal('modal-tgk'));
-document.getElementById('modal-tgk').addEventListener('click',e=>{if(e.target.id==='modal-tgk')closeModal('modal-tgk');});
-document.getElementById('info-btn').addEventListener('click',()=>openModal('modal-info'));
-document.getElementById('close-info').addEventListener('click',()=>closeModal('modal-info'));
-document.getElementById('modal-info').addEventListener('click',e=>{if(e.target.id==='modal-info')closeModal('modal-info');});
-document.getElementById('sp-lock-btn').addEventListener('click',()=>{document.getElementById('tgk-result').style.display='none';openModal('modal-tgk');});
-document.getElementById('btn-calc').addEventListener('click',()=>showPage('page-calc'));
-document.getElementById('calc-back').addEventListener('click',()=>showPage('page-main'));
+    function updateSoundUI(){
+      const can=isTgkSub;
+      document.getElementById('sound-toggle').classList.toggle('on', soundEnabled && can);
+      const ctrl=document.getElementById('sp-controls');
+      ctrl.style.opacity = can ? '1' : '0.4';
+      ctrl.style.pointerEvents = can ? '' : 'none';
+      document.getElementById('sp-locked-banner').style.display = can ? 'none' : 'flex';
+      document.getElementById('sp-lock-btn').style.display = can ? 'none' : 'block';
+    }
 
-let toastTimer=null;
-function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2200);}
+    async function checkTgkSub(){
+      if(!TG_USER_ID) return false;
+      try{
+        const r = await fetch(`${API_BASE}/check-channel?uid=${TG_USER_ID}&t=${Date.now()}`, { cache:'no-store', headers:{'ngrok-skip-browser-warning':'1'} });
+        const d = await r.json();
+        return d.subscribed === true;
+      }catch(e){ return false; }
+    }
 
-function fmtTime(sec){if(sec<=0)return null;const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=Math.floor(sec%60);if(h>0)return `${h}ч ${m}м`;if(m>0)return `${m}м ${String(s).padStart(2,'0')}с`;return `${s}с`;}
-function getTL(ra){if(ra===null||ra===undefined)return -1;return Math.max(0,Math.floor(ra-Date.now()/1000));}
-function setSyncState(state,label){document.getElementById('sync-dot').className='sync-dot '+state;document.getElementById('sync-label').textContent=label;}
-
-function updateNextBoss(){
-  const nb=document.getElementById('next-boss');
-  let best=null,bestTime=Infinity;
-  respawnData.forEach(d=>{const tl=getTL(d.respawn_at);if(tl===0&&bestTime>0){best=d;bestTime=0;}else if(tl>0&&tl<bestTime){best=d;bestTime=tl;}});
-  if(!best){nb.style.display='none';return;}
-  const boss=BOSSES.find(b=>b.id===best.id);
-  nb.style.display='flex';
-  document.getElementById('nb-icon').textContent=boss?.icon||'?';
-  document.getElementById('nb-name').textContent=boss?.full||'—';
-  const tl=getTL(best.respawn_at);
-  if(tl===0){nb.classList.add('nb-ready');document.getElementById('nb-status').textContent='Готов к бою';document.getElementById('nb-cd').textContent='+';}
-  else{nb.classList.remove('nb-ready');document.getElementById('nb-status').textContent='Заспавнится через';document.getElementById('nb-cd').textContent=fmtTime(tl)||'';}
-}
-
-function renderBosses(){
-  const list=document.getElementById('boss-list');list.innerHTML='';
-  let cntReady=0,cntActive=0,cntNotif=0;
-  BOSSES.forEach(boss=>{
-    const d=respawnData.find(b=>b.id===boss.id)||{id:boss.id,respawn_at:null};
-    const tl=getTL(d.respawn_at);
-    const isReady=tl===0,isActive=tl>0;
-    if(isReady)cntReady++;if(isActive)cntActive++;if(notifications[boss.id])cntNotif++;
-    const state=isReady?'state-ready':isActive?'state-active':'state-unknown';
-    const timerHTML=isReady?`<span class="boss-timer t-ready">✅ ГОТОВ К БОЮ</span>`:isActive?`<span class="boss-timer t-active">${fmtTime(tl)}</span>`:`<span class="boss-timer t-unknown">— неизвестно</span>`;
-    const card=document.createElement('div');card.className=`boss-card ${state}`;card.dataset.bossId=boss.id;
-    const ico=document.createElement('div');ico.className='boss-avatar-fb';ico.textContent=boss.icon;
-    const ctr=document.createElement('div');ctr.innerHTML=`<div class="boss-name">${boss.full}</div>${timerHTML}`;
-    const tog=document.createElement('div');tog.className=`notif-toggle ${notifications[boss.id]?'on':''}`;tog.dataset.id=boss.id;
-    card.appendChild(ico);card.appendChild(ctr);card.appendChild(tog);list.appendChild(card);
-  });
-  document.getElementById('cnt-ready').textContent=cntReady;
-  document.getElementById('cnt-active').textContent=cntActive;
-  document.getElementById('cnt-notif').textContent=cntNotif;
-  document.querySelectorAll('.notif-toggle').forEach(el=>{
-    el.addEventListener('click',()=>{
-      const id=parseInt(el.dataset.id);notifications[id]=!notifications[id];
-      el.classList.toggle('on',notifications[id]);saveNotifLocal();pushToggle(id,notifications[id]);
-      document.getElementById('cnt-notif').textContent=Object.values(notifications).filter(Boolean).length;
-      showToast(notifications[id]?`Уведомления #${id} вкл`:`Уведомления #${id} выкл`);
-      tg?.HapticFeedback?.impactOccurred('light');
+    function openModal(id){ document.getElementById(id).classList.add('open'); }
+    function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+    document.querySelectorAll('[data-close]').forEach(el=>{
+      el.addEventListener('click', ()=> closeModal(el.getAttribute('data-close')));
     });
-  });
-  updateNextBoss();
-}
+    ['modal-tgk','modal-bug','modal-info','modal-calc'].forEach(id=>{
+      const ov=document.getElementById(id);
+      ov.addEventListener('click', (e)=>{ if(e.target.id===id) closeModal(id); });
+    });
 
-async function pushToggle(bossId,enabled){
-  if(!TG_USER_ID)return;
-  try{await fetch(API_BASE+'/toggle',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},body:JSON.stringify({user_id:TG_USER_ID,boss_id:bossId,enabled})});}catch(e){}
-}
+    document.getElementById('btn-bug').addEventListener('click', ()=> openModal('modal-bug'));
+    document.getElementById('btn-tgk').addEventListener('click', ()=> { document.getElementById('tgk-result').style.display='none'; openModal('modal-tgk'); });
+    document.getElementById('btn-calc').addEventListener('click', ()=> openModal('modal-calc'));
+    document.getElementById('info-btn').addEventListener('click', ()=> openModal('modal-info'));
+    document.getElementById('sp-lock-btn').addEventListener('click', ()=> { document.getElementById('tgk-result').style.display='none'; openModal('modal-tgk'); });
 
-function tick(){
-  if(!respawnData.length)return;
-  let cntReady=0,cntActive=0;
-  document.querySelectorAll('.boss-card').forEach(card=>{
-    const id=parseInt(card.dataset.bossId);
-    const d=respawnData.find(b=>b.id===id);if(!d)return;
-    const tl=getTL(d.respawn_at);
-    if(tl===0){
-      alreadySounded.delete(`s${id}`);
-      if(!card.classList.contains('state-ready')){card.classList.remove('state-active','state-unknown');card.classList.add('state-ready');const tc=card.querySelector('.boss-timer');if(tc){tc.className='boss-timer t-ready';tc.textContent='✅ ГОТОВ К БОЮ';}}
-      cntReady++;
-    }else if(tl>0){
-      if(tl<=notifySeconds&&tl>(notifySeconds-5)&&!alreadySounded.has(`s${id}`)){
-        alreadySounded.add(`s${id}`);
-        if(soundEnabled&&isTgkSub&&notifications[id])try{getACtx().resume().then(playSound);}catch(e){}
-        tg?.HapticFeedback?.notificationOccurred('warning');
+    document.getElementById('bug-tg-btn').addEventListener('click', ()=>{
+      if(tg?.openTelegramLink) tg.openTelegramLink('https://t.me/whatafukk'); else window.open('https://t.me/whatafukk','_blank');
+    });
+
+    document.getElementById('tgk-sub-btn').addEventListener('click', ()=>{
+      if(tg?.openTelegramLink) tg.openTelegramLink('https://t.me/PrisonEvoAssist'); else window.open('https://t.me/PrisonEvoAssist','_blank');
+    });
+
+    document.getElementById('tgk-check-btn').addEventListener('click', async ()=>{
+      const btn=document.getElementById('tgk-check-btn');
+      const res=document.getElementById('tgk-result');
+      btn.textContent='...'; btn.style.opacity='0.6';
+      const ok=await checkTgkSub();
+      btn.textContent='✓ ПРОВЕРИТЬ'; btn.style.opacity='1';
+      res.style.display='block';
+      if(ok){
+        isTgkSub=true; localStorage.setItem(TGK_KEY,'1');
+        res.style.color='var(--ready)'; res.textContent='Подписка подтверждена! Звук разблокирован.';
+        updateSoundUI(); setTimeout(()=>closeModal('modal-tgk'), 1200);
+      }else{
+        isTgkSub=false; localStorage.setItem(TGK_KEY,'0');
+        res.style.color='#ff4d6d'; res.textContent='Ты не подписан на канал.';
+        updateSoundUI();
       }
-      if(tl>notifySeconds+5)alreadySounded.delete(`s${id}`);
-      if(!card.classList.contains('state-active')){card.classList.remove('state-ready','state-unknown');card.classList.add('state-active');}
-      const tc=card.querySelector('.boss-timer');if(tc){tc.className='boss-timer t-active';tc.textContent=fmtTime(tl);}
-      cntActive++;
-    }else{alreadySounded.delete(`s${id}`);}
-  });
-  document.getElementById('cnt-ready').textContent=cntReady;
-  document.getElementById('cnt-active').textContent=cntActive;
-  updateNextBoss();
-}
+    });
 
-async function loadData(silent){
-  if(!silent){document.getElementById('refresh-btn').classList.add('spinning');setTimeout(()=>document.getElementById('refresh-btn').classList.remove('spinning'),600);}
-  setSyncState('loading','Загрузка...');
-  try{
-    const res=await fetch(`${API_BASE}/bosses${TG_USER_ID?'?uid='+TG_USER_ID:''}`,{cache:'no-store',headers:{'ngrok-skip-browser-warning':'1'}});
-    if(!res.ok)throw new Error(`HTTP ${res.status}`);
-    const data=await res.json();if(!data.bosses)throw new Error('no data');
-    respawnData=data.bosses;
-    if(data.notifications&&Object.keys(data.notifications).length>0){Object.entries(data.notifications).forEach(([id,val])=>{notifications[parseInt(id)]=val;});saveNotifLocal();}
-    renderBosses();setSyncState('synced','Синхронизировано');
-    if(!tickInterval)tickInterval=setInterval(tick,1000);
-  }catch(e){
-    setSyncState('error','Бот выключен');
-    if(!respawnData.length)document.getElementById('boss-list').innerHTML=`<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;
-  }
-}
+    const soundToggle=document.getElementById('sound-toggle');
+    const volSlider=document.getElementById('vol-slider');
+    const volLabel=document.getElementById('vol-label');
+    const soundSel=document.getElementById('sound-select');
+    const notifySlider=document.getElementById('notify-slider');
+    const notifyLabel=document.getElementById('notify-label');
 
-async function bgTgkCheck(){
-  if(!isTgkSub)return;
-  const ok=await checkTgkSub();
-  if(!ok){isTgkSub=false;localStorage.setItem(TGK_KEY,'0');soundEnabled=false;localStorage.setItem(SOUND_KEY,'false');updateSoundUI();showToast('Ты отписался — звук отключён');}
-}
+    volSlider.value=Math.round(soundVolume*100); volLabel.textContent=Math.round(soundVolume*100);
+    soundSel.value=soundType;
+    notifySlider.value=notifySeconds;
+    notifyLabel.textContent = `${notifySeconds} сек`;
 
-// CALC
-(function(){
-  let cur=1,tgt=200;
-  function update(){
-    if(cur>=tgt)tgt=Math.min(cur+1,200);
-    if(tgt<=cur)cur=Math.max(tgt-1,1);
-    document.getElementById('calc-cur-val').textContent=cur;
-    document.getElementById('calc-tgt-val').textContent=tgt;
-    document.getElementById('calc-cur-slider').value=cur;
-    document.getElementById('calc-tgt-slider').value=tgt;
-    document.getElementById('calc-diff').textContent=tgt-cur;
-  }
-  document.getElementById('calc-cur-minus').addEventListener('click',()=>{if(cur>1){cur--;update();}});
-  document.getElementById('calc-cur-plus').addEventListener('click',()=>{if(cur<199){cur++;update();}});
-  document.getElementById('calc-tgt-minus').addEventListener('click',()=>{if(tgt>2){tgt--;update();}});
-  document.getElementById('calc-tgt-plus').addEventListener('click',()=>{if(tgt<200){tgt++;update();}});
-  document.getElementById('calc-cur-slider').addEventListener('input',e=>{cur=parseInt(e.target.value);update();});
-  document.getElementById('calc-tgt-slider').addEventListener('input',e=>{tgt=parseInt(e.target.value);update();});
-  update();
-})();
+    soundToggle.addEventListener('click', ()=>{
+      if(!isTgkSub){ showToast('Нужна подписка на канал'); openModal('modal-tgk'); return; }
+      soundEnabled=!soundEnabled; localStorage.setItem(SOUND_KEY, String(soundEnabled));
+      updateSoundUI(); showToast(soundEnabled?'Звук включён':'Звук выключен');
+      if(soundEnabled) try{ getACtx().resume().then(playSound); }catch(e){}
+    });
+    volSlider.addEventListener('input', ()=>{
+      soundVolume=parseInt(volSlider.value,10)/100;
+      volLabel.textContent=volSlider.value;
+      localStorage.setItem(VOL_KEY, volSlider.value);
+    });
+    soundSel.addEventListener('change', ()=>{
+      soundType=soundSel.value;
+      localStorage.setItem(STYPE_KEY, soundType);
+      if(soundEnabled&&isTgkSub) try{ getACtx().resume().then(playSound); }catch(e){}
+    });
+    notifySlider.addEventListener('input', ()=>{
+      notifySeconds=parseInt(notifySlider.value,10);
+      notifyLabel.textContent = `${notifySeconds} сек`;
+      localStorage.setItem(NOTIFY_SEC_KEY, String(notifySeconds));
+      alreadySounded.clear();
+    });
 
-document.addEventListener('click',()=>{try{getACtx().resume();}catch(e){}},{once:true});
-document.getElementById('refresh-btn').addEventListener('click',()=>loadData(false));
+    let toastTimer=null;
+    function showToast(msg){
+      const el=document.getElementById('toast');
+      el.textContent=msg;
+      el.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer=setTimeout(()=>el.classList.remove('show'),2200);
+    }
 
-(async function init(){
-  updateSoundUI();
-  if(TG_USER_ID&&!isTgkSub){
-    const ok=await checkTgkSub();
-    if(ok){isTgkSub=true;localStorage.setItem(TGK_KEY,'1');updateSoundUI();}
-  } else if(TG_USER_ID&&isTgkSub){
-    checkTgkSub().then(ok=>{if(!ok){isTgkSub=false;localStorage.setItem(TGK_KEY,'0');soundEnabled=false;localStorage.setItem(SOUND_KEY,'false');updateSoundUI();}});
-  }
-})();
+    function fmtTime(sec){
+      if(sec<=0) return null;
+      const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=Math.floor(sec%60);
+      if(h>0) return `${h}ч ${m}м`;
+      if(m>0) return `${m}м ${String(s).padStart(2,'0')}с`;
+      return `${s}с`;
+    }
+    function getTL(ra){
+      if(ra===null||ra===undefined) return -1;
+      return Math.max(0, Math.floor(ra - Date.now()/1000));
+    }
+    function setSyncState(state,label){
+      document.getElementById('sync-dot').className='sync-dot '+state;
+      document.getElementById('sync-label').textContent=label;
+    }
 
-loadData(false);
-setInterval(()=>loadData(true),5000);
-setInterval(bgTgkCheck,5*60*1000);
-</script>
+    function updateNextBoss(){
+      const nb=document.getElementById('next-boss');
+      let best=null,bestTime=Infinity;
+      respawnData.forEach(d=>{
+        const tl=getTL(d.respawn_at);
+        if(tl===0 && bestTime>0){ best=d; bestTime=0; }
+        else if(tl>0 && tl<bestTime){ best=d; bestTime=tl; }
+      });
+      if(!best){ nb.style.display='none'; return; }
+      const boss=BOSSES.find(b=>b.id===best.id);
+      nb.style.display='flex';
+      document.getElementById('nb-icon').textContent=boss?.icon||'?';
+      document.getElementById('nb-name').textContent=boss?.full||'—';
+      const tl=getTL(best.respawn_at);
+      if(tl===0){
+        nb.classList.add('nb-ready');
+        document.getElementById('nb-status').textContent='Готов к бою';
+        document.getElementById('nb-cd').textContent='+';
+      }else{
+        nb.classList.remove('nb-ready');
+        document.getElementById('nb-status').textContent='Заспавнится через';
+        document.getElementById('nb-cd').textContent=fmtTime(tl)||'';
+      }
+    }
+
+    function renderBosses(){
+      const list=document.getElementById('boss-list');
+      list.innerHTML='';
+      let cntReady=0,cntActive=0,cntNotif=0;
+      BOSSES.forEach(boss=>{
+        const d=respawnData.find(b=>b.id===boss.id)||{id:boss.id,respawn_at:null};
+        const tl=getTL(d.respawn_at);
+        const isReady=tl===0,isActive=tl>0;
+        if(isReady)cntReady++; if(isActive)cntActive++; if(notifications[boss.id])cntNotif++;
+        const state=isReady?'state-ready':isActive?'state-active':'state-unknown';
+        const timerHTML = isReady
+          ? `<span class="boss-timer t-ready">✅ ГОТОВ К БОЮ</span>`
+          : isActive
+            ? `<span class="boss-timer t-active">${fmtTime(tl)}</span>`
+            : `<span class="boss-timer t-unknown">— неизвестно</span>`;
+
+        const card=document.createElement('div');
+        card.className=`boss-card ${state}`;
+        card.dataset.bossId=boss.id;
+        const ico=document.createElement('div'); ico.className='boss-avatar-fb'; ico.textContent=boss.icon;
+        const ctr=document.createElement('div'); ctr.innerHTML=`<div class="boss-name">${boss.full}</div>${timerHTML}`;
+        const tog=document.createElement('div'); tog.className=`notif-toggle ${notifications[boss.id]?'on':''}`; tog.dataset.id=boss.id;
+        card.appendChild(ico); card.appendChild(ctr); card.appendChild(tog);
+        list.appendChild(card);
+      });
+
+      document.getElementById('cnt-ready').textContent=cntReady;
+      document.getElementById('cnt-active').textContent=cntActive;
+      document.getElementById('cnt-notif').textContent=cntNotif;
+
+      document.querySelectorAll('.notif-toggle').forEach(el=>{
+        el.addEventListener('click', ()=>{
+          const id=parseInt(el.dataset.id,10);
+          notifications[id]=!notifications[id];
+          el.classList.toggle('on', notifications[id]);
+          saveNotifLocal();
+          pushToggle(id, notifications[id]);
+          document.getElementById('cnt-notif').textContent = Object.values(notifications).filter(Boolean).length;
+          showToast(notifications[id]?`Уведомления #${id} вкл`:`Уведомления #${id} выкл`);
+          tg?.HapticFeedback?.impactOccurred('light');
+        });
+      });
+
+      updateNextBoss();
+    }
+
+    async function pushToggle(bossId, enabled){
+      if(!TG_USER_ID) return;
+      try{
+        await fetch(API_BASE+'/toggle', {
+          method:'POST',
+          cache:'no-store',
+          headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'1'},
+          body: JSON.stringify({ user_id: TG_USER_ID, boss_id: bossId, enabled, notify_seconds: notifySeconds })
+        });
+      }catch(e){}
+    }
+
+    function tick(){
+      if(!respawnData.length) return;
+      const notifySec = notifySeconds;
+      let cntReady=0,cntActive=0;
+      document.querySelectorAll('.boss-card').forEach(card=>{
+        const id=parseInt(card.dataset.bossId,10);
+        const d=respawnData.find(b=>b.id===id); if(!d) return;
+        const tl=getTL(d.respawn_at);
+        if(tl===0){
+          alreadySounded.delete(`s${id}`);
+          if(!card.classList.contains('state-ready')){
+            card.classList.remove('state-active','state-unknown');
+            card.classList.add('state-ready');
+            const tc=card.querySelector('.boss-timer');
+            if(tc){ tc.className='boss-timer t-ready'; tc.textContent='✅ ГОТОВ К БОЮ'; }
+          }
+          cntReady++;
+        }else if(tl>0){
+          if(tl<=notifySec && tl>(notifySec-5) && !alreadySounded.has(`s${id}`)){
+            alreadySounded.add(`s${id}`);
+            if(soundEnabled && isTgkSub && notifications[id]){ try{ getACtx().resume().then(playSound); }catch(e){} }
+            tg?.HapticFeedback?.notificationOccurred('warning');
+          }
+          if(tl>notifySec+5) alreadySounded.delete(`s${id}`);
+          if(!card.classList.contains('state-active')){
+            card.classList.remove('state-ready','state-unknown');
+            card.classList.add('state-active');
+          }
+          const tc=card.querySelector('.boss-timer');
+          if(tc){ tc.className='boss-timer t-active'; tc.textContent=fmtTime(tl); }
+          cntActive++;
+        }else{
+          alreadySounded.delete(`s${id}`);
+        }
+      });
+      document.getElementById('cnt-ready').textContent=cntReady;
+      document.getElementById('cnt-active').textContent=cntActive;
+      updateNextBoss();
+    }
+
+    async function loadData(silent){
+      if(!silent){
+        document.getElementById('refresh-btn').classList.add('spinning');
+        setTimeout(()=>document.getElementById('refresh-btn').classList.remove('spinning'),600);
+      }
+      setSyncState('loading','Загрузка...');
+      try{
+        const res = await fetch(`${API_BASE}/bosses${TG_USER_ID?'?uid='+TG_USER_ID:''}`, { cache:'no-store', headers:{'ngrok-skip-browser-warning':'1'} });
+        if(!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if(!data.bosses) throw new Error('no data');
+        respawnData = data.bosses;
+
+        if(typeof data.notify_seconds === 'number' && TG_USER_ID){
+          // Подтягиваем серверное значение (если ты будешь менять его где-то ещё)
+          notifySeconds = Math.max(20, Math.min(120, Math.floor(data.notify_seconds)));
+          notifySlider.value = notifySeconds;
+          notifyLabel.textContent = `${notifySeconds} сек`;
+          localStorage.setItem(NOTIFY_SEC_KEY, String(notifySeconds));
+        }
+
+        if(data.notifications && Object.keys(data.notifications).length>0){
+          Object.entries(data.notifications).forEach(([id,val])=>{
+            notifications[parseInt(id,10)] = !!val;
+          });
+          saveNotifLocal();
+        }
+
+        renderBosses();
+        setSyncState('synced','Синхронизировано');
+        if(!tickInterval) tickInterval=setInterval(tick,1000);
+      }catch(e){
+        setSyncState('error','Бот выключен');
+        if(!respawnData.length){
+          document.getElementById('boss-list').innerHTML = `<div class="placeholder"><div class="ph-text">Бот выключен</div></div>`;
+        }
+      }
+    }
+
+    async function bgTgkCheck(){
+      if(!isTgkSub) return;
+      const ok=await checkTgkSub();
+      if(!ok){
+        isTgkSub=false; localStorage.setItem(TGK_KEY,'0');
+        soundEnabled=false; localStorage.setItem(SOUND_KEY,'false');
+        updateSoundUI(); showToast('Ты отписался — звук отключён');
+      }
+    }
+
+    (function initCalc(){
+      let cur=1,tgt=200;
+      function update(){
+        if(cur>=tgt) tgt=Math.min(cur+1,200);
+        if(tgt<=cur) cur=Math.max(tgt-1,1);
+        document.getElementById('calc-cur-val').textContent=cur;
+        document.getElementById('calc-tgt-val').textContent=tgt;
+        document.getElementById('calc-cur-slider').value=cur;
+        document.getElementById('calc-tgt-slider').value=tgt;
+        document.getElementById('calc-diff').textContent = String(tgt-cur);
+        document.getElementById('calc-coins').textContent = '—';
+        document.getElementById('calc-blocks').textContent = '—';
+      }
+      document.getElementById('calc-cur-minus').addEventListener('click',()=>{ if(cur>1){cur--;update();} });
+      document.getElementById('calc-cur-plus').addEventListener('click',()=>{ if(cur<199){cur++;update();} });
+      document.getElementById('calc-tgt-minus').addEventListener('click',()=>{ if(tgt>2){tgt--;update();} });
+      document.getElementById('calc-tgt-plus').addEventListener('click',()=>{ if(tgt<200){tgt++;update();} });
+      document.getElementById('calc-cur-slider').addEventListener('input',(e)=>{ cur=parseInt(e.target.value,10); update(); });
+      document.getElementById('calc-tgt-slider').addEventListener('input',(e)=>{ tgt=parseInt(e.target.value,10); update(); });
+      update();
+    })();
+
+    document.addEventListener('click', ()=>{ try{ getACtx().resume(); }catch(e){} }, { once:true });
+    document.getElementById('refresh-btn').addEventListener('click', ()=> loadData(false));
+
+    (async function init(){
+      updateSoundUI();
+      if(!isTgkSub && TG_USER_ID){
+        const ok = await checkTgkSub();
+        if(ok){ isTgkSub=true; localStorage.setItem(TGK_KEY,'1'); updateSoundUI(); }
+      }
+    })();
+
+    loadData(false);
+    setInterval(()=>loadData(true), 5000);
+    setInterval(bgTgkCheck, 5*60*1000);
+  </script>
 </body>
 </html>
+
