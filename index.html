@@ -491,18 +491,17 @@
     });
 
     document.getElementById('tgk-sub-btn').addEventListener('click', async ()=>{
-      // В Telegram WebApp переход по ссылке часто закрывает приложение.
-      // Поэтому по умолчанию просто копируем ссылку и просим открыть вручную.
       const link = 'https://t.me/PrisonEvoAssist';
-      let copied = false;
       try {
-        if (navigator.clipboard?.writeText) {
-          await navigator.clipboard.writeText(link);
-          copied = true;
-        }
-      } catch (e) {}
-      if (copied) showToast('Ссылка скопирована. Открой канал и подпишись.');
-      else showToast('Открой канал: @PrisonEvoAssist');
+        // Открываем канал во внешней вкладке/окне, чтобы не прерывать работу приложения.
+        const w = window.open(link, '_blank', 'noopener,noreferrer');
+        if (!w && tg?.openLink) tg.openLink(link);
+      } catch (e) {
+        try {
+          if (tg?.openLink) tg.openLink(link);
+        } catch (_e) {}
+      }
+      showToast('Открыл канал в Telegram. Возвращайся в приложение в любой момент.');
     });
 
     document.getElementById('tgk-check-btn').addEventListener('click', async ()=>{
