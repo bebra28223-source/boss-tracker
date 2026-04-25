@@ -820,8 +820,10 @@
         for (let lvl = cur + 1; lvl <= tgt; lvl++) {
           const req = LEVEL_REQ[lvl - 1] || { coins: 0, blocks: 0 };
           coins += req.coins;
-          blocks += req.blocks;
         }
+        const curBlocks = (LEVEL_REQ[cur - 1] || { blocks: 0 }).blocks;
+        const tgtBlocks = (LEVEL_REQ[tgt - 1] || { blocks: 0 }).blocks;
+        blocks = Math.max(0, tgtBlocks - curBlocks);
         document.getElementById('calc-cur-val').textContent=cur;
         document.getElementById('calc-tgt-val').textContent=tgt;
         document.getElementById('calc-cur-slider').value=cur;
