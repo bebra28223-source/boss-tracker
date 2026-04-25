@@ -821,9 +821,8 @@
           const req = LEVEL_REQ[lvl - 1] || { coins: 0, blocks: 0 };
           coins += req.coins;
         }
-        const curBlocks = (LEVEL_REQ[cur - 1] || { blocks: 0 }).blocks;
         const tgtBlocks = (LEVEL_REQ[tgt - 1] || { blocks: 0 }).blocks;
-        blocks = Math.max(0, tgtBlocks - curBlocks);
+        blocks = Math.max(0, tgtBlocks);
         document.getElementById('calc-cur-val').textContent=cur;
         document.getElementById('calc-tgt-val').textContent=tgt;
         document.getElementById('calc-cur-slider').value=cur;
