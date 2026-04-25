@@ -151,14 +151,14 @@
         <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:2px">@PrisonEvoAssist</div>
       </div>
       <div style="background:var(--bg);border:1px solid rgba(243,156,18,0.3);border-radius:8px;padding:12px;margin-bottom:10px">
-        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--warn);margin-bottom:6px">🔊 Звук до босса — только для подписчиков</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--warn);margin-bottom:6px">📣 Подписка не обязательна</div>
         <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);line-height:1.6">
-          Подпишись и нажми «Проверить».
+          В Telegram-канале публикуются важные новости режима и обновления бота.
         </div>
       </div>
       <div style="display:flex;gap:8px">
         <div id="tgk-sub-btn" style="flex:1;text-align:center;background:rgba(74,158,255,0.08);border:1px solid var(--accent);color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 6px;border-radius:4px;cursor:pointer;letter-spacing:1px">ПОДПИСАТЬСЯ →</div>
-        <div id="tgk-check-btn" style="text-align:center;background:rgba(46,204,113,0.08);border:1px solid var(--ready);color:var(--ready);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 12px;border-radius:4px;cursor:pointer;letter-spacing:1px;white-space:nowrap">✓ ПРОВЕРИТЬ</div>
+        <div id="tgk-check-btn" style="text-align:center;background:rgba(46,204,113,0.08);border:1px solid var(--ready);color:var(--ready);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px 12px;border-radius:4px;cursor:pointer;letter-spacing:1px;white-space:nowrap">✓ ПОНЯТНО</div>
       </div>
       <div id="tgk-result" style="margin-top:10px;font-family:'Share Tech Mono',monospace;font-size:10px;text-align:center;display:none"></div>
     </div>
@@ -303,8 +303,8 @@
       <div id="sp-locked-banner" class="sp-locked-banner" style="display:none">
         <span class="sp-locked-icon">🔒</span>
         <div>
-          <div class="sp-locked-text">Только для подписчиков @PrisonEvoAssist</div>
-          <div class="sp-locked-sub">Нажми 📣 → «Подписаться» → «Проверить» — и звук разблокируется.</div>
+          <div class="sp-locked-text">Подписка не требуется</div>
+          <div class="sp-locked-sub">Все функции доступны без канала.</div>
         </div>
       </div>
     </div>
@@ -401,13 +401,12 @@
     const SOUND_KEY="bt_sound_v3",VOL_KEY="bt_vol_v3",STYPE_KEY="bt_stype_v3";
     const NOTIFY_SEC_KEY="bt_notify_sec_v1";
     const NOTIF_STATE_KEY="bt_notif_state_v1";
-    const TGK_KEY="bt_tgk_sub_v1";
 
     let soundEnabled = localStorage.getItem(SOUND_KEY) !== "false";
     let soundVolume  = parseInt(localStorage.getItem(VOL_KEY) || "67", 10) / 100;
     let soundType    = localStorage.getItem(STYPE_KEY) || "crystal";
     let notifySeconds= Math.max(20, Math.min(120, parseInt(localStorage.getItem(NOTIFY_SEC_KEY) || "60", 10) || 60));
-    let isTgkSub     = localStorage.getItem(TGK_KEY) === "1";
+    let isTgkSub     = true;
 
     let respawnData = [];
     let alreadySounded = new Set();
@@ -452,7 +451,7 @@
     }
 
     function updateSoundUI(){
-      const can=isTgkSub;
+      const can=true;
       document.getElementById('sound-toggle').classList.toggle('on', soundEnabled && can);
       const ctrl=document.getElementById('sp-controls');
       ctrl.style.opacity = can ? '1' : '0.4';
@@ -510,18 +509,12 @@
       const btn=document.getElementById('tgk-check-btn');
       const res=document.getElementById('tgk-result');
       btn.textContent='...'; btn.style.opacity='0.6';
-      const ok=await checkTgkSub();
-      btn.textContent='✓ ПРОВЕРИТЬ'; btn.style.opacity='1';
+      btn.textContent='✓ ПОНЯТНО'; btn.style.opacity='1';
       res.style.display='block';
-      if(ok){
-        isTgkSub=true; localStorage.setItem(TGK_KEY,'1');
-        res.style.color='var(--ready)'; res.textContent='Подписка подтверждена! Звук разблокирован.';
-        updateSoundUI(); setTimeout(()=>closeModal('modal-tgk'), 1200);
-      }else{
-        isTgkSub=false; localStorage.setItem(TGK_KEY,'0');
-        res.style.color='#ff4d6d'; res.textContent='Ты не подписан на канал.';
-        updateSoundUI();
-      }
+      isTgkSub=true;
+      res.style.color='var(--ready)';
+      res.textContent='Подписка не обязательна. Пользуйся всеми функциями.';
+      updateSoundUI(); setTimeout(()=>closeModal('modal-tgk'), 1200);
     });
 
     const soundToggle=document.getElementById('sound-toggle');
@@ -537,7 +530,6 @@
     notifyLabel.textContent = `${notifySeconds} сек`;
 
     soundToggle.addEventListener('click', ()=>{
-      if(!isTgkSub){ showToast('Нужна подписка на канал'); openModal('modal-tgk'); return; }
       soundEnabled=!soundEnabled; localStorage.setItem(SOUND_KEY, String(soundEnabled));
       updateSoundUI(); showToast(soundEnabled?'Звук включён':'Звук выключен');
       if(soundEnabled) try{ getACtx().resume().then(playSound); }catch(e){}
@@ -550,7 +542,7 @@
     soundSel.addEventListener('change', ()=>{
       soundType=soundSel.value;
       localStorage.setItem(STYPE_KEY, soundType);
-      if(soundEnabled&&isTgkSub) try{ getACtx().resume().then(playSound); }catch(e){}
+      if(soundEnabled) try{ getACtx().resume().then(playSound); }catch(e){}
     });
     notifySlider.addEventListener('input', ()=>{
       notifySeconds=parseInt(notifySlider.value,10);
@@ -766,16 +758,6 @@
       }
     }
 
-    async function bgTgkCheck(){
-      if(!isTgkSub) return;
-      const ok=await checkTgkSub();
-      if(!ok){
-        isTgkSub=false; localStorage.setItem(TGK_KEY,'0');
-        soundEnabled=false; localStorage.setItem(SOUND_KEY,'false');
-        updateSoundUI(); showToast('Ты отписался — звук отключён');
-      }
-    }
-
     (function initCalc(){
       let cur=1,tgt=200;
       function update(){
@@ -803,15 +785,10 @@
 
     (async function init(){
       updateSoundUI();
-      if(!isTgkSub && getTgUserId()){
-        const ok = await checkTgkSub();
-        if(ok){ isTgkSub=true; localStorage.setItem(TGK_KEY,'1'); updateSoundUI(); }
-      }
     })();
 
     loadData(false);
     setInterval(()=>loadData(true), 5000);
-    setInterval(bgTgkCheck, 5*60*1000);
   </script>
 </body>
 </html>
