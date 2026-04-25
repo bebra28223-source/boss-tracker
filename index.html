@@ -233,7 +233,7 @@
         <div class="calc-result-row"><span class="calc-result-label">Блоков</span><span class="calc-result-val" id="calc-blocks">—</span></div>
       </div>
       <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);text-align:center;margin-top:10px;letter-spacing:1px">
-        Данные по монетам/блокам добавишь позже — сейчас считается разница уровней.
+        Сумма считается по твоей таблице: цена уровня + блоки от текущего до целевого.
       </div>
     </div>
   </div>
@@ -758,17 +758,68 @@
     }
 
     (function initCalc(){
+      const LEVEL_REQ = [
+        { coins: 0, blocks: 0 }, // 1
+        { coins: 200, blocks: 100 }, { coins: 500, blocks: 220 }, { coins: 1000, blocks: 360 }, { coins: 1600, blocks: 520 },
+        { coins: 3000, blocks: 700 }, { coins: 5000, blocks: 900 }, { coins: 8000, blocks: 1130 }, { coins: 13000, blocks: 1390 }, { coins: 22000, blocks: 1690 },
+        { coins: 39000, blocks: 2040 }, { coins: 60000, blocks: 2440 }, { coins: 90000, blocks: 2890 }, { coins: 120000, blocks: 3390 }, { coins: 150000, blocks: 3950 },
+        { coins: 190000, blocks: 4550 }, { coins: 230000, blocks: 5200 }, { coins: 270000, blocks: 5900 }, { coins: 310000, blocks: 6700 }, { coins: 350000, blocks: 7500 },
+        { coins: 400000, blocks: 8400 }, { coins: 450000, blocks: 9300 }, { coins: 500000, blocks: 10200 }, { coins: 550000, blocks: 11200 }, { coins: 600000, blocks: 12200 },
+        { coins: 650000, blocks: 13200 }, { coins: 700000, blocks: 14300 }, { coins: 750000, blocks: 15400 }, { coins: 810000, blocks: 16600 }, { coins: 880000, blocks: 17800 },
+        { coins: 950000, blocks: 19000 }, { coins: 1050000, blocks: 20300 }, { coins: 1200000, blocks: 21600 }, { coins: 1400000, blocks: 22900 }, { coins: 1600000, blocks: 24300 },
+        { coins: 1800000, blocks: 25800 }, { coins: 2000000, blocks: 27500 }, { coins: 2250000, blocks: 29400 }, { coins: 2500000, blocks: 31700 }, { coins: 2750000, blocks: 34300 },
+        { coins: 3000000, blocks: 37300 }, { coins: 3250000, blocks: 40800 }, { coins: 3500000, blocks: 44800 }, { coins: 3750000, blocks: 49300 }, { coins: 4000000, blocks: 54300 },
+        { coins: 4300000, blocks: 60000 }, { coins: 4600000, blocks: 66000 }, { coins: 4900000, blocks: 73000 }, { coins: 5200000, blocks: 81000 }, { coins: 5500000, blocks: 90000 },
+        { coins: 5800000, blocks: 100000 }, { coins: 6100000, blocks: 111000 }, { coins: 6400000, blocks: 123000 }, { coins: 6700000, blocks: 137000 }, { coins: 7000000, blocks: 151000 },
+        { coins: 7500000, blocks: 165000 }, { coins: 8000000, blocks: 179000 }, { coins: 8500000, blocks: 194000 }, { coins: 9000000, blocks: 210000 }, { coins: 9500000, blocks: 226000 },
+        { coins: 10000000, blocks: 242000 }, { coins: 11000000, blocks: 258000 }, { coins: 12000000, blocks: 274000 }, { coins: 13000000, blocks: 290000 }, { coins: 14000000, blocks: 306000 },
+        { coins: 15000000, blocks: 322000 }, { coins: 16000000, blocks: 338000 }, { coins: 17000000, blocks: 354000 }, { coins: 18000000, blocks: 370000 }, { coins: 19500000, blocks: 386000 },
+        { coins: 21000000, blocks: 403000 }, { coins: 22500000, blocks: 420000 }, { coins: 24000000, blocks: 438000 }, { coins: 25500000, blocks: 456000 }, { coins: 27000000, blocks: 474000 },
+        { coins: 28500000, blocks: 492000 }, { coins: 30000000, blocks: 510000 }, { coins: 32000000, blocks: 528000 }, { coins: 34000000, blocks: 546000 }, { coins: 36000000, blocks: 564000 },
+        { coins: 38000000, blocks: 582000 }, { coins: 40000000, blocks: 600000 }, { coins: 42000000, blocks: 618000 }, { coins: 44000000, blocks: 636000 }, { coins: 46000000, blocks: 654000 },
+        { coins: 48000000, blocks: 672000 }, { coins: 50000000, blocks: 690000 }, { coins: 53500000, blocks: 708000 }, { coins: 57000000, blocks: 726000 }, { coins: 60500000, blocks: 744000 },
+        { coins: 64000000, blocks: 762000 }, { coins: 67500000, blocks: 780000 }, { coins: 71000000, blocks: 800000 }, { coins: 74500000, blocks: 820000 }, { coins: 78000000, blocks: 840000 },
+        { coins: 81500000, blocks: 860000 }, { coins: 85000000, blocks: 880000 }, { coins: 90000000, blocks: 900000 }, { coins: 95000000, blocks: 920000 }, { coins: 100000000, blocks: 940000 },
+        { coins: 105000000, blocks: 960000 }, { coins: 110000000, blocks: 980000 }, { coins: 115000000, blocks: 1000000 }, { coins: 120000000, blocks: 1020000 }, { coins: 125000000, blocks: 1040000 },
+        { coins: 135000000, blocks: 1060000 }, { coins: 145000000, blocks: 1080000 }, { coins: 155000000, blocks: 1100000 }, { coins: 165000000, blocks: 1120000 }, { coins: 175000000, blocks: 1140000 },
+        { coins: 190000000, blocks: 1160000 }, { coins: 205000000, blocks: 1180000 }, { coins: 220000000, blocks: 1200000 }, { coins: 235000000, blocks: 1220000 }, { coins: 250000000, blocks: 1240000 },
+        { coins: 265000000, blocks: 1260000 }, { coins: 280000000, blocks: 1280000 }, { coins: 300000000, blocks: 1300000 }, { coins: 340000000, blocks: 1325000 }, { coins: 380000000, blocks: 1350000 },
+        { coins: 420000000, blocks: 1375000 }, { coins: 460000000, blocks: 1400000 }, { coins: 550000000, blocks: 1425000 }, { coins: 640000000, blocks: 1450000 }, { coins: 730000000, blocks: 1475000 },
+        { coins: 820000000, blocks: 1500000 }, { coins: 920000000, blocks: 1525000 }, { coins: 1020000000, blocks: 1550000 }, { coins: 1200000000, blocks: 1575000 }, { coins: 1500000000, blocks: 1600000 },
+        { coins: 1800000000, blocks: 1625000 }, { coins: 2200000000, blocks: 1650000 }, { coins: 2800000000, blocks: 1675000 }, { coins: 3800000000, blocks: 1705000 }, { coins: 5000000000, blocks: 1735000 },
+        { coins: 7000000000, blocks: 1765000 }, { coins: 9000000000, blocks: 1795000 }, { coins: 13000000000, blocks: 1825000 }, { coins: 18000000000, blocks: 1855000 }, { coins: 23000000000, blocks: 1885000 },
+        { coins: 28000000000, blocks: 1915000 }, { coins: 35000000000, blocks: 1945000 }, { coins: 50000000000, blocks: 1975000 }, { coins: 70000000000, blocks: 2005000 }, { coins: 120000000000, blocks: 2035000 },
+        { coins: 170000000000, blocks: 2065000 }, { coins: 250000000000, blocks: 2095000 }, { coins: 330000000000, blocks: 2125000 }, { coins: 410000000000, blocks: 2155000 }, { coins: 490000000000, blocks: 2185000 },
+        { coins: 570000000000, blocks: 2220000 }, { coins: 650000000000, blocks: 2255000 }, { coins: 800000000000, blocks: 2290000 }, { coins: 950000000000, blocks: 2325000 }, { coins: 1100000000000, blocks: 2360000 },
+        { coins: 1250000000000, blocks: 2395000 }, { coins: 1400000000000, blocks: 2430000 }, { coins: 1550000000000, blocks: 2465000 }, { coins: 1700000000000, blocks: 2500000 }, { coins: 1850000000000, blocks: 2540000 },
+        { coins: 2000000000000, blocks: 2580000 }, { coins: 2150000000000, blocks: 2620000 }, { coins: 2300000000000, blocks: 2660000 }, { coins: 2450000000000, blocks: 2700000 }, { coins: 2600000000000, blocks: 2750000 },
+        { coins: 2750000000000, blocks: 2800000 }, { coins: 3000000000000, blocks: 2850000 }, { coins: 3250000000000, blocks: 2900000 }, { coins: 3500000000000, blocks: 2950000 }, { coins: 4000000000000, blocks: 3000000 },
+        { coins: 4500000000000, blocks: 3060000 }, { coins: 5000000000000, blocks: 3120000 }, { coins: 5500000000000, blocks: 3180000 }, { coins: 6000000000000, blocks: 3240000 }, { coins: 6500000000000, blocks: 3300000 },
+        { coins: 7000000000000, blocks: 3370000 }, { coins: 8000000000000, blocks: 3440000 }, { coins: 9000000000000, blocks: 3510000 }, { coins: 10000000000000, blocks: 3580000 }, { coins: 11000000000000, blocks: 3650000 },
+        { coins: 12000000000000, blocks: 3735000 }, { coins: 13000000000000, blocks: 3820000 }, { coins: 14000000000000, blocks: 3905000 }, { coins: 15000000000000, blocks: 3990000 }, { coins: 16000000000000, blocks: 4090000 },
+        { coins: 17000000000000, blocks: 4190000 }, { coins: 18000000000000, blocks: 4290000 }, { coins: 19000000000000, blocks: 4390000 }, { coins: 20000000000000, blocks: 4490000 }, { coins: 21000000000000, blocks: 4600000 },
+        { coins: 22000000000000, blocks: 4720000 }, { coins: 23000000000000, blocks: 4840000 }, { coins: 24000000000000, blocks: 4960000 }, { coins: 25000000000000, blocks: 5100000 }, { coins: 26000000000000, blocks: 5250000 },
+        { coins: 27000000000000, blocks: 5400000 }, { coins: 28000000000000, blocks: 5550000 }, { coins: 29000000000000, blocks: 5700000 }, { coins: 30000000000000, blocks: 5850000 }, { coins: 31000000000000, blocks: 6000000 }
+      ];
+      const fmtNum = (n) => new Intl.NumberFormat('ru-RU').format(n);
       let cur=1,tgt=200;
       function update(){
         if(cur>=tgt) tgt=Math.min(cur+1,200);
         if(tgt<=cur) cur=Math.max(tgt-1,1);
+        let coins = 0;
+        let blocks = 0;
+        for (let lvl = cur + 1; lvl <= tgt; lvl++) {
+          const req = LEVEL_REQ[lvl - 1] || { coins: 0, blocks: 0 };
+          coins += req.coins;
+          blocks += req.blocks;
+        }
         document.getElementById('calc-cur-val').textContent=cur;
         document.getElementById('calc-tgt-val').textContent=tgt;
         document.getElementById('calc-cur-slider').value=cur;
         document.getElementById('calc-tgt-slider').value=tgt;
         document.getElementById('calc-diff').textContent = String(tgt-cur);
-        document.getElementById('calc-coins').textContent = '—';
-        document.getElementById('calc-blocks').textContent = '—';
+        document.getElementById('calc-coins').textContent = fmtNum(coins);
+        document.getElementById('calc-blocks').textContent = fmtNum(blocks);
       }
       document.getElementById('calc-cur-minus').addEventListener('click',()=>{ if(cur>1){cur--;update();} });
       document.getElementById('calc-cur-plus').addEventListener('click',()=>{ if(cur<199){cur++;update();} });
