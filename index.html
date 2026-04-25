@@ -233,7 +233,7 @@
         <div class="calc-result-row"><span class="calc-result-label">Блоков</span><span class="calc-result-val" id="calc-blocks">—</span></div>
       </div>
       <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);text-align:center;margin-top:10px;letter-spacing:1px">
-        .
+        Сумма считается по твоей таблице: цена уровня + блоки от текущего до целевого.
       </div>
     </div>
   </div>
@@ -801,7 +801,16 @@
         { coins: 22000000000000, blocks: 4720000 }, { coins: 23000000000000, blocks: 4840000 }, { coins: 24000000000000, blocks: 4960000 }, { coins: 25000000000000, blocks: 5100000 }, { coins: 26000000000000, blocks: 5250000 },
         { coins: 27000000000000, blocks: 5400000 }, { coins: 28000000000000, blocks: 5550000 }, { coins: 29000000000000, blocks: 5700000 }, { coins: 30000000000000, blocks: 5850000 }, { coins: 31000000000000, blocks: 6000000 }
       ];
-      const fmtNum = (n) => new Intl.NumberFormat('ru-RU').format(n);
+      function fmtCompact(n){
+        if (n >= 1_000_000_000_000) return `${trimZeros((n / 1_000_000_000_000).toFixed(2))}Т`;
+        if (n >= 1_000_000_000) return `${trimZeros((n / 1_000_000_000).toFixed(2))}Б`;
+        if (n >= 1_000_000) return `${trimZeros((n / 1_000_000).toFixed(2))}М`;
+        if (n >= 1_000) return `${trimZeros((n / 1_000).toFixed(2))}К`;
+        return String(n);
+      }
+      function trimZeros(v){
+        return v.replace(/\.00$/, '').replace(/(\.\d*[1-9])0$/, '$1');
+      }
       let cur=1,tgt=200;
       function update(){
         if(cur>=tgt) tgt=Math.min(cur+1,200);
@@ -818,8 +827,8 @@
         document.getElementById('calc-cur-slider').value=cur;
         document.getElementById('calc-tgt-slider').value=tgt;
         document.getElementById('calc-diff').textContent = String(tgt-cur);
-        document.getElementById('calc-coins').textContent = fmtNum(coins);
-        document.getElementById('calc-blocks').textContent = fmtNum(blocks);
+        document.getElementById('calc-coins').textContent = fmtCompact(coins);
+        document.getElementById('calc-blocks').textContent = fmtCompact(blocks);
       }
       document.getElementById('calc-cur-minus').addEventListener('click',()=>{ if(cur>1){cur--;update();} });
       document.getElementById('calc-cur-plus').addEventListener('click',()=>{ if(cur<199){cur++;update();} });
