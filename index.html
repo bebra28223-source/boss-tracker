@@ -78,6 +78,11 @@
     .calc-open-title{font-family:'Orbitron',monospace;font-size:12px;font-weight:900;letter-spacing:2px;color:var(--white);}
     .calc-open-sub{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);}
     .calc-open-badge{font-family:'Share Tech Mono',monospace;font-size:9px;font-weight:700;letter-spacing:1px;padding:3px 7px;border-radius:999px;color:var(--accent);border:1px solid rgba(74,158,255,0.55);background:rgba(74,158,255,0.10);}
+    .shop-open-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:12px;border-radius:10px;padding:13px 14px;cursor:pointer;border:1px solid rgba(46,204,113,0.38);background:linear-gradient(135deg, rgba(46,204,113,0.16), rgba(46,204,113,0.07));color:var(--white);transition:all 0.15s;}
+    .shop-open-btn:hover{border-color:rgba(46,204,113,0.78);background:linear-gradient(135deg, rgba(46,204,113,0.20), rgba(46,204,113,0.10));}
+    .shop-open-title{font-family:'Orbitron',monospace;font-size:12px;font-weight:900;letter-spacing:2px;color:var(--white);}
+    .shop-open-sub{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);}
+    .shop-open-badge{font-family:'Share Tech Mono',monospace;font-size:9px;font-weight:700;letter-spacing:1px;padding:3px 7px;border-radius:999px;color:var(--ready);border:1px solid rgba(46,204,113,0.55);background:rgba(46,204,113,0.10);}
     @keyframes spin{to{transform:rotate(360deg);}}
     .spinning .ri{display:inline-block;animation:spin 0.6s linear;}
     .sync-bar{display:flex;align-items:center;gap:6px;margin-bottom:14px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;}
@@ -138,6 +143,18 @@
     .calc-result-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;}
     .calc-result-val{font-family:'Orbitron',monospace;font-size:16px;font-weight:700;color:var(--accent);}
     .calc-divider{height:1px;background:var(--border);margin:6px 0;}
+    .shop-cats{display:flex;flex-direction:column;gap:10px;margin-bottom:12px;}
+    .shop-cat{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:12px;cursor:pointer;transition:all 0.15s;}
+    .shop-cat:hover{border-color:var(--accent);background:rgba(74,158,255,0.08);}
+    .shop-cat.active{border-color:var(--ready);background:rgba(46,204,113,0.08);}
+    .shop-cat-img{width:64px;height:64px;flex-shrink:0;border-radius:10px;background:var(--panel);object-fit:contain;padding:6px;}
+    .shop-cat-text{display:flex;flex-direction:column;gap:4px;min-width:0;}
+    .shop-cat-title{font-family:'Orbitron',monospace;font-size:14px;color:var(--white);font-weight:700;letter-spacing:1px;}
+    .shop-cat-sub{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;}
+    .shop-list{display:flex;flex-direction:column;gap:6px;}
+    .shop-row{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px 10px;gap:8px;}
+    .shop-item{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);letter-spacing:0.4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .shop-price{font-family:'Orbitron',monospace;font-size:12px;color:var(--accent);font-weight:700;white-space:nowrap;}
   </style>
 </head>
 <body>
@@ -238,6 +255,15 @@
     </div>
   </div>
 
+  <div class="modal-overlay" id="modal-shop">
+    <div class="modal" style="max-width:460px">
+      <div class="modal-title">СТОИМОСТЬ МАГАЗИНА</div>
+      <div class="modal-close" data-close="modal-shop">&#x2715;</div>
+      <div class="shop-cats" id="shop-cats"></div>
+      <div class="shop-list" id="shop-list"></div>
+    </div>
+  </div>
+
   <div class="wrap">
     <div class="header">
       <div>
@@ -323,6 +349,15 @@
       </span>
       <span style="flex:1"></span>
       <span class="calc-open-badge">NEW</span>
+    </button>
+    <button class="shop-open-btn" id="btn-shop-open" type="button">
+      <span style="font-size:18px;line-height:1">🛒</span>
+      <span style="display:flex;flex-direction:column;gap:2px;align-items:flex-start">
+        <span class="shop-open-title">СТОИМОСТЬ МАГАЗИНА</span>
+        <span class="shop-open-sub">кирка, лопата, топор и другое</span>
+      </span>
+      <span style="flex:1"></span>
+      <span class="shop-open-badge">SHOP</span>
     </button>
 
     <button class="refresh-btn" id="refresh-btn"><span class="ri">↻</span><span>Обновить данные</span></button>
@@ -475,7 +510,7 @@
     document.querySelectorAll('[data-close]').forEach(el=>{
       el.addEventListener('click', ()=> closeModal(el.getAttribute('data-close')));
     });
-    ['modal-tgk','modal-bug','modal-info','modal-calc'].forEach(id=>{
+    ['modal-tgk','modal-bug','modal-info','modal-calc','modal-shop'].forEach(id=>{
       const ov=document.getElementById(id);
       ov.addEventListener('click', (e)=>{ if(e.target.id===id) closeModal(id); });
     });
@@ -483,6 +518,7 @@
     document.getElementById('btn-bug').addEventListener('click', ()=> openModal('modal-bug'));
     document.getElementById('btn-tgk').addEventListener('click', ()=> { document.getElementById('tgk-result').style.display='none'; openModal('modal-tgk'); });
     document.getElementById('btn-calc-open').addEventListener('click', ()=> openModal('modal-calc'));
+    document.getElementById('btn-shop-open').addEventListener('click', ()=> openModal('modal-shop'));
     document.getElementById('info-btn').addEventListener('click', ()=> openModal('modal-info'));
     document.getElementById('sp-lock-btn').addEventListener('click', ()=> { document.getElementById('tgk-result').style.display='none'; openModal('modal-tgk'); });
 
@@ -838,6 +874,131 @@
       document.getElementById('calc-cur-slider').addEventListener('input',(e)=>{ cur=parseInt(e.target.value,10); update(); });
       document.getElementById('calc-tgt-slider').addEventListener('input',(e)=>{ tgt=parseInt(e.target.value,10); update(); });
       update();
+    })();
+
+    (function initShop(){
+      function fmtCompact(n){
+        if (n >= 1_000_000_000_000) return `${trimZeros((n / 1_000_000_000_000).toFixed(2))}Т`;
+        if (n >= 1_000_000_000) return `${trimZeros((n / 1_000_000_000).toFixed(2))}Б`;
+        if (n >= 1_000_000) return `${trimZeros((n / 1_000_000).toFixed(2))}М`;
+        if (n >= 1_000) return `${trimZeros((n / 1_000).toFixed(2))}К`;
+        return String(n);
+      }
+      function trimZeros(v){
+        return v.replace(/\.00$/, '').replace(/(\.\d*[1-9])0$/, '$1');
+      }
+      function shopImgUrl(name){
+        const base = new URL('imgs/', location.href).toString();
+        return `${base}${name}.png`;
+      }
+
+      const SHOP = {
+        pickaxe: {
+          title: 'Кирка',
+          img: 'shop_pickaxe',
+          items: [
+            ['pickaxe_wood', 500], ['pickaxe_stone', 1000], ['pickaxe_iron', 2000], ['pickaxe_gold', 3500], ['pickaxe_diamond', 5000],
+            ['pickaxe_eff1', 7000], ['pickaxe_eff2', 10000], ['pickaxe_eff3', 15000], ['pickaxe_eff4', 20000], ['pickaxe_eff5', 50000],
+            ['pickaxe_eff6', 100000], ['pickaxe_eff7', 200000], ['pickaxe_eff8', 500000], ['pickaxe_eff9', 1000000], ['pickaxe_eff10', 2000000],
+            ['pickaxe_eff11', 5000000], ['pickaxe_eff12', 7000000], ['pickaxe_eff20', 100000000],
+          ]
+        },
+        shovel: {
+          title: 'Лопата',
+          img: 'shop_shovel',
+          items: [
+            ['shovel_wood', 100000], ['shovel_wood1', 200000], ['shovel_stone', 500000], ['shovel_iron', 1000000], ['shovel_gold', 2000000],
+            ['shovel_gold1', 3000000], ['shovel_diamond', 5000000], ['shovel_eff1', 7000000], ['shovel_eff2', 10000000], ['shovel_diamond_eff3', 15000000],
+            ['shovel_diamond_eff4', 25000000], ['shovel_diamond_eff20', 1000000000],
+          ]
+        },
+        axe: {
+          title: 'Топор',
+          img: 'shop_axe',
+          items: [
+            ['axe_wood', 500000], ['axe_wood1', 1000000], ['axe_stone', 2000000], ['axe_iron', 3000000], ['axe_gold', 5000000],
+            ['axe_gold1', 7000000], ['axe_diamond', 10000000], ['axe_eff1', 12000000], ['axe_eff2', 15000000], ['axe_diamond_eff3', 20000000],
+            ['axe_diamond_eff4', 25000000], ['axe_diamond_eff5', 30000000], ['axe_diamond_eff6', 35000000], ['axe_diamond_eff7', 40000000], ['axe_diamond_eff8', 50000000],
+            ['axe_diamond_eff20', 5000000000],
+          ]
+        },
+        shears: {
+          title: 'Ножницы',
+          img: 'shop_shears',
+          items: [
+            ['shears_eff0', 150], ['shears_eff1', 100000000], ['shears_eff2', 150000000], ['shears_eff3', 200000000],
+            ['shears_eff4', 250000000], ['shears_eff5', 300000000], ['shears_eff20', 50000000000],
+          ]
+        },
+        armor: {
+          title: 'Броня',
+          img: 'shop_armor',
+          items: [
+            ['armor_leather', 1000], ['armor_leather1', 2000], ['armor_chainmail', 5000], ['armor_chainmail1', 10000], ['armor_iron', 20000],
+            ['armor_iron1', 50000], ['armor_diamond', 100000], ['armor_gold1', 200000], ['armor_gold2', 500000], ['armor_gold3', 2000000],
+            ['armor_gold4', 10000000], ['armor_gold5', 80000000], ['armor_gold6', 500000000], ['armor_gold7', 4000000000], ['armor_gold8', 20000000000],
+            ['armor_gold9', 100000000000], ['armor_gold10', 200000000000], ['armor_gold11', 500000000000], ['armor_gold12', 700000000000], ['armor_gold13', 1000000000000],
+            ['armor_gold14', 1500000000000], ['armor_gold15', 2000000000000],
+          ]
+        },
+        sword: {
+          title: 'Меч',
+          img: 'shop_sword',
+          items: [
+            ['sword_wood', 1000], ['sword_wood1', 2000], ['sword_iron', 3000], ['sword_iron1', 5000], ['sword_gold', 10000],
+            ['sword_gold1', 20000], ['sword_gold2', 80000], ['sword_gold3', 200000], ['sword_gold4', 500000], ['sword_diamond4', 2000000],
+            ['sword_netherite5', 5000000], ['sword_netherite6', 10000000], ['sword_netherite7', 50000000], ['sword_netherite8', 200000000], ['sword_netherite9', 1000000000],
+            ['sword_netherite10', 5000000000], ['sword_netherite11', 20000000000], ['sword_netherite12', 50000000000], ['sword_netherite13', 100000000000], ['sword_netherite14', 500000000000],
+            ['sword_netherite15', 2000000000000], ['sword_netherite16', 10000000000000],
+          ]
+        },
+        bow: {
+          title: 'Лук',
+          img: 'shop_bow',
+          items: [
+            ['bow_str0', 1000000], ['bow_str1', 5000000], ['bow_str2', 10000000], ['bow_str3', 50000000], ['bow_str4', 500000000],
+            ['bow_str5', 2000000000], ['bow_str6', 10000000000], ['bow_str7', 20000000000], ['bow_str8', 50000000000], ['bow_str9', 100000000000],
+            ['bow_str10', 200000000000], ['bow_str11', 500000000000], ['bow_str12', 1000000000000],
+          ]
+        },
+      };
+
+      const order = ['pickaxe', 'shovel', 'axe', 'shears', 'armor', 'sword', 'bow'];
+      let active = 'pickaxe';
+      const catsEl = document.getElementById('shop-cats');
+      const listEl = document.getElementById('shop-list');
+
+      function renderCats(){
+        catsEl.innerHTML = '';
+        order.forEach((k)=>{
+          const c = SHOP[k];
+          const el = document.createElement('div');
+          el.className = `shop-cat${active === k ? ' active' : ''}`;
+          el.innerHTML = `
+            <img class="shop-cat-img" src="${shopImgUrl(c.img)}" alt="${c.title}">
+            <div class="shop-cat-text">
+              <div class="shop-cat-title">${c.title}</div>
+              <div class="shop-cat-sub">${c.items.length} предметов</div>
+            </div>
+          `;
+          el.addEventListener('click', ()=>{ active = k; renderCats(); renderItems(); });
+          catsEl.appendChild(el);
+        });
+      }
+
+      function renderItems(){
+        const c = SHOP[active];
+        listEl.innerHTML = '';
+        c.items.forEach(([name, price])=>{
+          const row = document.createElement('div');
+          row.className = 'shop-row';
+          row.innerHTML = `<span class="shop-item">${name}</span><span class="shop-price">${fmtCompact(price)}</span>`;
+          listEl.appendChild(row);
+        });
+      }
+
+      renderCats();
+      renderItems();
     })();
 
     document.addEventListener('click', ()=>{ try{ getACtx().resume(); }catch(e){} }, { once:true });
