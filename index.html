@@ -7,7 +7,7 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#0c0d10;--surface:#12141a;--panel:#181b23;--border:#252a35;--border2:#2e3545;--text:#cdd4e0;--muted:#8a95a8;--dim:#6a7488;--white:#eef2f8;--accent:#4a9eff;--ready:#2ecc71;--warn:#f39c12;}
+    :root{--bg:#0c0d10;--surface:#12141a;--panel:#181b23;--border:#252a35;--border2:#2e3545;--text:#cdd4e0;--muted:#8a95a8;--dim:#6a7488;--white:#eef2f8;--accent:#4a9eff;--ready:#2ecc71;--warn:#f39c12;--danger:#ff4d6d;}
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;}
     body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(74,158,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.018) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
@@ -102,13 +102,21 @@
     .boss-card.state-ready{background:rgba(46,204,113,0.04);border-color:rgba(46,204,113,0.3);}
     .boss-card.state-ready::before{background:var(--ready);box-shadow:0 0 10px rgba(46,204,113,0.5);}
     .boss-card.state-active::before{background:var(--accent);}
+    .boss-card.state-captured{background:rgba(255,77,109,0.08);border-color:rgba(255,77,109,0.45);}
+    .boss-card.state-captured::before{background:var(--danger);box-shadow:0 0 12px rgba(255,77,109,0.55);}
     .boss-card.state-unknown::before{background:var(--border2);}
     .boss-avatar-fb{width:50px;height:50px;border-radius:10px;background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:20px;}
     .boss-name{font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px;}
     .boss-timer{font-family:'Share Tech Mono',monospace;font-size:11px;}
     .boss-timer.t-ready{color:var(--ready);}
     .boss-timer.t-active{color:var(--accent);}
+    .boss-timer.t-captured{color:var(--danger);}
     .boss-timer.t-unknown{color:var(--muted);}
+    .boss-main{min-width:0;}
+    .capture-chip{position:absolute;top:8px;right:10px;max-width:150px;padding:4px 7px;border-radius:999px;border:1px solid rgba(255,77,109,0.45);background:rgba(255,77,109,0.12);color:#ff9caf;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:help;}
+    .blocked-card{background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.35);border-radius:10px;padding:18px 16px;margin-bottom:14px;text-align:center;}
+    .blocked-title{font-family:'Orbitron',monospace;font-size:13px;color:var(--white);letter-spacing:1px;margin-bottom:8px;}
+    .blocked-text{font-family:'Share Tech Mono',monospace;font-size:10px;color:#ff9caf;line-height:1.7;}
     .notif-toggle{width:40px;height:22px;background:var(--panel);border:1px solid var(--border2);border-radius:11px;position:relative;cursor:pointer;transition:all 0.2s;flex-shrink:0;}
     .notif-toggle::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;background:var(--muted);border-radius:50%;transition:all 0.2s;}
     .notif-toggle.on{background:rgba(243,156,18,0.12);border-color:var(--warn);}
@@ -447,6 +455,7 @@
     let alreadySounded = new Set();
     let tickInterval = null;
     let audioCtx = null;
+    let isBlockedUser = false;
 
     function loadNotifLocal(){
       const def={}; BOSSES.forEach(b=>def[b.id]=true);
@@ -617,13 +626,44 @@
       if(m>0) return `${m}м ${String(s).padStart(2,'0')}с`;
       return `${s}с`;
     }
+    function fmtElapsed(sec){
+      if(sec < 0) sec = 0;
+      const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=Math.floor(sec%60);
+      const parts=[];
+      if(h>0) parts.push(`${h}ч`);
+      if(m>0) parts.push(`${m}м`);
+      if(s>0 || !parts.length) parts.push(`${s}с`);
+      return parts.join(' ');
+    }
     function getTL(ra){
       if(ra===null||ra===undefined) return -1;
       return Math.max(0, Math.floor(ra - Date.now()/1000));
     }
+    function getCaptureTL(cu){
+      if(cu===null||cu===undefined) return -1;
+      return Math.max(0, Math.floor(cu - Date.now()/1000));
+    }
+    function getCaptureElapsed(capturedAt){
+      if(capturedAt===null||capturedAt===undefined) return -1;
+      return Math.max(0, Math.floor(Date.now()/1000 - capturedAt));
+    }
     function setSyncState(state,label){
       document.getElementById('sync-dot').className='sync-dot '+state;
       document.getElementById('sync-label').textContent=label;
+    }
+    function updateBlockedUI(){
+      const calcBtn = document.getElementById('btn-calc-open');
+      const shopBtn = document.getElementById('btn-shop-open');
+      const soundPanel = document.querySelector('.sound-panel');
+      if(isBlockedUser){
+        calcBtn.style.display='none';
+        shopBtn.style.display='none';
+        soundPanel.style.display='none';
+      }else{
+        calcBtn.style.display='flex';
+        shopBtn.style.display='flex';
+        soundPanel.style.display='block';
+      }
     }
 
     function updateNextBoss(){
@@ -655,18 +695,39 @@
     function renderBosses(){
       const list=document.getElementById('boss-list');
       list.innerHTML='';
+      if(isBlockedUser){
+        list.innerHTML = `
+          <div class="blocked-card">
+            <div class="blocked-title">ДОСТУП ОГРАНИЧЕН</div>
+            <div class="blocked-text">Для этого аккаунта скрыты таймеры боссов, уведомления и калькулятор.</div>
+          </div>
+        `;
+        document.getElementById('cnt-ready').textContent='0';
+        document.getElementById('cnt-active').textContent='0';
+        document.getElementById('cnt-notif').textContent='0';
+        document.getElementById('next-boss').style.display='none';
+        return;
+      }
       let cntReady=0,cntActive=0,cntNotif=0;
       BOSSES.forEach(boss=>{
         const d=respawnData.find(b=>b.id===boss.id)||{id:boss.id,respawn_at:null};
         const tl=getTL(d.respawn_at);
+        const captureTL = getCaptureTL(d.capture_until);
+        const captureElapsed = getCaptureElapsed(d.captured_at);
+        const isCaptured = captureTL > 0;
         const isReady=tl===0,isActive=tl>0;
         if(isReady)cntReady++; if(isActive)cntActive++; if(notifications[boss.id])cntNotif++;
-        const state=isReady?'state-ready':isActive?'state-active':'state-unknown';
-        const timerHTML = isReady
+        const state=isCaptured?'state-captured':isReady?'state-ready':isActive?'state-active':'state-unknown';
+        const timerHTML = isCaptured
+          ? `<span class="boss-timer t-captured">Захват открыт ещё ${fmtTime(captureTL) || '0с'}</span>`
+          : isReady
           ? `<span class="boss-timer t-ready">✅ ГОТОВ К БОЮ</span>`
           : isActive
             ? `<span class="boss-timer t-active">${fmtTime(tl)}</span>`
             : `<span class="boss-timer t-unknown">— неизвестно</span>`;
+        const chipHTML = isCaptured
+          ? `<div class="capture-chip" title="От Захвата Прошло: ${fmtElapsed(captureElapsed)}">От захвата: ${fmtElapsed(captureElapsed)}</div>`
+          : '';
 
         const card=document.createElement('div');
         card.className=`boss-card ${state}`;
@@ -674,8 +735,9 @@
         const ico=document.createElement('div');
         ico.className='boss-avatar-fb';
         ico.innerHTML = `<img src="${bossImgUrl(boss.id)}" alt="" style="width:40px;height:40px;object-fit:contain">`;
-        const ctr=document.createElement('div'); ctr.innerHTML=`<div class="boss-name">${boss.full}</div>${timerHTML}`;
+        const ctr=document.createElement('div'); ctr.className='boss-main'; ctr.innerHTML=`<div class="boss-name">${boss.full}</div>${timerHTML}`;
         const tog=document.createElement('div'); tog.className=`notif-toggle ${notifications[boss.id]?'on':''}`; tog.dataset.id=boss.id;
+        card.innerHTML = chipHTML;
         card.appendChild(ico); card.appendChild(ctr); card.appendChild(tog);
         list.appendChild(card);
       });
@@ -714,21 +776,39 @@
     }
 
     function tick(){
-      if(!respawnData.length) return;
+      if(!respawnData.length || isBlockedUser) return;
       const notifySec = notifySeconds;
       let cntReady=0,cntActive=0;
       document.querySelectorAll('.boss-card').forEach(card=>{
         const id=parseInt(card.dataset.bossId,10);
         const d=respawnData.find(b=>b.id===id); if(!d) return;
         const tl=getTL(d.respawn_at);
-        if(tl===0){
+        const captureTL = getCaptureTL(d.capture_until);
+        const captureElapsed = getCaptureElapsed(d.captured_at);
+        const chip = card.querySelector('.capture-chip');
+        if(captureTL > 0){
+          alreadySounded.delete(`s${id}`);
+          if(!card.classList.contains('state-captured')){
+            card.classList.remove('state-ready','state-active','state-unknown');
+            card.classList.add('state-captured');
+          }
+          const tc=card.querySelector('.boss-timer');
+          if(tc){ tc.className='boss-timer t-captured'; tc.textContent=`Захват открыт ещё ${fmtTime(captureTL) || '0с'}`; }
+          if(chip){
+            const elapsed = fmtElapsed(captureElapsed);
+            chip.textContent = `От захвата: ${elapsed}`;
+            chip.title = `От Захвата Прошло: ${elapsed}`;
+          }
+          if(tl===0) cntReady++; else if(tl>0) cntActive++;
+        }else if(tl===0){
           alreadySounded.delete(`s${id}`);
           if(!card.classList.contains('state-ready')){
-            card.classList.remove('state-active','state-unknown');
+            card.classList.remove('state-captured','state-active','state-unknown');
             card.classList.add('state-ready');
             const tc=card.querySelector('.boss-timer');
             if(tc){ tc.className='boss-timer t-ready'; tc.textContent='✅ ГОТОВ К БОЮ'; }
           }
+          if(chip) chip.remove();
           cntReady++;
         }else if(tl>0){
           if(tl<=notifySec && tl>(notifySec-5) && !alreadySounded.has(`s${id}`)){
@@ -738,14 +818,16 @@
           }
           if(tl>notifySec+5) alreadySounded.delete(`s${id}`);
           if(!card.classList.contains('state-active')){
-            card.classList.remove('state-ready','state-unknown');
+            card.classList.remove('state-captured','state-ready','state-unknown');
             card.classList.add('state-active');
           }
           const tc=card.querySelector('.boss-timer');
           if(tc){ tc.className='boss-timer t-active'; tc.textContent=fmtTime(tl); }
+          if(chip) chip.remove();
           cntActive++;
         }else{
           alreadySounded.delete(`s${id}`);
+          if(chip) chip.remove();
         }
       });
       document.getElementById('cnt-ready').textContent=cntReady;
@@ -765,7 +847,9 @@
         if(!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if(!data.bosses) throw new Error('no data');
+        isBlockedUser = data.blacklisted === true;
         respawnData = data.bosses;
+        updateBlockedUI();
 
         if(typeof data.notify_seconds === 'number' && myUid){
           // Подтягиваем серверное значение (если ты будешь менять его где-то ещё)
@@ -783,7 +867,7 @@
         }
 
         renderBosses();
-        setSyncState('synced','Синхронизировано');
+        setSyncState('synced', isBlockedUser ? 'Доступ ограничен' : 'Синхронизировано');
         if(!tickInterval) tickInterval=setInterval(tick,1000);
       }catch(e){
         setSyncState('error','Бот выключен');
@@ -1006,6 +1090,7 @@
 
     (async function init(){
       updateSoundUI();
+      updateBlockedUI();
     })();
 
     loadData(false);
