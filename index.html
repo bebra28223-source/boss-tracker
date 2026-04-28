@@ -219,6 +219,11 @@
         <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5"><b style="color:var(--white)">Зелёный</b> — готов к бою.</div>
       </div>
       <div class="modal-divider"></div>
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px">
+        <div style="width:12px;height:12px;border-radius:50%;background:var(--danger);box-shadow:0 0 5px rgba(255,77,109,0.55);flex-shrink:0;margin-top:2px"></div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.6"><b style="color:#ff9caf">Красный</b> — босса захватили. Карточка становится красной, обычный таймер босса продолжает идти, а сверху отдельно показывается таймер <b style="color:#ff9caf">От Захвата</b> до 1 часа.</div>
+      </div>
+      <div class="modal-divider"></div>
       <div style="display:flex;align-items:flex-start;gap:10px">
         <div style="width:12px;height:12px;border-radius:50%;background:var(--border2);flex-shrink:0;margin-top:2px"></div>
         <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5"><b style="color:var(--white)">Серый</b> — нет данных с запуска бота.</div>
@@ -718,15 +723,13 @@
         const isReady=tl===0,isActive=tl>0;
         if(isReady)cntReady++; if(isActive)cntActive++; if(notifications[boss.id])cntNotif++;
         const state=isCaptured?'state-captured':isReady?'state-ready':isActive?'state-active':'state-unknown';
-        const timerHTML = isCaptured
-          ? `<span class="boss-timer t-captured">Захват открыт ещё ${fmtTime(captureTL) || '0с'}</span>`
-          : isReady
+        const timerHTML = isReady
           ? `<span class="boss-timer t-ready">✅ ГОТОВ К БОЮ</span>`
           : isActive
             ? `<span class="boss-timer t-active">${fmtTime(tl)}</span>`
             : `<span class="boss-timer t-unknown">— неизвестно</span>`;
         const chipHTML = isCaptured
-          ? `<div class="capture-chip" title="От Захвата Прошло: ${fmtElapsed(captureElapsed)}">От захвата: ${fmtElapsed(captureElapsed)}</div>`
+          ? `<div class="capture-chip" title="От Захвата Прошло: ${fmtElapsed(captureElapsed)}">От Захвата: ${fmtTime(captureTL) || '0с'}</div>`
           : '';
 
         const card=document.createElement('div');
@@ -793,11 +796,21 @@
             card.classList.add('state-captured');
           }
           const tc=card.querySelector('.boss-timer');
-          if(tc){ tc.className='boss-timer t-captured'; tc.textContent=`Захват открыт ещё ${fmtTime(captureTL) || '0с'}`; }
+          if(tc){
+            if(tl===0){
+              tc.className='boss-timer t-ready';
+              tc.textContent='✅ ГОТОВ К БОЮ';
+            }else if(tl>0){
+              tc.className='boss-timer t-active';
+              tc.textContent=fmtTime(tl);
+            }else{
+              tc.className='boss-timer t-unknown';
+              tc.textContent='— неизвестно';
+            }
+          }
           if(chip){
-            const elapsed = fmtElapsed(captureElapsed);
-            chip.textContent = `От захвата: ${elapsed}`;
-            chip.title = `От Захвата Прошло: ${elapsed}`;
+            chip.textContent = `От Захвата: ${fmtTime(captureTL) || '0с'}`;
+            chip.title = `От Захвата Прошло: ${fmtElapsed(captureElapsed)}`;
           }
           if(tl===0) cntReady++; else if(tl>0) cntActive++;
         }else if(tl===0){
