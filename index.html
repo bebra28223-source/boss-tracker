@@ -399,9 +399,15 @@
     /** @returns {number} */
     function getTgUserId() {
       const w = window.Telegram?.WebApp;
-      if (!w) return 0;
+      if (!w) {
+        try { return parseInt(localStorage.getItem(TG_UID_KEY) || "0", 10) || 0; } catch (e) {}
+        return 0;
+      }
       const a = w.initDataUnsafe?.user?.id;
-      if (a) return a;
+      if (a) {
+        try { localStorage.setItem(TG_UID_KEY, String(a)); } catch (e) {}
+        return a;
+      }
       try {
         const raw = w.initData;
         if (raw) {
@@ -409,10 +415,14 @@
           const uj = p.get('user');
           if (uj) {
             const u = JSON.parse(uj);
-            if (u && u.id) return u.id;
+            if (u && u.id) {
+              try { localStorage.setItem(TG_UID_KEY, String(u.id)); } catch (e) {}
+              return u.id;
+            }
           }
         }
       } catch (e) {}
+      try { return parseInt(localStorage.getItem(TG_UID_KEY) || "0", 10) || 0; } catch (e) {}
       return 0;
     }
 
@@ -449,6 +459,7 @@
     const SOUND_KEY="bt_sound_v3",VOL_KEY="bt_vol_v3",STYPE_KEY="bt_stype_v3";
     const NOTIFY_SEC_KEY="bt_notify_sec_v1";
     const NOTIF_STATE_KEY="bt_notif_state_v1";
+    const TG_UID_KEY="bt_tg_uid_v1";
 
     let soundEnabled = localStorage.getItem(SOUND_KEY) !== "false";
     let soundVolume  = parseInt(localStorage.getItem(VOL_KEY) || "67", 10) / 100;
@@ -703,8 +714,8 @@
       if(isBlockedUser){
         list.innerHTML = `
           <div class="blocked-card">
-            <div class="blocked-title">ДОСТУП ОГРАНИЧЕН</div>
-            <div class="blocked-text">Для этого аккаунта скрыты таймеры боссов, уведомления и калькулятор.</div>
+            <div class="blocked-title">ВАС ЗАБЛОКИРОВАЛИ</div>
+            <div class="blocked-text">Для этого аккаунта скрыты таймеры боссов, уведомления боссов и калькулятор.</div>
           </div>
         `;
         document.getElementById('cnt-ready').textContent='0';
