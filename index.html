@@ -430,7 +430,7 @@
       const u = new URL(location.href);
       const fromQuery = u.searchParams.get('api');
       const clean = (v) => (v || '').replace(/\/+$/, '');
-      return clean(fromQuery) || clean(localStorage.getItem('bt_api_base_v1')) || "https://childlike-flaxseed-chubby.ngrok-free.dev";
+      return clean(fromQuery) || clean(localStorage.getItem('bt_api_base_v1')) || "https://handling-bristle-steam.ngrok-free.dev";
     }
     const API_BASE = getApiBase();
     try { localStorage.setItem('bt_api_base_v1', API_BASE); } catch (e) {}
